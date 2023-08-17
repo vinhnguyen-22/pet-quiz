@@ -4,25 +4,33 @@
 /node_modules
 /.pnp
 .pnp.js
-
+.vscode
 # testing
 /coverage
+
+# next.js
+/.next/
+/out/
+
+# contentlayer
+.contentlayer
 
 # production
 /build
 
 # misc
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+*.pem
 
+# debug
 npm-debug.log*
 yarn-debug.log*
-package-lock.json
-yarn.lock*
 yarn-error.log*
-Velzon-React-2.0.zip
-yarn.lock
-yarn.lock
+.pnpm-debug.log*
+
+# local env files
+.env*.local
+.env
+
+# vercel
+.vercel
