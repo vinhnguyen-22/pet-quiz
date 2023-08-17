@@ -7,18 +7,18 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    children: [  
+    children: [
       {
         path: 'student-management',
         loadChildren: () => import('../../pages/student-management/student-management.module').then((m) => m.StudentManagementModule),
         canActivate: [RoleGuard],
       },
-      
+
       {
         path: 'users',
         loadChildren: () => import('../../pages/user-management/users.module').then((m) => m.UsersModule),
         canActivate: [RoleGuard],
-      }, 
+      },
       {
         path: '**',
         redirectTo: 'error/404',
@@ -31,4 +31,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class PagesRoutingModule { }
+export class PagesRoutingModule {}
