@@ -1,4 +1,4 @@
-import { environment } from './../../../../environments/environment';
+ 
 import { CURRENT_USER_CMS, ROLE } from 'src/app/containers/constants';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AuthHTTPService } from './_services/auth-http';
 import { LocalStorageService } from '../storage/local-storage.service';
 import { ApiService } from '../api/api.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',

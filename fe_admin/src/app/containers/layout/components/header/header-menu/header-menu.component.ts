@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { LayoutService } from '../../../../../_theme/core';
-import { AuthService } from 'src/app/containers/services/auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 function getCurrentURL(location) {
   return location.split(/[?#]/)[0];

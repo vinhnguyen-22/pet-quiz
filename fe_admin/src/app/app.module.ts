@@ -12,7 +12,7 @@ import { AlertModule } from './modules/alertLogout/modal.module';
 // Highlight JS
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
 import { SplashScreenModule } from './_theme/partials/layout/splash-screen/splash-screen.module';
-import { AuthService } from './containers/services/auth/auth.service';
+import { AuthService } from './services/auth/auth.service';
 import { ToastrModule } from 'ngx-toastr';
 import { CanDeactivateGuard } from './containers/guards/can-deactivate/can-deactivate.guard';
 import { ModalNewModule } from './modules/modal-new/modal-new.module';

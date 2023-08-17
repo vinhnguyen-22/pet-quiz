@@ -3,8 +3,8 @@ import KTPasswordMeter from 'src/assets/js/components/password';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/containers/services/auth/auth.service';
+import { ActivatedRoute, Router } from '@angular/router'; 
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',

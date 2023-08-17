@@ -15,8 +15,6 @@ import { HeaderMenuComponent } from './components/header/header-menu/header-menu
 import { HeaderComponent } from './components/header/header.component';
 import { HeaderMobileComponent } from './components/header-mobile/header-mobile.component';
 import { ModalChangePasswordModule } from 'src/app/modules/modalChangePassword/modal.module';
-import { TranslationModule } from 'src/app/modules/i18n/translation.module';
-import { LanguageSelectorComponent } from './components/topbar/language-selector/language-selector.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +25,6 @@ import { LanguageSelectorComponent } from './components/topbar/language-selector
     FooterComponent,
     HeaderComponent,
     HeaderMenuComponent,
-    LanguageSelectorComponent,
     TopbarComponent,
   ],
   imports: [
@@ -39,7 +36,6 @@ import { LanguageSelectorComponent } from './components/topbar/language-selector
     NgbProgressbarModule,
     CoreModule,
     ModalChangePasswordModule,
-    TranslationModule
   ],
 })
-export class LayoutModule { }
+export class LayoutModule {}

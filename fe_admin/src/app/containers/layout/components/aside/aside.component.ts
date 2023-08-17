@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ROLE } from 'src/app/containers/constants';
-import { AuthService } from 'src/app/containers/services/auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { LayoutService } from '../../../../_theme/core';
 
 @Component({

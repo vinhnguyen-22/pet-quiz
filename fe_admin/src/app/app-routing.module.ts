@@ -16,11 +16,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./containers/layout/layout.module').then((m) => m.LayoutModule),
   },
-  {
-    path: '',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./pages/lesson/lesson.module').then((m) => m.LessonModule),
-  },
+
   { path: '**', redirectTo: 'error/404' },
 ];
 

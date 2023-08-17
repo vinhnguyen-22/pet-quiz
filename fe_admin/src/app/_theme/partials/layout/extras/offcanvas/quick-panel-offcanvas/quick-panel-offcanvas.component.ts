@@ -1,12 +1,8 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ROLE } from './../../../../../../containers/constants/index';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { AuthService } from 'src/app/containers/services/auth/auth.service';
-import { NotificationService } from 'src/app/containers/services/notification.service';
-import { TicketService } from 'src/app/containers/services/ticket.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { LayoutService } from '../../../../../core';
-import { FeedbackService } from 'src/app/containers/services/feedback.service';
-import { NewService } from 'src/app/containers/services/new.service';
 
 @Component({
   selector: 'app-quick-panel-offcanvas',
@@ -26,25 +22,11 @@ export class QuickPanelOffcanvasComponent implements OnInit {
   feedbacks: any = [];
   notifyType = '';
   headerHeight = 0;
-  constructor(
-    private layout: LayoutService,
-    public notificationService: NotificationService,
-    public ticketService: TicketService,
-    public feedbackService: FeedbackService,
-    public newsService: NewService,
-    public modalService: NgbModal,
-    public auth: AuthService,
-    private cd: ChangeDetectorRef
-  ) {
+  constructor(private layout: LayoutService, public modalService: NgbModal, public auth: AuthService, private cd: ChangeDetectorRef) {
     this.currentUser = this.auth.currentUserValue;
   }
 
   ngOnInit(): void {
-    this.notificationService.resetNotiSubject();
-    this.newsService.resetNewsSubject();
-    this.ticketService.resetSupportTicketSubject();
-    this.feedbackService.resetFeedbackSubject();
-    
     this.extrasQuickPanelOffcanvasDirectionCSSClass = `offcanvas-${this.layout.getProp('extras.quickPanel.offcanvas.direction')}`;
     if (this.auth.canManageSystem()) {
       this.activeTabId = 'tickets';
@@ -87,7 +69,7 @@ export class QuickPanelOffcanvasComponent implements OnInit {
       case 'NEWS':
         this.markNewsAsRead(data);
         break;
-        
+
       default:
         break;
     }
@@ -99,68 +81,21 @@ export class QuickPanelOffcanvasComponent implements OnInit {
 
   markSupportTicketAsRead(supportTicket) {
     var param = {
-      supportTicketIds: [supportTicket.id]
+      supportTicketIds: [supportTicket.id],
     };
-
-    this.ticketService.markSupportTicketsAsRead(param).then((res) => {
-      var pagingParam = {
-        page: 1,
-        pageSize: 1000
-      }
-
-      this.ticketService.getAllUnread(pagingParam).subscribe((res:any) => {
-        this.cd.detectChanges();
-      });
-    });
   }
 
   markAnnoucementAsRead(annoucement) {
     var param = {
-      notificationIds: [annoucement.id]
+      notificationIds: [annoucement.id],
     };
-
-    
-    this.notificationService.markNotificationsAsRead(param).then((res) => {
-      var pagingParam = {
-        page: 1,
-        pageSize: 1000
-      }
-
-      this.notificationService.getAllUnread(pagingParam).subscribe((res:any) => {
-        this.cd.detectChanges();
-      });
-    });
   }
 
   markFeedbackAsRead(feedback) {
     var param = {
-      feedbackIds: [feedback.id]
+      feedbackIds: [feedback.id],
     };
-
-    this.feedbackService.markFeedbacksAsRead(param).then((res) => {
-      var pagingParam = {
-        page: 1,
-        pageSize: 1000
-      }
-
-      this.feedbackService.getAllUnread(pagingParam).subscribe((res:any) => {
-        this.cd.detectChanges();
-      });
-    });
   }
 
-  markNewsAsRead(news) {
-    var param = {
-      newsId: [news.id]
-    };
-    this.newsService.markNewsAsRead(param).then((res) => {
-      var pagingParam = {
-        page: 1,
-        pageSize: 1000
-      }
-      this.newsService.getAllUnread(pagingParam).subscribe((res:any) => {
-        this.cd.detectChanges();
-      });
-    });
-  }
+  markNewsAsRead(news) {}
 }

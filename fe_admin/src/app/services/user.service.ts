@@ -1,7 +1,8 @@
-import { environment } from '../../../environments/environment';
+
 import { Injectable, Inject } from '@angular/core';
 import { ApiService } from './api/api.service';
 import { GeneralService } from './general.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',

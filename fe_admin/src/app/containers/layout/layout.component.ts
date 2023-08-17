@@ -3,14 +3,14 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { LayoutService, LayoutInitService } from '../../_theme/core';
 import KTLayoutContent from '../../../assets/js/layout/base/content';
-import { ShareService } from 'src/app/containers/services/share/share.service';
+import { ShareService } from 'src/app/services/share/share.service';
 import { OptionStore } from 'src/app/store/option/optionStore';
 import { OptionQuery } from 'src/app/store/option/optionQuery';
-
-import { CustomModalService } from '../services/modal.service';
-import { AuthService } from '../services/auth/auth.service';
-import { LocalStorageService } from '../services/storage/local-storage.service';
+ 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LocalStorageService } from 'src/app/services/storage/local-storage.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { CustomModalService } from 'src/app/services/modal.service';
 
 @Component({
   selector: 'app-layout',
@@ -53,9 +53,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     public modal: CustomModalService,
     private optionStore: OptionStore,
     public authService: AuthService,
-    private modalService: NgbModal,
-    private localStorageService: LocalStorageService,
-    private router: Router
+    private modalService: NgbModal, 
   ) {
     this.initService.init();
 

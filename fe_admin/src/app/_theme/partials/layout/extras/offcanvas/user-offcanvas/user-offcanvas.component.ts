@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/containers/services/auth/auth.service';
-import { CustomModalService } from 'src/app/containers/services/modal.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { CustomModalService } from 'src/app/services/modal.service';
 import { LayoutService } from '../../../../../core';
 
 @Component({

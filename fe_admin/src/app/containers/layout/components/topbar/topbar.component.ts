@@ -6,36 +6,21 @@ import KTLayoutQuickPanel from '../../../../../assets/js/layout/extended/quick-p
 import KTLayoutQuickUser from '../../../../../assets/js/layout/extended/quick-user';
 import KTLayoutHeaderTopbar from '../../../../../assets/js/layout/base/header-topbar';
 import { KTUtil } from '../../../../../assets/js/components/util';
-import { AuthService } from 'src/app/containers/services/auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import * as signalR from '@microsoft/signalr';
-import { NotificationService } from 'src/app/containers/services/notification.service';
-import { TicketService } from 'src/app/containers/services/ticket.service';
-import { FeedbackService } from 'src/app/containers/services/feedback.service';
-import { SystemNotificationService } from 'src/app/containers/services/system-notification.service';
-import { NewService } from 'src/app/containers/services/new.service';
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
 })
 export class TopbarComponent implements OnInit, AfterViewInit {
-
   currentUser: any;
   systemNotificationCount: number = 0;
   extrasQuickPanelDisplay: boolean;
   extrasUserDisplay: boolean;
   extrasUserLayout: 'offcanvas' | 'dropdown';
   extrasLanguagesDisplay: boolean;
-  constructor(
-    private layout: LayoutService,
-    private auth: AuthService,
-    private ticketService: TicketService,
-    private feedbackService: FeedbackService,
-    private cd: ChangeDetectorRef,
-    private notificationService: NotificationService,
-    private systemNotificationService: SystemNotificationService,
-    private newsService: NewService
-  ) {
+  constructor(private layout: LayoutService, private auth: AuthService, private cd: ChangeDetectorRef) {
     this.currentUser = this.auth.currentUserValue;
   }
 
@@ -51,7 +36,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     };
 
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl(environment.domain + 'notify?userId=' + this.currentUser.id, options)
+      .withUrl('notify?userId=' + this.currentUser.id, options)
       .configureLogging(signalR.LogLevel.Information)
       .build();
 
@@ -69,40 +54,7 @@ export class TopbarComponent implements OnInit, AfterViewInit {
     this.extrasLanguagesDisplay = this.layout.getProp('extras.languages.display');
   }
 
-  getSystemNotification() {
-    this.systemNotificationService.getUnreadSystemNotificationsCount().then((res: any) => {
-      var pagingParam = {
-        page: 1,
-        pageSize: 1000
-      }
-
-      if (res.unreadNewsCount || res.unreadNewsCount == 0) {
-        this.systemNotificationCount = res.unreadNewsCount + res.unreadNotificationCount;
-
-        this.notificationService.getAllUnread(pagingParam).subscribe((res: any) => {
-          this.cd.detectChanges();
-        });
-
-        this.newsService.getAllUnread(pagingParam).subscribe((res: any) => {
-          this.cd.detectChanges();
-        });
-      } else {
-        // get support ticket + feedback count
-        this.systemNotificationCount = res.unreadSupportTicketCount + res.unreadFeedbackCount;
-
-        this.ticketService.getAllUnread(pagingParam).subscribe((res: any) => {
-          this.cd.detectChanges();
-        });
-
-        this.feedbackService.getAllUnread(pagingParam).subscribe((res: any) => {
-          this.cd.detectChanges();
-        });
-      }
-
-      this.cd.detectChanges();
-    })
-      .catch((e: any) => { });
-  }
+  getSystemNotification() {}
 
   ngAfterViewInit(): void {
     KTUtil.ready(() => {

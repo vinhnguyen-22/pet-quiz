@@ -1,9 +1,6 @@
-import { UserService } from 'src/app/containers/services/user.service';
 import { ChangeDetectorRef, Component, EventEmitter, Injectable, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from 'src/app/containers/services/auth/auth.service';
-import { CustomModalService } from 'src/app/containers/services/modal.service';
 import { ToastrService } from 'ngx-toastr';
 import { KTUtil } from 'src/assets/js/components/util';
 import KTPasswordMeter from 'src/assets/js/components/password';
@@ -22,19 +19,7 @@ export class CommonModalComponent implements OnInit {
 
   currentUser: any;
 
-  constructor(
-    private modalService: NgbModal,
-    public modal: CustomModalService,
-    private authService: AuthService,
-    private userService: UserService,
-    private fb: FormBuilder,
-    private toastr: ToastrService,
-    private cd: ChangeDetectorRef
-  ) {
-    this.authService.currentUserSubject.asObservable().subscribe((res) => {
-      this.currentUser = res;
-    });
-  }
+  constructor(private modalService: NgbModal, private fb: FormBuilder, private toastr: ToastrService, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {}
   ngOnChanges(): void {
@@ -64,20 +49,7 @@ export class CommonModalComponent implements OnInit {
       rePassword: ['', Validators.compose([Validators.required])],
     });
   }
-  submit() {
-    this.userService
-      .changePassword(this.formPassword.value)
-      .then((res: any) => {
-        if (res.status == 'Success') {
-          this.modal.Dialog('changePassword', false, {});
-          this.modalService.dismissAll();
-          this.toastr.success(res.message);
-        } else {
-          this.toastr.error(res.message);
-        }
-      })
-      .catch();
-  }
+  submit() {}
   isControlValid(controlName: string): boolean {
     let control = this.formPassword.controls[controlName];
     return control.valid && (control.dirty || control.touched);

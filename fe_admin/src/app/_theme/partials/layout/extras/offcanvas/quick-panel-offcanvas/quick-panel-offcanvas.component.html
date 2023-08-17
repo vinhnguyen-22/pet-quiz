@@ -2,51 +2,22 @@
   <div class="offcanvas-header offcanvas-header-navs d-flex align-items-center justify-content-between mb-5" #headerNoti>
     <ul class="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-primary flex-grow-1 px-10" role="tablist">
       <li class="nav-item" *ngIf="auth.canManageSystem()">
-        <a
-          class="nav-link cursor-pointer"
-          data-toggle="tab"
-          [ngClass]="getActiveCSSClasses('tickets')"
-          (click)="setActiveTabId('tickets')"
-          *ngIf="ticketService.ticketSubject.asObservable() | async; let _tickets"
-        >
-          Yêu cầu hỗ trợ({{ _tickets.length }})
+        <a class="nav-link cursor-pointer" data-toggle="tab" [ngClass]="getActiveCSSClasses('tickets')" (click)="setActiveTabId('tickets')">
+          Yêu cầu hỗ trợ
         </a>
       </li>
       <li class="nav-item" *ngIf="auth.canManageSystem()">
-        <a
-          class="nav-link cursor-pointer"
-          [ngClass]="getActiveCSSClasses('feedbacks')"
-          (click)="setActiveTabId('feedbacks')"
-          data-toggle="tab"
-          *ngIf="feedbackService.feedbackSubject.asObservable() | async as _feedbacks"
-        >
-          Góp ý({{ _feedbacks.length }})
+        <a class="nav-link cursor-pointer" [ngClass]="getActiveCSSClasses('feedbacks')" (click)="setActiveTabId('feedbacks')" data-toggle="tab">
+          Góp ý
         </a>
       </li>
 
       <li class="nav-item" *ngIf="!auth.canManageSystem()">
-        <a
-          class="nav-link cursor-pointer"
-          data-toggle="tab"
-          [ngClass]="getActiveCSSClasses('notifications')"
-          (click)="setActiveTabId('notifications')"
-          *ngIf="notificationService.notiSubject.asObservable() | async; let _notifications"
-        >
-          Thông báo({{ _notifications.length }})
-        </a>
+        <a class="nav-link cursor-pointer" data-toggle="tab"> Thông báo </a>
       </li>
       <li class="nav-item" *ngIf="!auth.canManageSystem()">
-        <a
-          class="nav-link cursor-pointer"
-          data-toggle="tab"
-          [ngClass]="getActiveCSSClasses('news')"
-          (click)="setActiveTabId('news')"
-          *ngIf="newsService.newsSubject.asObservable() | async; let _news"
-        >
-          Tin tức({{ _news.length }})
-        </a>
+        <a class="nav-link cursor-pointer" data-toggle="tab" [ngClass]="getActiveCSSClasses('news')" (click)="setActiveTabId('news')"> Tin tức </a>
       </li>
-      
     </ul>
     <div class="offcanvas-close mt-n1 pr-5">
       <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_panel_close">
@@ -57,26 +28,26 @@
   <div class="offcanvas-content px-10" style="overflow: auto" [ngStyle]="{ height: 'calc(100vh - ' + 100 + 'px)' }">
     <div class="tab-content">
       <div class="tab-pane fade pt-3 pr-5 mr-n5" id="tickets" [ngClass]="getActiveCSSClasses('tickets')" role="tabpanel">
-        <div class="navi navi-icon-circle navi-spacer-x-0" *ngIf="ticketService.ticketSubject.asObservable() | async; let _tickets">
-          <a href="javascript:;" (click)="showContent(ticket, 'TICKET')" class="navi-item" *ngFor="let ticket of _tickets">
+        <div class="navi navi-icon-circle navi-spacer-x-0">
+          <a href="javascript:;" class="navi-item">
             <div class="navi-link rounded">
               <div class="navi-text">
-                <div class="font-weight-bolder font-size-lg">{{ ticket.category }}</div>
-                <div class="font-size-lg d-inline-block text-truncate" style="max-width: 200px;">{{ ticket.content }}</div>
-                <div class="text-muted">{{ ticket.createdDate | timeAgo }}</div>
+                <div class="font-weight-bolder font-size-lg"></div>
+                <div class="font-size-lg d-inline-block text-truncate" style="max-width: 200px"></div>
+                <div class="text-muted"></div>
               </div>
             </div>
           </a>
         </div>
       </div>
 
-      <div class="tab-pane fade pt-2 pr-5 mr-n5" id="notifications" [ngClass]="getActiveCSSClasses('notifications')" role="tabpanel">
-        <div class="navi navi-icon-circle navi-spacer-x-0" *ngIf="notificationService.notiSubject.asObservable() | async; let _notifications">
-          <a href="javascript:;" (click)="showContent(noti, 'NOTIFICATION')" class="navi-item" *ngFor="let noti of _notifications">
+      <div class="tab-pane fade pt-2 pr-5 mr-n5" id="notifications" role="tabpanel">
+        <div class="navi navi-icon-circle navi-spacer-x-0">
+          <a href="javascript:;" class="navi-item">
             <div class="navi-link rounded">
               <div class="navi-text">
-                <div class="font-weight-bold font-size-lg">{{ noti.title }}</div>
-                <div class="text-muted">{{ noti.createdDate | timeAgo }}</div>
+                <div class="font-weight-bold font-size-lg"></div>
+                <div class="text-muted"></div>
               </div>
             </div>
           </a>
@@ -84,13 +55,13 @@
       </div>
 
       <div class="tab-pane fade pt-3 pr-5 mr-n5" id="feedbacks" [ngClass]="getActiveCSSClasses('feedbacks')" role="tabpanel">
-        <div class="navi navi-icon-circle navi-spacer-x-0" *ngIf="feedbackService.feedbackSubject.asObservable() | async as _feedbacks">
-          <a href="javascript:;" (click)="showContent(fb, 'FEED_BACK')" class="navi-item" *ngFor="let fb of _feedbacks">
+        <div class="navi navi-icon-circle navi-spacer-x-0">
+          <a href="javascript:;" class="navi-item">
             <div class="navi-link rounded">
               <div class="navi-text">
-                <div class="font-weight-bolder font-size-lg">{{ fb.category }}</div>
-                <div class="font-size-lg d-inline-block text-truncate" style="max-width: 200px;">{{ fb.content }}</div>
-                <div class="text-muted">{{ fb.createdDate | timeAgo }}</div>
+                <div class="font-weight-bolder font-size-lg"></div>
+                <div class="font-size-lg d-inline-block text-truncate" style="max-width: 200px"></div>
+                <div class="text-muted"></div>
               </div>
             </div>
           </a>
@@ -98,13 +69,13 @@
       </div>
 
       <div class="tab-pane fade pt-3 pr-5 mr-n5" id="news" [ngClass]="getActiveCSSClasses('news')" role="tabpanel">
-        <div class="navi navi-icon-circle navi-spacer-x-0" *ngIf="newsService.newsSubject.asObservable() | async; let _news">
-          <a href="javascript:;" (click)="showContent(news, 'NEWS')" class="navi-item" *ngFor="let news of _news">
+        <div class="navi navi-icon-circle navi-spacer-x-0">
+          <a href="javascript:;" class="navi-item">
             <div class="navi-link rounded">
               <div class="navi-text">
-                <div *ngIf="!news.Read" class="font-weight-bolder font-size-lg">{{ news.title }}</div>
-                <div *ngIf="news.Read" class="font-size-lg">{{ news.title }}</div>
-                <div class="text-muted">{{ news.createdDate | timeAgo }}</div>
+                <div class="font-weight-bolder font-size-lg"></div>
+                <div class="font-size-lg"></div>
+                <div class="text-muted"></div>
               </div>
             </div>
           </a>
@@ -115,9 +86,9 @@
 </div>
 <ng-template #NOTIFY_DETAIL let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="text-dark-75 font-weight-bolder" *ngIf="notifyType == 'TICKET'">Yêu cầu hỗ trợ</h4>
-    <h4 class="text-dark-75 font-weight-bolder" *ngIf="notifyType == 'NOTIFICATION'">Thông báo</h4>
-    <h4 class="text-dark-75 font-weight-bolder" *ngIf="notifyType == 'FEED_BACK'">Góp ý</h4>
+    <h4 class="text-dark-75 font-weight-bolder">Yêu cầu hỗ trợ</h4>
+    <h4 class="text-dark-75 font-weight-bolder">Thông báo</h4>
+    <h4 class="text-dark-75 font-weight-bolder">Góp ý</h4>
   </div>
   <div class="modal-body">
     <div class="row" *ngIf="notifyType == 'TICKET' || notifyType == 'FEED_BACK' || notifyType == 'NEWS'">
@@ -134,7 +105,7 @@
       </div>
       <div class="col-md-12" [innerHTML]="notify.content"></div>
     </div>
-    <div class="row" *ngIf="notifyType == 'NOTIFICATION'">
+    <div class="row">
       <div class="col-md-12 d-flex">
         <div class="flex-grow-1">
           <h4>{{ notify.title }}</h4>
