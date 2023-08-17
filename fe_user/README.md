@@ -1,70 +1,89 @@
-# Getting Started with Create React App
+# Solid - Free Next.js Web Template for SaaS
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Solid is a free Next.js template specifically crafted for startups, SaaS, and software websites. It provides an extensive array of necessary sections, elements, and pages required to build a fully-equipped website for any SaaS, software, or startup site. Comes with all cutting edge React and Next.js features - **Built with Next.js 13, React 18 and TypeScript.**
 
-## Available Scripts
+This Next.js template's homepage comes with an awesome hero area, logos of associated brands, a features section, an about section, another features section with tabs, counters, and star ratings, integration options, clear call-to-actions, an FAQ section with accordions, a testimonials section, pricing tables, a contact page, a blog, and a distinctive footer.
 
-In the project directory, you can run:
+**Solid Next.js template packed with all necessary external pages** - such as login, registration, blog grids, and single blog pages, among others. This broad collection of pages provides all the necessary tools to create a feature-packed, comprehensive, and visually appealing website or landing page for software, a web application, or SaaS.
 
-### `npm start`
+### [🔥 Get Solid Pro - Next.js SaaS Boilerplate and Starter Kit](https://nextjstemplates.com/templates/solid)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![Startup Pro](https://uideck.com/wp-content/uploads/edd/2023/07/solid-saas.png)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### [🚀 Solid PRO Live Demo](https://solid.nextjstemplates.com/)
 
-### `npm test`
+### [🚀 Solid FREE Live Demo](https://solid-free.nextjstemplates.com/)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### TailAdmin React PRO vs TailAdmin React FREE Comparison 📊
 
-### `npm run build`
+#### [Solid PRO](https://solid.nextjstemplates.com/)
+- SaaS Boilerplate + Starter Kit with Essential Integrations and Functionalities
+- Essential Integrations: Auth, DB, Stripe, MDX and More ...
+- Fully Functional, Ready to Use Sanity Blog Support
+- Premium Email Support
+- Functional External Pages
+- Free Lifetime Future Updates
+___
+#### [Solid FREE](https://solid-free.nextjstemplates.com/)
+- Only UI - Coded for Next.js
+- No Integrations
+- No Functional Blogging System
+- External Pages without Functions/Integrations
+- Community Support
+- Free Lifetime Future Updates
+___
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### [📦 Download](https://nextjstemplates.com/templates/solid)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### [🔥 Get Pro](https://nextjstemplates.com/templates/solid)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### [🔌 Documentation](https://nextjstemplates.com/docs)
 
-### `npm run eject`
+### ⚡ Deploy Now
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FNextJSTemplates%2Fsolid-nextjs)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+[![Deploy with Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/NextJSTemplates/solid-nextjs)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Installation
 
-## Learn More
+Here are the steps you need to follow to install the dependencies.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1.Download and extract the template from **Next.js Templates.**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2.**cd** into the template directory then run this command to install all the dependencies
+    
+```bash
+    npm install
+```
+    
+or
+    
+```bash
+    yarn install
+ ```
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+You can start the project on the local server
+    
+```bash
+    npm run dev
+ ```
 
-### Analyzing the Bundle Size
+It’ll start the template on [localhost:3000](http://localhost:3000). 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The documentation includes all the guides you need for the integrations. 
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Deploying on PaaS
 
-### Advanced Configuration
+If you are using a GitHub repo then you can go with free-of-cost and easy-to-use options like [Vercel](https://vercel.com/), or [Netlify](https://netlify.com/) they offer decent-free tiers for Next.js hosting.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 📄 License
+Solid Free is 100% free and open-source, feel free to use with your personal and commercial projects.
 
-### Deployment
+### 💜 Support
+If you like the template, please star this repository to inspire the team to create more stuff like this and reach more users like you!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### ✨ Browse and Download - Best Free [Next.js Templates](https://nextjstemplates.com/templates)
