@@ -5,8 +5,7 @@ import {
   ElementRef,
   AfterViewInit,
 } from '@angular/core';
-import { LayoutService, LayoutInitService } from '../../_metronic/core';
-import KTLayoutContent from '../../../assets/js/layout/base/content';
+import { LayoutService, LayoutInitService } from '../../_metronic/core'; 
 
 @Component({
   selector: 'app-layout',
@@ -134,8 +133,6 @@ export class LayoutComponent implements OnInit, AfterViewInit {
           ] = this.headerHTMLAttributes[key];
         }
       }
-    }
-    // Init Content
-    KTLayoutContent.init('kt_content');
+    } 
   }
 }

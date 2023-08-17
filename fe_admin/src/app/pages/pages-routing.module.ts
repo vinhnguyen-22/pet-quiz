@@ -13,11 +13,6 @@ const routes: Routes = [
           import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
       },
       {
-        path: 'builder',
-        loadChildren: () =>
-          import('./builder/builder.module').then((m) => m.BuilderModule),
-      },
-      {
         path: 'ecommerce',
         loadChildren: () =>
           import('../modules/e-commerce/e-commerce.module').then(
@@ -44,14 +39,7 @@ const routes: Routes = [
           import('../modules/ngbootstrap/ngbootstrap.module').then(
             (m) => m.NgbootstrapModule
           ),
-      },
-      {
-        path: 'wizards',
-        loadChildren: () =>
-          import('../modules/wizards/wizards.module').then(
-            (m) => m.WizardsModule
-          ),
-      },
+      }, 
       {
         path: 'material',
         loadChildren: () =>

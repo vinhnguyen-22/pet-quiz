@@ -1,13 +1,12 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { LayoutService } from '../../../../_metronic/core';
-import KTLayoutFooter from '../../../../../assets/js/layout/base/footer';
+import { Component, OnInit, AfterViewInit } from "@angular/core";
+import { LayoutService } from "../../../../_metronic/core";
 
 @Component({
-  selector: 'app-footer',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss'],
+  selector: "app-footer",
+  templateUrl: "./footer.component.html",
+  styleUrls: ["./footer.component.scss"],
 })
-export class FooterComponent implements OnInit, AfterViewInit {
+export class FooterComponent implements OnInit {
   footerContainerCSSClasses: string;
   currentYear: string;
 
@@ -17,13 +16,7 @@ export class FooterComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.footerContainerCSSClasses = this.layout.getStringCSSClasses(
-      'footer_container'
-    );
-  }
-
-  ngAfterViewInit() {
-    // Init Footer
-    KTLayoutFooter.init('kt_footer');
+    this.footerContainerCSSClasses =
+      this.layout.getStringCSSClasses("footer_container");
   }
 }

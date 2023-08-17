@@ -14,10 +14,7 @@ import {
   NavigationEnd,
   NavigationCancel,
 } from '@angular/router';
-import { LayoutService } from '../../../../_metronic/core';
-import KTLayoutHeader from '../../../../../assets/js/layout/base/header';
-import KTLayoutHeaderMenu from '../../../../../assets/js/layout/base/header-menu';
-import { KTUtil } from '../../../../../assets/js/components/util';
+import { LayoutService } from '../../../../_metronic/core'; 
 import { Subscription, Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -113,13 +110,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     }
-
-    KTUtil.ready(() => {
-      // Init Desktop & Mobile Headers
-      KTLayoutHeader.init('kt_header', 'kt_header_mobile');
-      // Init Header Menu
-      KTLayoutHeaderMenu.init('kt_header_menu', 'kt_header_menu_wrapper');
-    });
+ 
   }
 
   ngOnDestroy() {
