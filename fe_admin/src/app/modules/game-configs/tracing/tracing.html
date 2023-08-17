@@ -1,0 +1,103 @@
+<div>
+  <div class="mt-3" *ngFor="let c of configs; let a=index">
+    <div class="label-game-config d-flex">
+      <h4 class="font-weight-bold">Màn chơi {{a+1}}</h4>
+    </div>
+    <div class="row section-game">
+      <div class="col-md-12 col-sm-12 d-flex">
+        <div class="flex-grow-1 row">
+          <div class="col-lg-6">
+            <p class="font-weight-bold">Hướng dẫn:</p>
+            <p>1. Upload ảnh nền (nếu có)</p>
+            <p>2. Upload ảnh đề bài (chứa nét đứt)</p>
+            <p>3. Click chuột trái chấm vào từng nét ở trên hình</p>
+            <p>4. Vẽ cẩn thận cho đến khi hoàn thành</p>
+            <p>5. Upload ảnh hoàn thiện và audio của từ</p>
+          </div>
+          <div class="col-lg-3">
+            <div class="d-flex align-items-center">
+              <p class="m-0">Ảnh nền</p>
+              <button type="button" class="btn btn-secondary ml-3" (click)="uploadRecourse(c,'image',3)">Upload</button>
+            </div>
+            <div class="player-doc mt-4">
+              <div class="player" style="background-color: transparent !important; border: 1px solid #aaa">
+                <img [src]="c.LinkBG" onerror="this.src='assets/default.png'" width="100%" height="100%" />
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="d-flex align-items-center">
+              <p class="m-0">Ảnh đề bài(chứa nét đứt)</p>
+              <button type="button" class="btn btn-secondary ml-3" (click)="uploadRecourse(c,'image',2)">Upload</button>
+            </div>
+            <div class="player-doc mt-4">
+              <div class="player" style="background-color: transparent !important; border: 1px solid #aaa">
+                <img [src]="c._LinkPhoto" onerror="this.src='assets/default.png'" width="100%" height="100%" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="javascript:;" *ngIf="a > 0" title="Xóa màn chơi" class="p-3" (click)="removeSection(a)">
+          <i class="ki ki-bold-close icon-lg text-danger"></i>
+        </a>
+      </div>
+    </div>
+    <div class="row section-game">
+      <div class="col d-flex justify-content-between">
+        <h4 class="m-0">Vẽ theo nét đứt</h4>
+        <a (click)="reset(c)" href="javascript:;">Vẽ lại từ đầu</a>
+      </div>
+    </div>
+    <div class="row section-game">
+      <div class="col d-flex justify-content-center">
+        <div class="player-doc" [ngStyle]="{width:'100%','padding-top': (c.height/c.width*100)+'%'}">
+          <div class="player" style="background-color: transparent !important; border: 1px solid #aaa">
+            <img
+              [src]="c._LinkPhoto"
+              onerror="this.src='assets/default.png'"
+              (click)="getTD($event,c)"
+              #image
+              width="100%"
+              height="100%"
+              (mousemove)="onMouseMove($event,c,a)"
+              (mouseout)="onMouseOut(a)"
+            />
+          </div>
+        </div>
+        <div class="cursor" [id]="'cursor'+a" [ngStyle]="{ 'width': c.width*getPT(c)/35+'px' , 'height': c.width*getPT(c)/35+'px'}"></div>
+
+        <div
+          class="cursor"
+          *ngFor="let po of c._DataPoint;let idxPo=index"
+          [ngStyle]="{ 'display': po.length>0?'block':'none', top: (po[1]*getPT(c))+'px',left:(po[0]*getPT(c))+'px','width': c.width*getPT(c)/35+'px' , 'height': c.width*getPT(c)/35+'px' }"
+        ></div>
+      </div>
+    </div>
+    <div class="row section-game">
+      <div class="col-lg-6">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="d-flex align-items-center">
+              <p class="m-0">Ảnh hoàn thiện</p>
+              <button type="button" class="btn btn-secondary ml-3" (click)="uploadRecourse(c,'image',1)">Upload</button>
+            </div>
+            <div class="player-doc mt-4" [style.width]="'100%'">
+              <div class="player" style="background-color: transparent !important; border: 1px solid #aaa">
+                <img [src]="c.LinkPhoto" onerror="this.src='assets/default.png'" width="100%" height="100%" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="d-flex align-items-center">
+          <p class="m-0">Audio của từ</p>
+          <button type="button" class="btn btn-secondary ml-3" (click)="uploadRecourse(c,'audio',1)">Upload</button>
+          <p class="ml-3">{{(c.progress && (c.progress < 100))?'('+c.progress+'%)':''}}</p>
+          <a *ngIf="c.LinkAudio" target="_blank" [href]="c.LinkAudio" class="ml-3" style="font-size: 14px; text-decoration: underline">Nghe thử</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-outline-secondary mt-2" (click)="addNewSection()"><i class="ki ki-plus icon-sm"></i> Thêm màn chơi</button>
+</div>

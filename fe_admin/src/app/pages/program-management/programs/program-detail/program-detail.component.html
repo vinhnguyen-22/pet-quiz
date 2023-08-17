@@ -1,0 +1,32 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title align-items-start" style="flex-direction: column">
+      <h3 class="card-label">
+        <ng-container>
+          <span>{{ program.name }}</span>
+        </ng-container>
+      </h3>
+      <a href="javascript:;" (click)="open(ProgramDetail)" class="a-custom mt-2 font-size-sm">Xem thông tin về chương trình</a>
+    </div>
+    <div class="card-toolbar">
+      <button type="button" class="btn btn-light" routerLink="/programs"><i class="fa fa-arrow-left"></i>Quay lại</button>
+    </div>
+  </div>
+  <div class="card-body pt-0">
+    <app-topic-list [programId]="programId" (description)="getDesc($event)" (program)="setProgram($event)"></app-topic-list>
+  </div>
+</div>
+<ng-template #ProgramDetail let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4>Mô tả chương trình học</h4>
+  </div>
+  <div class="modal-body">
+    <div class="wraper" *ngFor="let desc of descriptionTypes">
+      <h5>{{ desc.label }}</h5>
+      <div [innerHTML]="desc.value"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Đóng</button>
+  </div>
+</ng-template>

@@ -1,0 +1,249 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">{{ id ? 'Chỉnh sửa' : 'Thêm mới' }} game</h3>
+    </div>
+    <div class="card-toolbar">
+      <button type="button" class="btn btn-light" routerLink="/games"><i class="fa fa-arrow-left"></i>Quay lại</button>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <div #wizard class="wizard wizard-2" id="kt_wizard_v2" data-wizard-state="step-first">
+      <div class="wizard-nav border-right py-8 px-8">
+        <div class="wizard-steps">
+          <a class="wizard-step" href="javascript:;" data-wizard-type="step" data-wizard-state="current">
+            <div class="wizard-wrapper">
+              <div class="wizard-icon">
+                <span class="svg-icon svg-icon-3x" [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'"></span>
+              </div>
+              <div class="wizard-label">
+                <div class="wizard-title">Thông tin</div>
+                <div class="wizard-desc">Nhập thông tin game</div>
+              </div>
+            </div>
+          </a>
+          <a class="wizard-step" href="javascript:;" data-wizard-type="step">
+            <div class="wizard-wrapper">
+              <div class="wizard-icon">
+                <span class="svg-icon svg-icon-3x" [inlineSVG]="'./assets/media/svg/icons/General/Settings-2.svg'"></span>
+              </div>
+              <div class="wizard-label">
+                <div class="wizard-title">Cấu hình</div>
+                <div class="wizard-desc">Cấu hình các màn chơi cho game</div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="wizard-body py-5 px-5">
+        <div class="row">
+          <div class="col-xl-12">
+            <form class="form" id="kt_form" style="width: 98%">
+              <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+                <h4 class="mb-10 font-weight-bold text-dark">Thông tin game</h4>
+                <div class="form-row">
+                  <div class="col-md-6 mb-5">
+                    <label for="gameTypeId">Loại Game <span class="text-danger">*</span></label>
+                    <select id="gameTypeId" [disabled]="id" class="form-control" name="typeId" (change)="gameTypeChanged()" [(ngModel)]="game.typeId">
+                      <option [value]="0" *ngIf="!game.typeId">Chọn loại Game</option>
+                      <option *ngFor="let type of gameTypes" [value]="type.id">
+                        {{ type.typeName }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-md-6 mb-3">
+                    <label for="gameNameId">Tên Game <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" name="gameName" [(ngModel)]="game.gameName" id="gameNameId" />
+                  </div>
+                </div>
+                <div class="form-row mt-3">
+                  <div class="col-md-6">
+                    <label for="validationCustom01">Mô tả Game</label>
+                    <ul class="game-description">
+                      <li *ngFor="let des of game.descriptions">{{ des }}</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="form-group mt-3 col-md-6 p-0">
+                  <label> Ảnh game</label>
+                  <app-input-img (setValueToChild)="setSrc($event)" [currentUrl]="game.gameImage" type="thumbnail" folder="games"></app-input-img>
+                </div>
+              </div>
+
+              <div class="pb-5" data-wizard-type="step-content">
+                <h4 class="mb-10 font-weight-bold text-dark">Cấu hình game</h4>
+                <game-flashcard1
+                  *ngIf="game.typeId == gameType.flashcard1"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-flashcard1>
+                <game-flashcard2
+                  *ngIf="game.typeId == gameType.flashcard2"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-flashcard2>
+                <game-flashcard3
+                  *ngIf="game.typeId == gameType.flashcard3"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-flashcard3>
+                <game-flashcard4
+                  *ngIf="game.typeId == gameType.flashcard4"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-flashcard4>
+                <game-flashcard5
+                  *ngIf="game.typeId == gameType.flashcard5"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-flashcard5>
+                <game-sequencing
+                  *ngIf="game.typeId == gameType.sequencing"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-sequencing>
+                <game-memory
+                  *ngIf="game.typeId == gameType.memoryGame"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-memory>
+                <game-tf
+                  [data]="game.config"
+                  *ngIf="game.typeId == gameType.tf"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-tf>
+                <game-multipleChoiceImage
+                  *ngIf="game.typeId == gameType.multipleChoiceImage"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                >
+                </game-multipleChoiceImage>
+                <game-multipleChoiceAudio
+                  *ngIf="game.typeId == gameType.multipleChoiceAudio"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                >
+                </game-multipleChoiceAudio>
+                <classify1groups
+                  *ngIf="game.typeId == gameType.classify1groups"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></classify1groups>
+                <classify2groups
+                  *ngIf="game.typeId == gameType.classify2groups"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></classify2groups>
+                <game-matching
+                  *ngIf="game.typeId == gameType.matching"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-matching>
+                <game-answeringImage
+                  *ngIf="game.typeId == gameType.answeringImage"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-answeringImage>
+                <game-answeringAudio
+                  *ngIf="game.typeId == gameType.answeringAudio"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-answeringAudio>
+                <game-unscramble
+                  *ngIf="game.typeId == gameType.unscramble"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-unscramble>
+                <game-puzzle1
+                  *ngIf="game.typeId == gameType.puzzle1"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-puzzle1>
+                <game-finding
+                  *ngIf="game.typeId == gameType.finding"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-finding>
+                <game-finding-difference
+                  *ngIf="game.typeId == gameType.findingDifferences"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-finding-difference>
+                <game-colouring
+                  *ngIf="game.typeId == gameType.colouring"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-colouring>
+                <game-colouringAudio
+                  *ngIf="game.typeId == gameType.colouringAudio"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-colouringAudio>
+                <game-drawing
+                  *ngIf="game.typeId == gameType.drawing"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-drawing>
+                <game-puzzle02
+                  *ngIf="game.typeId == gameType.puzzle02"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                >
+                </game-puzzle02>
+                <game-tracing
+                  *ngIf="game.typeId == gameType.tracing"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                ></game-tracing>
+                <game-unscrambleImage
+                  *ngIf="game.typeId == gameType.unscrambleImage"
+                  [data]="game.config"
+                  [requestConfig]="requestConfig"
+                  (dataChanged)="configChanged($event)"
+                >
+                </game-unscrambleImage>
+              </div>
+
+              <div class="d-flex justify-content-between border-top pt-10">
+                <div class="mr-2">
+                  <div class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-prev">Quay lại</div>
+                </div>
+                <div (click)="onSubmit()" class="btn btn-success font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-submit">
+                  Lưu lại
+                </div>
+                <div class="btn btn-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-next">Tiếp tục</div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

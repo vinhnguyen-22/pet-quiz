@@ -1,0 +1,301 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">
+        <ng-container> {{ id ? 'Chỉnh sửa ' : 'Thêm mới ' }}lớp học </ng-container>
+      </h3>
+    </div>
+    <div class="card-toolbar">
+      <button type="button" class="btn btn-light" (click)="back()"><i class="fa fa-arrow-left"></i>Quay lại</button>
+    </div>
+  </div>
+  <div class="card card-custom gutter-b">
+    <div #wizard class="wizard wizard-2" id="kt_wizard_v2" data-wizard-state="step-first">
+      <div class="wizard-nav border-right py-8 px-8 py-lg-5">
+        <div class="wizard-steps">
+          <a class="wizard-step" href="javascript:;" data-wizard-type="step" data-wizard-state="current">
+            <div class="wizard-wrapper">
+              <div class="wizard-icon">
+                <span class="svg-icon svg-icon-3x" [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'"></span>
+              </div>
+              <div class="wizard-label">
+                <div class="wizard-title">Thông tin chung</div>
+                <div class="wizard-desc">Nhập thông tin lớp học</div>
+              </div>
+            </div>
+          </a>
+          <a class="wizard-step" href="javascript:;" data-wizard-type="step">
+            <div class="wizard-wrapper">
+              <div class="wizard-icon">
+                <span class="svg-icon svg-icon-3x" [inlineSVG]="'./assets/media/svg/icons/Text/Bullet-list.svg'"></span>
+              </div>
+              <div class="wizard-label">
+                <div class="wizard-title">Kế hoạch học tập</div>
+                <div class="wizard-desc">Nhập hoạch học tập</div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="wizard-body py-8 px-8 py-lg-10 px-lg-10">
+        <div class="row">
+          <div class="col-xxl-12">
+            <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+              <h4 class="mb-10 font-weight-bold text-dark">Thông tin chung</h4>
+              <form class="form" id="kt_form" [formGroup]="classForm" *ngIf="classForm">
+                <div class="row">
+                  <div class="col-xl-6">
+                    <div class="form-group">
+                      <label>Năm học <span class="text-danger">*</span></label>
+                      <select formControlName="yearId" [class.is-valid]="isControlValid(classForm, 'yearId')" name="yearId" class="form-control">
+                        <option *ngFor="let year of years" [value]="year.id">
+                          {{ year.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-xl-6">
+                    <div class="form-group">
+                      <label
+                        >Level
+                        <span class="text-danger">*</span>
+                      </label>
+                      <select
+                        formControlName="gradeId"
+                        [class.is-valid]="isControlValid(classForm, 'gradeId')"
+                        name="gradeId"
+                        class="form-control"
+                        (change)="filterData($event)"
+                      >
+                        <option *ngFor="let grade of grades" [value]="grade.id">
+                          {{ grade.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-xl-6" *ngIf="typeOr == 1">
+                    <div class="form-group">
+                      <label>
+                        Trường học
+                        <span class="text-danger">*</span>
+                      </label>
+                      <ng-select
+                        [items]="schools"
+                        bindLabel="name"
+                        bindValue="id"
+                        placeholder="Tìm kiếm trường học"
+                        name="organizationId"
+                        formControlName="organizationId"
+                        [class.is-valid]="isControlValid(classForm, 'organizationId')"
+                        [class.is-invalid]="isControlInvalid(classForm, 'organizationId')"
+                        notFoundText="Không tìm thấy trường"
+                      >
+                      </ng-select>
+                      <i>
+                        <span class="form-text text-muted mt-6"
+                          >Chỉ có thể tạo lớp cho trường được triển khai theo phương thức Trung tâm triển khai toàn bộ</span
+                        ></i
+                      >
+                    </div>
+                  </div>
+                  <div class="col-xl-6">
+                    <div class="form-group">
+                      <label>
+                        Lớp học
+                        <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        placeholder="Tên lớp học"
+                        name="name"
+                        class="form-control"
+                        id="className"
+                        formControlName="className"
+                        [class.is-valid]="isControlValid(classForm, 'className')"
+                        [class.is-invalid]="isControlInvalid(classForm, 'className')"
+                      />
+                      <div class="invalid-feedback" *ngIf="controlHasError(classForm, 'required', 'className')">Vui lòng nhập tên lớp học</div>
+                    </div>
+                  </div>
+                  <div class="col-xl-6">
+                    <div class="form-group">
+                      <label
+                        >Giáo viên
+                        <span class="text-danger">*</span>
+                      </label>
+                      <ng-multiselect-dropdown
+                        [settings]="dropdownSettingsTeacher"
+                        [placeholder]="'Chọn giáo viên'"
+                        [data]="teachers"
+                        name="schoolId"
+                        formControlName="listTeachers"
+                      >
+                      </ng-multiselect-dropdown>
+                    </div>
+                  </div>
+                  <div class="col-xl-6">
+                    <div class="form-group">
+                      <label> Trạng thái</label>
+                      <select class="form-control" name="status" formControlName="status" [class.is-valid]="isControlValid(classForm, 'status')">
+                        <option [value]="r.key" *ngFor="let r of status">
+                          {{ r.value }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="pb-5" data-wizard-type="step-content">
+              <h4 class="mb-10 font-weight-bold text-dark">Kế hoạch học tập</h4>
+              <form class="form" id="kt_form" [formGroup]="teachingPlanForm" *ngIf="teachingPlanForm">
+                <div class="row">
+                  <div class="col-xl-6">
+                    <div class="form-group">
+                      <label>
+                        Chương trình học
+                        <span class="text-danger">*</span>
+                      </label>
+                      <select
+                        name="programId"
+                        class="form-control"
+                        (change)="filterData($event)"
+                        formControlName="programId"
+                        [class.is-valid]="isControlValid(teachingPlanForm, 'programId')"
+                        [class.is-invalid]="isControlInvalid(teachingPlanForm, 'programId')"
+                      >
+                        <option value="">Chọn chương trình</option>
+                        <option *ngFor="let s of programs" [value]="s.id">
+                          {{ s.name }}
+                        </option>
+                      </select>
+                      <i>
+                        <span class="form-text text-muted mt-2">{{ labelProgram }}</span></i
+                      >
+                    </div>
+                  </div>
+                  <div class="col-xl-6">
+                    <div class="form-group">
+                      <label>
+                        Ngày bắt đầu
+                        <span class="text-danger">*</span>
+                      </label>
+                      <input
+                        type="date"
+                        class="form-control"
+                        formControlName="dateStart"
+                        [class.is-invalid]="isControlInvalid(teachingPlanForm, 'dateStart')"
+                        [class.is-valid]="isControlValid(teachingPlanForm, 'dateStart')"
+                        name="dateStart"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-xl-6">
+                    <div class="form-group">
+                      <label>Thời lượng (Số tiết/tuần)</label>
+                      <input class="form-control" formControlName="lessonPerWeek" name="lessonPerWeek" disabled />
+                    </div>
+                  </div>
+                  <div class="col-xl-12 mt-2" *ngFor="let time of listTimeForm.controls; let i = index">
+                    <ng-container [ngTemplateOutlet]="timeTemplate" [ngTemplateOutletContext]="{ time: time, i: i }"></ng-container>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="d-flex justify-content-between border-top pt-10">
+              <div class="mr-2">
+                <div class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-prev">Quay lại</div>
+              </div>
+              <div>
+                <button
+                  (click)="save()"
+                  class="btn btn-success font-weight-bold text-uppercase px-9 py-4"
+                  data-wizard-type="action-submit"
+                  class="btn btn-success font-weight-bold text-uppercase px-9 py-4 spinner-white spinner-right"
+                  data-wizard-type="action-submit"
+                  [disabled]="classForm?.invalid || teachingPlanForm?.invalid || isSubmitted || !validTime || listTimeForm.invalid"
+                  [ngClass]="{ spinner: isSubmitted }"
+                >
+                  Lưu lại
+                </button>
+                <button
+                  class="btn btn-primary font-weight-bold text-uppercase px-9 py-4"
+                  data-wizard-type="action-next"
+                  [disabled]="classForm?.invalid"
+                  (click)="nextStep()"
+                >
+                  Tiếp tục
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #timeTemplate let-time="time" let-i="i">
+  <form action="#" class="form form-label-right" [formGroup]="time" *ngIf="time">
+    <div class="row mb-4">
+      <div class="col-xl-2">
+        <div class="form-group">
+          <label>Ngày học</label>
+          <select [name]="'day' + i" class="form-control" formControlName="day">
+            <option value="">Chọn ngày học</option>
+            <option *ngFor="let s of days" [value]="s.key">
+              {{ s.value }}
+            </option>
+          </select>
+          <div class="invalid-feedback d-block" *ngIf="controlHasError(time, 'required', 'day')">Vui lòng chọn ngày học</div>
+        </div>
+      </div>
+      <div class="col-xl-3">
+        <div class="form-group">
+          <label>Giáo viên giảng dạy</label>
+          <select [name]="'teacherId' + i" class="form-control" formControlName="teacherId">
+            <option value="">Chọn giáo viên</option>
+            <option *ngFor="let s of listTeachers" [value]="s.id">
+              {{ s.userName }}
+            </option>
+          </select>
+          <div class="invalid-feedback d-block" *ngIf="controlHasError(time, 'required', 'teacherId')">Vui lòng chọn giáo viên</div>
+        </div>
+      </div>
+      <div class="col-xl-3">
+        <div class="form-group">
+          <label>Thời gian bắt đầu</label>
+          <input
+            class="form-control"
+            [name]="'studyTimeStart' + i"
+            type="time"
+            formControlName="studyTimeStart"
+            (change)="changeTime(time, 'start')"
+          />
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-center">đến</div>
+      <div class="col-xl-3">
+        <div class="form-group">
+          <label>Thời gian kết thúc</label>
+          <input class="form-control" [name]="'studyTimeEnd' + i" type="time" formControlName="studyTimeEnd" (change)="changeTime(time, 'end')" />
+        </div>
+      </div>
+      <div class="col-xl-12">
+        <div class="invalid-feedback d-block" *ngIf="!time.value.valid">Giờ học sai định dạng</div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+<ng-template #NOTIFY_CONFIRM let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h6 class="d-flex align-items-start flex-column">
+      <span class="card-label font-weight-bolder text-dark"> Thêm lớp học thành công</span>
+      <span class="mt-3 font-weight-bold">Bạn có muốn tạo thêm lớp khác thuộc trường {{ selectedSchool?.name }} hay không?</span>
+    </h6>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="back()">Hủy</button>
+    <button type="button" class="btn btn-primary" (click)="continue()">Tiếp tục thêm mới</button>
+  </div>
+</ng-template>

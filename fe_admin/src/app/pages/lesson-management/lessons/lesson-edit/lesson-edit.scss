@@ -1,0 +1,20 @@
+@import '../../../../../assets/sass/pages/wizard/wizard-2.scss';
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 110px;
+}
+.page-box {
+  color: rgba(0, 0, 0, 0.87);
+  width: 100%;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: pointer;
+  background: white;
+  font-size: 14px;
+}
+.page-box + .page-box {
+  border-top: solid 1px #ccc;
+}

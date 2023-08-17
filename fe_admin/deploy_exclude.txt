@@ -1,0 +1,3 @@
+.git/
+.gitlab-ci.yml
+deploy_exclude.txt

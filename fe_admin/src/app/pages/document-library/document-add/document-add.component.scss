@@ -1,0 +1,24 @@
+p {
+  font-family: Lato;
+}
+
+.error {
+    color: #f00;
+}
+
+.dragarea {
+    font-size: 1.5rem;
+    border: 1px #8FABC9;
+    border-style: dashed;
+    padding: 1.5rem;
+    background-color: #F0FBFF;
+    color: #bbb;
+}
+
+.droparea {
+  font-size: 1.5rem;
+  border: 3px dashed #bbb;
+  padding: 1.5rem;
+  background-color: #eff;
+  color: #aaa;
+}

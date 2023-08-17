@@ -1,0 +1,35 @@
+<div>
+  <div class="mt-3" *ngFor="let c of configs; let i=index">
+    <div class="label-game-config d-flex">
+      <h6>Màn chơi {{i+1}}</h6>
+    </div>
+    <div class="row section-game">
+      <div class="col-md-3 col-sm-12">
+        <div class="form-group">
+          <label>Từ mới</label>
+          <input type="email" name="keyword" [(ngModel)]="c.Name" class="form-control" />
+        </div>
+      </div>
+      <div class="col-md-9 col-sm-12 d-flex">
+        <form class="flex-grow-1">
+          <div class="form-group d-flex">
+            <div class="background-image-game">
+              <app-input-img (setValueToChild)="setSrc($event, c)" [currentUrl]="c.LinkImg" type="thumbnail" [folder]="folderStore"></app-input-img>
+            </div>
+            <div class="action-upload-audio ml-15">
+              <label>Audio</label><br />
+              <button class="btn btn-secondary" (click)="uploadRecourse(i, 'audio')" type="button">Upload</button>
+              <a *ngIf="c.LinkAudio" target="_blank" [href]="c.LinkAudio" class="ml-3" style="font-size: 14px; text-decoration: underline"
+                >Nghe thử</a
+              >
+            </div>
+          </div>
+        </form>
+        <a href="javascript:;" *ngIf="i != 0" title="Xóa màn chơi" (click)="removeSection(i)">
+          <i class="ki ki-bold-close icon-lg text-danger"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-outline-secondary mt-2" (click)="addNewSection()"><i class="ki ki-plus icon-sm"></i> Thêm màn chơi</button>
+</div>

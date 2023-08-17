@@ -1,0 +1,104 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <div class="d-flex align-items-center">
+        <h3 class="card-label">Danh sách học sinh</h3>
+        <button type="button" class="btn btn-outline-secondary" routerLink="add"><i class="ki ki-plus"></i> Thêm danh sách học sinh</button>
+        <button type="button" class="btn btn-outline-secondary ml-2" (click)="exportExcel()"><i class="ki ki-long-arrow-down"></i>Tải về</button>
+      </div>
+    </div>
+    <div class="w-75 mt-2 mb-2">
+      <div class="form form-label-right">
+        <div class="form-group row mb-0">
+          <div class="col-lg-3 mt-3">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Tỉnh/Thành phố</span>
+              </div>
+              <select name="sl-program" class="form-control" (change)="changeFilter()" [(ngModel)]="filter.provinceCode">
+                <option *ngFor="let p of provinces" [value]="p?.code">
+                  {{ p?.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 mt-3">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Kiểu tài khoản</span>
+              </div>
+              <select name="sl-program" class="form-control" (change)="changeFilter()" [(ngModel)]="filter.accountType">
+                <option value="0">Dữ liệu kho</option>
+                <option *ngFor="let p of accountTypes" [value]="p?.id">
+                  {{ p?.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 mt-3">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Năm học</span>
+              </div>
+              <select name="sl-program" class="form-control" (change)="changeFilter()" [(ngModel)]="filter.yearId">
+                <option value="0">Tất cả</option>
+                <option *ngFor="let p of years" [value]="p?.id">
+                  {{ p?.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body mt-3">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <tr>
+            <th style="width: 5%">Stt</th>
+            <th *ngFor="let header of objectDataTable.headers; let i = index" [ngStyle]="{ width: header.width }">
+              {{ header.value }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of objectDataTable.datas; let i = index">
+            <td class="text-center">{{ (dataPaging.page - 1) * dataPaging.pageSize + i + 1 }}</td>
+            <td *ngFor="let header of objectDataTable.headers">
+              <ng-container *ngIf="header.key == 'createdDate' || header.key == 'activeDate' || header.key == 'timeExpired'">
+                {{ data[header.key] ? (data[header.key] * 1000 | date : this.sharedService.getDateFormat()) : 'N/A' }}
+              </ng-container>
+              <ng-container *ngIf="header.key == 'status'">
+                {{ status[data[header.key]].name }}
+              </ng-container>
+              <ng-container *ngIf="header.key == 'centerTypeId'">
+                {{ data[header.key] ? accountTypes[data[header.key] - 1].name : 'Dữ liệu kho' }}
+              </ng-container>
+              <ng-container *ngIf="header.key == 'yearId'">
+                {{ data.yearName }}
+              </ng-container>
+              <ng-container
+                *ngIf="
+                  header.key != 'createdDate' &&
+                  header.key != 'activeDate' &&
+                  header.key != 'status' &&
+                  header.key != 'timeExpired' &&
+                  header.key != 'centerTypeId' &&
+                  header.key != 'yearId'
+                "
+              >
+                {{ data[header.key] }}
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-empty-table [length]="objectDataTable.datas?.length" [height]="100" text="Không có dữ liệu học sinh."></app-empty-table>
+    </div>
+  </div>
+  <div class="mx-5 d-flex justify-content-end">
+    <app-paging [data]="dataPaging" (dataChanged)="dataChanged($event)"></app-paging>
+  </div>
+</div>

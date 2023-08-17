@@ -1,0 +1,23 @@
+<div
+  class="box-img"
+  [ngClass]="{
+    avatar: type == 'avatar',
+    thumbnail: type === 'thumbnail',
+    topic: type === 'topic',
+    game: type === 'game'
+  }"
+>
+  <div class="img">
+    <img [src]="currentUrl" onerror="this.src='assets/default.png'" *ngIf="type == 'thumbnail'" />
+    <img [src]="currentUrl" onerror="this.src='assets/img/avatars/default-avatar.png'" *ngIf="type == 'avatar'" />
+    <img [src]="currentUrl" onerror="this.src='assets/image_default.jpg'" *ngIf="type == 'topic'" />
+    <img [src]="currentUrl" onerror="this.src='assets/game.png'" *ngIf="type == 'game'" />
+  </div>
+  <div class="caption" (click)="uploadImage()">
+    <div class="file-input-wrapper">
+      <div class="btn-file-input">
+        <i class="fa fa-plus"></i>
+      </div>
+    </div>
+  </div>
+</div>

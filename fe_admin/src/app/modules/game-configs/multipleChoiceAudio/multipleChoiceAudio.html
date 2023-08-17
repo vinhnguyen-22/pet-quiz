@@ -1,0 +1,88 @@
+<div>
+  <div class="mt-3" *ngFor="let c of configs; let i=index">
+    <div class="label-game-config d-flex">
+      <h6>Màn chơi {{i+1}}</h6>
+    </div>
+    <div class="row section-game">
+      <div class="col-md-12 col-sm-12 d-flex">
+        <div class="flex-grow-1">
+          <table class="table">
+            <tr>
+              <td class="align-middle" style="width: 20%">Đề bài (audio)</td>
+              <td style="width: 16%" *ngFor="let dt of c.DataItem;let i=index">
+                <button class="btn btn-secondary" *ngIf="i==0" (click)="uploadRecourse(c, 'audio')" type="button">Upload</button>
+                <a *ngIf="c.LinkAudio && i==0" target="_blank" [href]="c.LinkAudio" class="ml-3" style="font-size: 14px; text-decoration: underline"
+                  >Nghe thử</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td class="align-middle" style="width: 20%">Số lượng đáp án</td>
+              <td style="width: 16%">
+                <button
+                  (click)="choiceAnswerType(2, c)"
+                  type="button"
+                  class="btn btn-custom-default ml-2"
+                  [ngClass]="{'btn-active': c.DataItem.length == 2}"
+                >
+                  2 đáp án
+                </button>
+              </td>
+              <td style="width: 16%">
+                <button
+                  (click)="choiceAnswerType(3, c)"
+                  type="button"
+                  class="btn btn-custom-default ml-2"
+                  [ngClass]="{'btn-active': c.DataItem.length == 3}"
+                >
+                  3 đáp án
+                </button>
+              </td>
+              <td style="width: 16%">
+                <button
+                  (click)="choiceAnswerType(4, c)"
+                  type="button"
+                  class="btn btn-custom-default ml-2"
+                  [ngClass]="{'btn-active': c.DataItem.length == 4}"
+                >
+                  4 đáp án
+                </button>
+              </td>
+              <td style="width: 16%">
+                <button
+                  (click)="choiceAnswerType(5, c)"
+                  type="button"
+                  class="btn btn-custom-default ml-2"
+                  [ngClass]="{'btn-active': c.DataItem.length == 5}"
+                >
+                  5 đáp án
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <td class="align-middle" style="width: 20%">Hình ảnh đáp án</td>
+              <td style="width: 16%" *ngFor="let dt of c.DataItem;let j=index">
+                <app-input-img
+                  (setValueToChild)="setSrc($event, dt)"
+                  [currentUrl]="dt.LinkImg"
+                  type="thumbnail"
+                  [folder]="folderStore"
+                ></app-input-img>
+              </td>
+            </tr>
+            <tr>
+              <td class="align-middle" style="width: 20%">Đáp án đúng</td>
+              <td class="align-baseline" style="width: 16%" *ngFor="let dt of c.DataItem;let j=index">
+                <input type="radio" class="form-control" (change)="setCorrectAnswer(c,dt,j+1)" [checked]="c.KeyPass==j+1" [name]="'isCorrect'+i" />
+              </td>
+            </tr>
+          </table>
+        </div>
+        <a href="javascript:;" *ngIf="i > 0" title="Xóa màn chơi" class="p-3" (click)="removeSection(i)">
+          <i class="ki ki-bold-close icon-lg text-danger"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-outline-secondary mt-2" (click)="addNewSection()"><i class="ki ki-plus icon-sm"></i> Thêm màn chơi</button>
+</div>

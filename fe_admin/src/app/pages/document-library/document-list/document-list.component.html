@@ -1,0 +1,122 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <div class="d-flex align-items-center">
+        <h3 class="card-label" *ngIf="this.documentUsageType == $DOCUMENT_USAGE_TYPE.FOR_LESSON">Học liệu cho bài học</h3>
+        <!-- <h3 class="card-label" *ngIf="this.documentUsageType == $DOCUMENT_USAGE_TYPE.FOR_GAME">Học liệu cho game</h3> -->
+        <button type="button" class="btn btn-primary" (click)="navigateToAddDocumentScreen()"><i class="ki ki-plus"></i> Upload học liệu</button>
+      </div>
+    </div>
+    <div class="card-toolbar">
+      <div class="form-group row mb-0">
+        <div class="col-lg-6 mt-2">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Loại học liệu</span>
+            </div>
+            <select class="form-control" name="documentTypeId" [(ngModel)]="filter.documentTypeId" (change)="filterChanged()">
+              <option *ngFor="let documentType of this.documentTypes" [value]="documentType.id">{{ documentType.name }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-6 mt-2">
+          <div class="input-icon-custom">
+            <input
+              type="search"
+              class="form-control"
+              placeholder="Tìm kiếm theo tên học liệu"
+              [(ngModel)]="filter.name"
+              (ngModelChange)="filterChanged()"
+            />
+            <span><i class="flaticon2-search-1 icon-md"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body mt-3">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <tr>
+            <th scope="col" class="text-center" style="width: 5%">STT</th>
+            <th scope="col" style="width: 35%">Tên học liệu</th>
+            <th scope="col">Loại học liệu</th>
+            <th scope="col">Ngày tạo</th>
+            <th scope="col">Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let document of documents; let i = index">
+            <td class="text-center">{{ (dataPaging.page - 1) * dataPaging.pageSize + i + 1 }}</td>
+            <td style="word-break: break-all">
+              <ng-container *ngIf="!document.isUpdate">
+                {{ document.name }}
+              </ng-container>
+              <ng-container *ngIf="document.isUpdate">
+                <input
+                  type="text"
+                  class="form-control"
+                  [name]="'document' + i"
+                  [(ngModel)]="document.name"
+                  (blur)="onBlurMethod(document)"
+                  [class]="'document' + i"
+                />
+              </ng-container>
+            </td>
+            <td>
+              <div class="img-icon">
+                <img [src]="'./assets/icon-lesson/' + document.documentType + '.svg'" class="mr-2" loading="lazy" />
+                {{ document.documentType }}
+              </div>
+            </td>
+            <td>
+              {{ document.createdDate ? (document.createdDate * 1000 | date: 'dd/MM/yyyy hh:mm') : '' }}
+            </td>
+            <td>
+              <a title="Copy tên học liệu" href="javascript:;" (click)="copyDocumentName(document)">
+                <span
+                  [inlineSVG]="'./assets/media/svg/icons/General/Attachment1.svg'"
+                  cacheSVG="true"
+                  class="svg-icon svg-icon-md svg-icon-primary svg-icon-2x"
+                >
+                </span
+                >Copy tên học liệu
+              </a>
+              <a class="cursor-pointer ml-2" title="Xem học liệu" (click)="openPreviewDocumentModal(document)" target="_blank">
+                <span
+                  [inlineSVG]="'./assets/media/svg/icons/Media/DVD.svg'"
+                  cacheSVG="true"
+                  class="svg-icon svg-icon-md svg-icon-warning svg-icon-2x"
+                >
+                </span>
+                Xem học liệu
+              </a>
+              <a title="Chỉnh sửa thông tin học liệu" href="javascript:;" (click)="onUpdate('document' + i, document)" class="ml-2">
+                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true" class="svg-icon svg-icon-md svg-icon-primary">
+                </span>
+                Chỉnh sửa tên
+              </a>
+              <a title="Xoá" *ngIf="authenticationService.isAdmin()" href="javascript:;" class="text-danger ml-2" (click)="removeDocument(document)">
+                <span
+                  [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'"
+                  cacheSVG="true"
+                  class="svg-icon svg-icon-md svg-icon-danger svg-icon-2x"
+                >
+                </span
+                >Xóa
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <app-empty-table [length]="documents.length" [height]="100" text="Không có học liệu nào."></app-empty-table>
+  </div>
+  <div class="mx-5 d-flex justify-content-end">
+    <app-paging [data]="dataPaging" (dataChanged)="dataChanged($event)"></app-paging>
+  </div>
+</div>
+
+<app-modal-document [isOpen]="isOpen" [documentView]="documentView" (close)="close()"></app-modal-document>
+<common-modal #confirmationModal (newConfirmationEvent)="getConfirmationValue($event)"> </common-modal>

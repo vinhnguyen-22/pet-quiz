@@ -1,0 +1,125 @@
+<app-loading [isLoading]="isLoading"></app-loading>
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="d-flex align-items-center my-2">
+      <div class="card-title">
+        <h3 class="card-label mr-10">Danh sách trường học</h3>
+      </div>
+      <button type="button" class="btn btn-outline-secondary" routerLink="add"><i class="ki ki-plus"></i> Thêm trường học</button>
+      <button type="button" class="btn btn-outline-secondary ml-2" *ngIf="objectDataTable.datas.length > 0" (click)="exportExcel()">
+        <i class="ki ki-long-arrow-down"></i>Tải về
+      </button>
+    </div>
+    <div class="card-toolbar">
+      <div class="form-group row">
+        <div class="col-lg-4">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Tỉnh/Thành phố</span>
+            </div>
+            <select name="sl-program" class="form-control" (change)="changeFilter($event, 'provinceCode')" [(ngModel)]="filter.provinceCode">
+              <option value="0">Tất cả</option>
+              <option *ngFor="let p of provinces" [value]="p?.code">
+                {{ p?.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Quận/Huyện</span>
+            </div>
+            <select name="sl-topic" class="form-control" (change)="changeFilter($event, 'districtCode')" [(ngModel)]="filter.districtCode">
+              <option value="0">Tất cả</option>
+              <option *ngFor="let d of districts" [value]="d.code">
+                {{ d.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="input-icon-custom">
+            <input
+              type="search"
+              class="form-control"
+              placeholder="Tìm kiếm tên trường"
+              [(ngModel)]="filter.searchTerm"
+              (change)="changeFilter($event, 'searchTerm')"
+              name="searchTerm"
+            />
+            <span><i class="flaticon2-search-1 icon-md"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <tr>
+            <th style="width: 3%">Stt</th>
+            <th *ngFor="let header of objectDataTable.headers; let i = index" [ngStyle]="{ width: header.width }">
+              {{ header.value }}
+            </th>
+            <th style="width: 215px">Phương thức triển khai</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let school of objectDataTable.datas; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td *ngFor="let header of objectDataTable.headers">
+              {{ school[header.key] }}
+            </td>
+            <td>
+              <select
+                class="form-control form-control-sm text-primary font-weight-bold mr-4 border-0"
+                [name]="'select'"
+                (ngModelChange)="changeImplementationType(school, $event)"
+                [(ngModel)]="school.implementType"
+                [disabled]="school?.listTeachers?.length > 0 && school.implementType == $SCHOOL_IMPLEMENTATION_TYPE.HIRING_TEACHER"
+              >
+                <option value="0" *ngIf="school.implementType == $SCHOOL_IMPLEMENTATION_TYPE.NOT_IMPLEMENTED">Chưa triển khai</option>
+                <option [ngValue]="t.key" *ngFor="let t of implementType">
+                  {{ t.value }}
+                </option>
+              </select>
+            </td>
+            <td>
+              <a title="Edit school" class="mr-2" [routerLink]="'edit/' + school.id"> Sửa </a>
+              <a
+                title="Xoá"
+                href="javascript:;"
+                class="text-danger mr-2"
+                (click)="removeSchool(school)"
+              >
+                Xóa
+              </a>
+              <a
+                href="javascript:;"
+                *ngIf="school.implementType != $SCHOOL_IMPLEMENTATION_TYPE.NOT_IMPLEMENTED"
+                class="mr-2"
+                (click)="implement(school.id, 'program')"
+              >
+                Chọn chương trình
+              </a>
+              <a
+                href="javascript:;"
+                *ngIf="school.implementType != $SCHOOL_IMPLEMENTATION_TYPE.NOT_IMPLEMENTED"
+                class="mr-2"
+                (click)="implement(school.id, 'teacher')"
+              >
+                Chọn giáo viên
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-empty-table [length]="objectDataTable.datas?.length" [height]="100" text="Không có trường học."></app-empty-table>
+    </div>
+    <!-- end: Table -->
+  </div>
+</div>
+<common-modal #confirmationModal (newConfirmationEvent)="getConfirmationValue($event)"> </common-modal>

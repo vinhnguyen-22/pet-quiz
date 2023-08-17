@@ -1,0 +1,144 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">
+        <ng-container *ngIf="teacher"> {{ id ? 'Chỉnh sửa giáo viên' : 'Thêm mới giáo viên' }} </ng-container>
+      </h3>
+    </div>
+    <div class="card-toolbar">
+      <button type="button" class="btn btn-light" routerLink="/center-management/teachers"><i class="fa fa-arrow-left"></i>Quay lại</button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="mt-5" *ngIf="formGroup">
+      <form action="#" class="form form-label-right" (ngSubmit)="save()" [formGroup]="formGroup">
+        <div class="form-group row">
+          <!-- <div class="col-xl-6">
+            <label>Mã giáo viên </label>
+            <input class="form-control" name="code" disabled formControlName="code" />
+          </div> -->
+          <div class="col-lg-6 mt-3">
+            <label>Họ và tên <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              name="userName"
+              [class.is-invalid]="isControlInvalid('userName')"
+              [class.is-valid]="isControlValid('userName')"
+              formControlName="userName"
+            />
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'userName')">Vui lòng nhập tên giáo viên</div>
+          </div>
+
+          <div class="col-lg-6 mt-3">
+            <label>Email <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              name="email"
+              formControlName="email"
+              [class.is-invalid]="isControlInvalid('email')"
+              [class.is-valid]="isControlValid('email')"
+            />
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'email')">Vui lòng nhập email</div>
+            <div class="invalid-feedback" *ngIf="controlHasError('email', 'email')">Vui lòng đúng định dạng email</div>
+          </div>
+
+          <div class="col-lg-6 mt-3">
+            <label>Giới tính</label>
+            <select class="form-control" name="gender" formControlName="gender">
+              <option value="1">Nam</option>
+              <option value="2">Nữ</option>
+            </select>
+          </div>
+          <div class="col-xl-6 mt-3">
+            <label>Ngày sinh</label>
+            <input
+              class="form-control"
+              type="date"
+              [max]="dateNow | date: 'yyyy-MM-dd'"
+              formControlName="dateOfBirth"
+              [class.is-invalid]="isControlInvalid('dateOfBirth')"
+              [class.is-valid]="isControlValid('dateOfBirth')"
+              name="dateOfBirth"
+            />
+          </div>
+          <div class="col-lg-6 mt-3">
+            <label
+              >Số điện thoại
+              <span class="text-danger">*</span>
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              name="phoneNumber"
+              formControlName="phoneNumber"
+              [class.is-invalid]="isControlInvalid('phoneNumber')"
+              [class.is-valid]="isControlValid('phoneNumber')"
+              maxlength="11"
+              minlength="10"
+            />
+            <div class="invalid-feedback" *ngIf="controlHasError('required', 'phoneNumber')">Vui lòng nhập số điện thoại</div>
+            <div class="invalid-feedback" *ngIf="controlHasError('pattern', 'phoneNumber')">Số điện thoại định dạng sai</div>
+          </div>
+          <!-- <div class="col-xl-6 mt-3">
+            <label>Dân tộc</label>
+            <select
+              class="form-control"
+              name="ethnicId"
+              formControlName="ethnicId"
+              [class.is-invalid]="isControlInvalid('ethnicId')"
+              [class.is-valid]="isControlValid('ethnicId')"
+            >
+              <option value="">Chọn dân tộc</option>
+              <option *ngFor="let ethnic of ethnics" [value]="ethnic.id">
+                {{ ethnic.name }}
+              </option>
+            </select>
+          </div> -->
+          <div class="col-xl-6 mt-3">
+            <label>Quốc tịch</label>
+            <select class="form-control" name="nationalityId" formControlName="nationalityId">
+              <option *ngFor="let country of countries" [value]="country.id">{{ country.englishName }} ({{ country.vietnameseName }})</option>
+            </select>
+          </div>
+          <div class="col-xl-6 mt-3">
+            <label>Ngày vào làm <span class="text-danger">*</span></label>
+            <input
+              class="form-control"
+              type="date"
+              [max]="dateNow | date: 'yyyy-MM-dd'"
+              formControlName="dateStart"
+              [class.is-invalid]="isControlInvalid('dateStart')"
+              [class.is-valid]="isControlValid('dateStart')"
+              name="dateStart"
+            />
+          </div>
+          <div class="col-lg-6 mt-3">
+            <label>Trạng thái</label>
+            <select class="form-control" name="status" formControlName="status">
+              <option [value]="r.key" *ngFor="let r of status">
+                {{ r.value }}
+              </option>
+            </select>
+          </div>
+          <div class="col-xl-6 mt-3">
+            <label> Địa chỉ</label>
+            <input class="form-control" name="address" placeholder="Vd: Số 15 Duy Tân, Quận Cầu Giấy, Hà Nội" formControlName="address" />
+          </div>
+        </div>
+        <div class="float-right mb-3">
+          <a class="btn btn-default font-weight-bold mr-2" routerLink="/center-management/teachers">Hủy bỏ</a>
+          <button
+            type="submit"
+            class="btn btn-primary font-weight-bold mr-2 spinner-white spinner-right"
+            [disabled]="formGroup?.invalid || isLoading"
+            [ngClass]="{ spinner: isLoading }"
+          >
+            Lưu lại
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

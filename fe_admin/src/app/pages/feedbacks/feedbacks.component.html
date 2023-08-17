@@ -1,0 +1,65 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Danh sách góp ý</h3>
+    </div>
+    <div class="card-toolbar">
+      <div class="form form-label-right">
+        <div class="form-group row mb-0">
+          <div class="col-lg-6 mt-2">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Tổ chức</span>
+              </div>
+              <select class="form-control" name="organId" [(ngModel)]="filter.organId" (change)="changeFilter()">
+                <option value="0">Tất cả</option>
+                <option *ngFor="let ca of organizations" [value]="ca.id">
+                  {{ ca.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-6 mt-2">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Danh mục</span>
+              </div>
+              <select class="form-control" name="category" [(ngModel)]="filter.category" (change)="changeFilter()">
+                <option value="">Tất cả</option>
+                <option *ngFor="let ca of categories" [value]="ca">
+                  {{ ca }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body mt-3">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <tr>
+            <th *ngFor="let header of objectDataTable.headers; let i = index" [ngStyle]="{ width: header.width }">
+              {{ header.value }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of objectDataTable.datas; let i = index">
+            <td *ngFor="let header of objectDataTable.headers; let j = index">
+              <ng-container *ngIf="header.key == 'createdDate'">
+                {{ data[header.key] ? (data[header.key] * 1000 | date: this.sharedService.getDateFormat()) : '' }}
+              </ng-container>
+              <ng-container *ngIf="header.key != 'createdDate'">
+                {{ data[header.key] }}
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-empty-table *ngIf="!loading" [length]="objectDataTable.datas?.length" [height]="100" text="Không có góp ý."></app-empty-table>
+    </div>
+  </div>
+</div>

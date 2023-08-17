@@ -1,0 +1,38 @@
+.box-group-custom {
+  & > div {
+    & > div {
+      background-color: #fff;
+    }
+  }
+  ::ng-deep {
+    .btn-file-input {
+      width: 16px !important;
+      height: 16px !important;
+      top: calc(50% - 8px) !important;
+      right: calc(50% - 8px) !important;
+    }
+  }
+
+  & > div {
+    padding-left: 10px;
+    & > div {
+      border: 1px solid rgba(177, 183, 193, 0.5);
+      border-radius: 4px;
+      & > div + div {
+        border-top: 1px solid rgba(177, 183, 193, 0.5);
+      }
+      & > div {
+        padding-left: 10px;
+      }
+    }
+  }
+}
+.btn-group-custom {
+  padding-left: 10px;
+  button + button {
+    margin-left: 10px;
+  }
+  button {
+    background-color: #fff;
+  }
+}

@@ -1,0 +1,161 @@
+<table cTable hover>
+  <thead>
+    <tr>
+      <th
+        *ngFor="let header of objectDataTable.headers; let i = index"
+        [ngStyle]="{width:header.width}"
+      >
+        {{header.value}}
+      </th>
+      <th *ngIf="objectDataTable.actions.length > 0" style="width: 10%">
+        Hành động
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of objectDataTable.datas; let i = index">
+      <td *ngFor="let header of objectDataTable.headers; let j = index">
+        <div class="box-img thumbnail" *ngIf="header.type=='image'">
+          <div class="img">
+            <img
+              [src]="data[header.key]"
+              alt="img"
+              onerror="this.src='assets/default.png'"
+              style="width: 100%; height: auto"
+            />
+          </div>
+        </div>
+        <span
+          *ngIf="header.type=='status'"
+          class="label label-lg label-inline"
+          [class.label-light-success]="data[header.key] === 1"
+          [class.label-light-primary]="data[header.key] === 2"
+        >
+          <ng-container>{{data[header.key]}}</ng-container>
+        </span>
+        <span *ngIf="header.type=='day-time'">
+          {{data[header.key]| date:'dd/MM/yyyy hh:mm:ss'}}
+        </span>
+        <span *ngIf="header.type=='day'">
+          {{data[header.key]| date:'dd/MM/yyyy'}}
+        </span>
+        <span
+          *ngIf="header.type=='text'||header.type==null"
+          class="desc wrapword"
+        >
+          {{data[header.key]}}
+        </span>
+        <span
+          *ngIf="header.type=='html'"
+          [innerHTML]="data[header.key]"
+          class="desc wrapword"
+        ></span>
+      </td>
+      <td *ngFor="let action of objectDataTable.actions">
+        <a
+          href="javascript:;"
+          (click)="handleActions(action.key, data.id)"
+          class="a-custom"
+        >
+          {{action.value}}
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="table table-head-custom table-vertical-center overflow-hidden">
+  <thead>
+    <th
+      *ngFor="let header of objectDataTable.headers; let i = index"
+      [ngStyle]="{width:header.width}"
+    >
+      {{header.value}}
+    </th>
+    <th *ngIf="objectDataTable.actions.length > 0" style="width: 10%">
+      Hành động
+    </th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of objectDataTable.datas; let i = index">
+      <td *ngFor="let header of objectDataTable.headers; let j = index">
+        <div class="box-img thumbnail" *ngIf="header.type=='image'">
+          <div class="img">
+            <img
+              [src]="data[header.key]"
+              alt="img"
+              onerror="this.src='assets/default.png'"
+              style="width: 100%; height: auto"
+            />
+          </div>
+        </div>
+        <app-status
+          [status]="data[header.key]"
+          *ngIf="header.type=='status'"
+        ></app-status>
+        <span
+          *ngIf="header.type=='status'"
+          class="label label-lg label-inline"
+          [class.label-light-success]="data[header.key] === 1"
+          [class.label-light-primary]="data[header.key] === 2"
+        >
+          <ng-container>{{data[header.key]}}</ng-container>
+        </span>
+        <span *ngIf="header.type=='day-time'">
+          {{data[header.key]| date:'dd/MM/yyyy hh:mm:ss'}}
+        </span>
+        <span *ngIf="header.type=='day'">
+          {{data[header.key]| date:'dd/MM/yyyy'}}
+        </span>
+        <span
+          *ngIf="header.type=='text'||header.type==null"
+          class="desc wrapword"
+        >
+          {{data[header.key]}}
+        </span>
+        <span
+          *ngIf="header.type=='html'"
+          [innerHTML]="data[header.key]"
+          class="desc wrapword"
+        ></span>
+      </td>
+      <td *ngFor="let action of objectDataTable.actions">
+        <a
+          href="javascript:;"
+          (click)="handleActions(action.key, data.id)"
+          class="a-custom"
+        >
+          {{action.value}}
+        </a>
+      </td>
+      <td>
+        <a
+          title="Edit product"
+          class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+          [routerLink]="'edit/' + product.id"
+        >
+          <span
+            [inlineSVG]="
+            './assets/media/svg/icons/Communication/Write.svg'
+          "
+            cacheSVG="true"
+            class="svg-icon svg-icon-md svg-icon-primary"
+          >
+          </span>
+        </a>
+        <a
+          title="Delete product"
+          class="btn btn-icon btn-light btn-hover-danger btn-sm"
+          (click)="delete(product.id)"
+        >
+          <span
+            [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'"
+            cacheSVG="true"
+            class="svg-icon svg-icon-md svg-icon-danger"
+          >
+          </span>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>

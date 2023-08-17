@@ -1,0 +1,50 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">
+        <ng-container *ngIf="_new">
+          {{ id ? 'Chỉnh sửa' : 'Thêm mới' }}
+        </ng-container>
+      </h3>
+    </div>
+    <div class="card-toolbar">
+      <button type="button" class="btn btn-light" routerLink="/new-management"><i class="fa fa-arrow-left"></i>Quay lại</button>
+    </div>
+  </div>
+  <div class="card-body mb-3">
+    <div class="mt-5" *ngIf="_new">
+      <form action="#" class="form form-label-right" (ngSubmit)="save()">
+        <div class="form-group row">
+          <div class="col-lg-6">
+            <label>Tiêu đề <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" [(ngModel)]="_new.title" name="title" />
+          </div>
+          <div class="col-lg-3">
+            <label>Danh mục <span class="text-danger">*</span></label>
+            <select [(ngModel)]="_new.category" class="form-control" name="category">
+              <option *ngFor="let ca of categories" [value]="ca">
+                {{ ca }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-lg-6">
+            <label>Nội dung <span class="text-danger">*</span></label>
+            <ckeditor [editor]="Editor" name="content" [(ngModel)]="_new.content"></ckeditor>
+          </div>
+          <div class="col-lg-3">
+            <label>Ảnh bìa</label>
+            <app-input-img (setValueToChild)="setSrc($event)" [currentUrl]="_new.image" type="thumbnail" folder="news"></app-input-img>
+          </div>
+        </div>
+
+        <div class="float-right">
+          <a class="btn btn-default font-weight-bold mr-2" routerLink="/new-management">Hủy bỏ</a>
+          <button type="submit" class="btn btn-primary font-weight-bold mr-2" [disabled]="!_new.title || !_new.content">Lưu lại</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

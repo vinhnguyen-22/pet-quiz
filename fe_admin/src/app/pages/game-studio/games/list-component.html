@@ -1,0 +1,130 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <div class="d-flex align-items-center">
+        <h3 class="card-label">Game Studio</h3>
+        <button type="button" class="btn btn-outline-secondary" routerLink="add"><i class="ki ki-plus"></i> Tạo game mới</button>
+      </div>
+    </div>
+    <div class="card-toolbar">
+      <div class="form form-label-right">
+        <div class="form-group row mb-0">
+          <div class="col-lg-6 mt-2">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Loại game</span>
+              </div>
+              <select class="form-control" name="gameTypeId" [(ngModel)]="filter.gameTypeId" (change)="filterChanged()">
+                <option [value]="0">Tất cả</option>
+                <option *ngFor="let type of gameTypes" [value]="type.id">{{type.typeName}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-6 mt-2">
+            <div class="input-icon-custom">
+              <input
+                class="form-control"
+                name="name"
+                type="search"
+                [(ngModel)]="filter.name"
+                placeholder="Tìm kiếm game"
+                (change)="filterChanged()"
+              />
+              <span><i class="flaticon2-search-1 icon-md"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body mt-3">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 3%">STT</th>
+            <th scope="col">Ảnh Game</th>
+            <th scope="col">Tên Game</th>
+            <th scope="col">Cập nhật gần nhất bởi</th>
+            <th scope="col" style="width: 14%">Thời gian</th>
+            <th scope="col" class="text-center">Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let game of games; let i=index">
+            <td class="text-center">{{ (dataPaging.page - 1) * dataPaging.pageSize + i + 1 }}</td>
+            <td>
+              <img style="width: 170px; height: 100px" [src]="game.gameImage" loading="lazy" />
+            </td>
+            <td>{{game.gameName}}</td>
+            <td>{{ game?.lastModifiedByUser?.userName }}</td>
+            <td>{{ game?.lastModifiedDate ? (game.lastModifiedDate * 1000 | date: this.sharedService.getDateFormat()) : ''}}</td>
+            <td>
+              <a title="Chỉnh sửa thông tin game" [routerLink]="'edit/' + game.id">
+                <span
+                  [inlineSVG]="
+                    './assets/media/svg/icons/Communication/Write.svg'
+                  "
+                  cacheSVG="true"
+                  class="svg-icon svg-icon-md svg-icon-primary"
+                >
+                </span>
+                Chỉnh sửa thông tin
+              </a>
+              <a title="Xoá" *ngIf="auth.isAdmin()" href="javascript:;" class="text-danger ml-2" (click)="remove(game)">
+                <span
+                  [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'"
+                  cacheSVG="true"
+                  class="svg-icon svg-icon-md svg-icon-danger svg-icon-2x"
+                >
+                </span
+                >Xóa
+              </a>
+              <br />
+              <a title="Sao chép link game" href="javascript:;" (click)="copyLinkGame(game)">
+                <span
+                  [inlineSVG]="'./assets/media/svg/icons/General/Attachment1.svg'"
+                  cacheSVG="true"
+                  class="svg-icon svg-icon-md svg-icon-primary svg-icon-2x"
+                >
+                </span
+                >Copy link
+              </a>
+              <a title="Xem thông tin game" href="javascript:;" class="mx-3" (click)="openModal(game)">
+                <span
+                  [inlineSVG]="'./assets/media/svg/icons/Media/DVD.svg'"
+                  cacheSVG="true"
+                  class="svg-icon svg-icon-md svg-icon-warning svg-icon-2x"
+                >
+                </span>
+                Xem trước
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-empty-table [length]="games?.length" *ngIf="!isGameEmpty" [height]="100" text="Không có dữ liệu."></app-empty-table>
+    </div>
+    <div class="mx-5 d-flex justify-content-end">
+      <app-paging [data]="dataPaging" (dataChanged)="dataChanged($event)"></app-paging>
+    </div>
+  </div>
+</div>
+<ng-template #ModalView let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="font-size-h4 font-weight-bolder">{{ gameView.name }}</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="c('Cross click')">
+      <i aria-hidden="true" class="ki ki-close"></i>
+    </button>
+  </div>
+  <div class="modal-body p-0">
+    <div class="player-doc">
+      <div class="player">
+        <iframe [title]="gameView.name" width="100%" height="100%" id="gameControl" #gameX></iframe>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<common-modal #confirmationModal (newConfirmationEvent)="getConfirmationValue($event)"> </common-modal>

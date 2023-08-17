@@ -1,0 +1,120 @@
+<div class="card card-custom gutter-b">
+  <div class="card-body py-4">
+    <div class="card-title">
+      <h3 class="card-title align-items-start flex-column mb-2">
+        <span class="card-label"> Hotline hỗ trợ khách hàng </span>
+      </h3>
+      <p>Hotline sẽ được hiển thị trên hệ thống CMS, LMS và APP KIDSEnglish để phục vụ cho việc chăm sóc khách hàng</p>
+    </div>
+    <div class="row mt-5">
+      <div class="col-lg-12">
+        <h5><b>Hotline tổng đài chung</b></h5>
+      </div>
+      <div class="col-lg-12">
+        <form action="#" class="form form-label-right" [formGroup]="mainContactForm" *ngIf="mainContactForm">
+          <div class="form-group row">
+            <div class="col-lg-4">
+              <label>SĐT Hotline</label>
+              <input
+                type="text"
+                class="form-control"
+                name="phoneNumber"
+                formControlName="phoneNumber"
+                placeholder="Nhập số điện thoại"
+                [class.is-invalid]="isControlInvalid(mainContactForm, 'phoneNumber')"
+                [class.is-valid]="isControlValid(mainContactForm, 'phoneNumber')"
+              />
+              <div class="invalid-feedback" *ngIf="controlHasError(mainContactForm, 'required', 'phoneNumber')">Vui lòng nhập số Hotline</div>
+            </div>
+            <div class="col-lg-4">
+              <label>Thời gian làm việc</label>
+              <input
+                type="text"
+                class="form-control"
+                name="timeServing"
+                formControlName="timeServing"
+                placeholder="VD: 8h00 - 17h00 Thứ Hai đến Thứ 6"
+                [class.is-invalid]="isControlInvalid(mainContactForm, 'timeServing')"
+                [class.is-valid]="isControlValid(mainContactForm, 'timeServing')"
+              />
+              <div class="invalid-feedback" *ngIf="controlHasError(mainContactForm, 'required', 'timeServing')">Vui lòng nhập thời gian làm việc</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-lg-12">
+        <h5><b>Hotline hỗ trợ riêng theo khu vực</b></h5>
+      </div>
+      <div class="col-lg-12" *ngFor="let c of subContactForm.controls; index as i">
+        <ng-container [ngTemplateOutlet]="contactTemplate" [ngTemplateOutletContext]="{ c: c, i: i }"></ng-container>
+      </div>
+      <div class="col-lg-12">
+        <button type="button" (click)="addContact()" class="btn btn-outline-secondary mt-5"><i class="ki ki-plus"></i> Thêm số Hotline</button>
+      </div>
+    </div>
+    <div class="pb-lg-0 pb-5 d-flex justify-content-end">
+      <button
+        class="btn btn-success font-weight-bold text-uppercase px-9 py-4 spinner-white spinner-right"
+        (click)="updateContacts()"
+        [ngClass]="{ spinner: isSubmitted }"
+        [disabled]="isSubmitted || subContactForm?.invalid || mainContactForm?.invalid"
+      >
+        Lưu lại
+      </button>
+    </div>
+  </div>
+</div>
+<ng-template #contactTemplate let-c="c" let-i="i">
+  <form action="#" class="form form-label-right" [formGroup]="c" *ngIf="c">
+    <div class="form-group row">
+      <div class="col-lg-4">
+        <label>Khu vực</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Miền Bắc"
+          name="area"
+          formControlName="area"
+          [class.is-invalid]="isControlInvalid(c, 'area')"
+          [class.is-valid]="isControlValid(c, 'area')"
+        />
+        <div class="invalid-feedback" *ngIf="controlHasError(c, 'required', 'area')">Vui lòng nhập tên khu vực</div>
+      </div>
+      <div class="col-lg-3">
+        <label>SĐT Hotline</label>
+        <input
+          type="text"
+          class="form-control"
+          name="phoneNumber"
+          formControlName="phoneNumber"
+          placeholder="Nhập số điện thoại"
+          [class.is-invalid]="isControlInvalid(c, 'phoneNumber')"
+          [class.is-valid]="isControlValid(c, 'phoneNumber')"
+        />
+        <div class="invalid-feedback" *ngIf="controlHasError(c, 'required', 'phoneNumber')">Vui lòng nhập số Hotline</div>
+      </div>
+      <div class="col-lg-4">
+        <label>Thời gian làm việc</label>
+        <input
+          type="text"
+          class="form-control"
+          name="timeServing"
+          formControlName="timeServing"
+          placeholder="VD: 8h00 - 17h00 Thứ Hai đến Thứ 6"
+          [class.is-invalid]="isControlInvalid(c, 'timeServing')"
+          [class.is-valid]="isControlValid(c, 'timeServing')"
+        />
+        <div class="invalid-feedback" *ngIf="controlHasError(c, 'required', 'timeServing')">Vui lòng nhập thời gian làm việc</div>
+      </div>
+      <div class="col-lg-1 d-flex align-items-center">
+        <a title="Xoá" href="javascript:;" class="text-danger ml-2" (click)="remove(i)">
+          <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true" class="svg-icon svg-icon-md svg-icon-danger svg-icon-2x">
+          </span>
+          Xóa
+        </a>
+      </div>
+    </div>
+  </form>
+</ng-template>

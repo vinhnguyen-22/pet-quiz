@@ -1,0 +1,12 @@
+::ng-deep {
+  .selected-item {
+    max-width: none !important;
+    background: #ebedef !important;
+    border-color: #ebedef !important;
+    color: #000 !important;
+    margin-bottom: 4px;
+    a {
+      color: #000 !important;
+    }
+  }
+}

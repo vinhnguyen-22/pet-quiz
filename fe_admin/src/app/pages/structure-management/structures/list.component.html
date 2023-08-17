@@ -1,0 +1,70 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <div class="d-flex align-items-center">
+        <h3 class="card-label">Cấu trúc phần học</h3>
+        <button type="button" class="btn btn-outline-secondary" routerLink="add"><i class="ki ki-plus"></i> Thêm cấu trúc</button>
+      </div>
+    </div>
+    <div class="card-toolbar">
+      <div class="form form-label-right">
+        <div class="form-group row mb-0">
+          <div class="col-lg-12">
+            <div class="input-icon-custom">
+              <input
+                type="search"
+                class="form-control"
+                placeholder="Tìm cấu trúc phần học"
+                [(ngModel)]="filter.searchTerm"
+                (ngModelChange)="changeFilter()"
+              />
+              <span><i class="flaticon2-search-1 icon-md"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body mt-3">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <tr>
+            <th style="width: 5%">Stt</th>
+            <th *ngFor="let header of objectDataTable.headers; let i = index" [ngStyle]="{ width: header.width }">
+              {{ header.value }}
+            </th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let structure of objectDataTable.datas; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td *ngFor="let header of objectDataTable.headers">
+              <ng-container *ngIf="header.key == 'createdDate'">
+                {{ structure[header.key] | date: this.sharedService.getDateFormat() }}
+              </ng-container>
+              <ng-container *ngIf="header.key != 'createdDate'">
+                {{ structure[header.key] }}
+              </ng-container>
+            </td>
+            <td>
+              <a title="Edit structure" [routerLink]="'edit/' + structure.id">
+                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true" class="svg-icon svg-icon-md svg-icon-primary">
+                </span>
+                Chỉnh sửa thông tin
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-empty-table [length]="objectDataTable.datas?.length" [height]="100" text="Không có cấu trúc học."></app-empty-table>
+    </div>
+    <!-- <app-paginator
+      class="d-flex justify-content-between align-items-center flex-wrap"
+      [paginator]="paginator"
+      [isLoading]="isLoading"
+      (paginate)="paginate($event)"
+    ></app-paginator> -->
+  </div>
+</div>

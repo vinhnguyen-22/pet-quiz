@@ -1,0 +1,111 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">
+        <ng-container *ngIf="this.documentUsageType == $DOCUMENT_USAGE_TYPE.FOR_LESSON"> Thêm học liệu cho bài học </ng-container>
+        <!-- <ng-container *ngIf="this.documentUsageType == $DOCUMENT_USAGE_TYPE.FOR_GAME"> Thêm học liệu cho game </ng-container> -->
+      </h3>
+    </div>
+    <div class="card-toolbar">
+      <button
+        type="button"
+        class="btn btn-light"
+        [routerLink]="'/document-library/' + (this.documentUsageType == $DOCUMENT_USAGE_TYPE.FOR_LESSON ? 'lesson' : 'game')"
+      >
+        <i class="fa fa-arrow-left"></i>Quay lại
+      </button>
+    </div>
+  </div>
+
+  <div class="card-body mb-5">
+    <div class="mt-2">
+      <h5>Lưu ý:</h5>
+      - Định dạng tệp tin cho phép upload: mp3, mp4, jpg, jpeg, png, gif
+      <br />
+      - Có thể chọn nhiều tệp trong mỗi lần upload
+      <br />
+      - Dung lượng tệp tin tối đa mỗi lần tải lên: 1GB
+      <br />
+      - Vui lòng không thoát khỏi trang cho đến khi hoàn tất quá trình upload.
+    </div>
+    <div draggable="true" class="mt-5" (click)="fileInput.click()" ngClass="{{ dragAreaClass }}">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <a href="javascript:void(0)">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M23.8636 8.50605V6.87272C23.8636 6.26605 23.3715 5.77817 22.7691 5.77817H9.52845C9.23996 5.77817 8.95996 5.66363 8.75208 5.45575L7.2036 3.90726C6.99996 3.70363 6.71996 3.58484 6.42724 3.58484H1.95148C1.34481 3.58484 0.856934 4.07696 0.856934 4.67938V16.8891L2.71512 8.50605H23.8636Z"
+                fill="#388EE9"
+              />
+              <path
+                d="M17.3854 16.8128C17.7842 14.6364 19.5236 12.8843 21.6957 12.4685C23.2145 12.1758 24.6484 12.5237 25.7854 13.2788L26.303 10.9413C26.4557 10.2582 25.9339 9.60913 25.2339 9.60913H3.59754L0.899356 21.7467C0.593901 23.117 1.63754 24.4109 3.03754 24.4109H21.5557C22.3745 24.4109 23.0957 23.9528 23.4733 23.2655C23.24 23.2952 23.0066 23.3164 22.7648 23.3164C19.4133 23.3206 16.7491 20.2831 17.3854 16.8128Z"
+                fill="#388EE9"
+              />
+              <path
+                d="M22.769 13.4569C20.3508 13.4569 18.3866 15.4169 18.3866 17.8393C18.3866 20.2575 20.3466 22.2218 22.769 22.2218C25.1914 22.2218 27.1514 20.2618 27.1514 17.8393C27.1514 15.4212 25.1914 13.4569 22.769 13.4569ZM24.8987 18.0218C24.6866 18.2339 24.3387 18.2339 24.1224 18.0218L23.3121 17.2115V19.7908C23.3121 20.0921 23.066 20.3381 22.7648 20.3381C22.4636 20.3381 22.2175 20.0921 22.2175 19.7908V17.2115L21.4114 18.0175C21.1314 18.2975 20.7454 18.1236 20.6351 18.0175C20.423 17.8054 20.423 17.4575 20.6351 17.2412L22.3787 15.4975C22.4763 15.3999 22.6163 15.3363 22.7648 15.3363C22.9175 15.3363 23.0533 15.3999 23.1508 15.4975L24.8945 17.2412C25.1151 17.4618 25.1151 17.8054 24.8987 18.0218Z"
+                fill="#388EE9"
+              />
+            </svg>
+            Tải lên tập tin từ máy tính
+          </a>
+          <!-- <input
+            id="fileInput"
+            type="file"
+            #file
+            [multiple]="true"
+            (change)="onFileChange($event)"
+            accept="{{ acceptAttributes }}"
+            style="display: none"
+          /> -->
+          <app-input-document [documentUsageType]="documentUsageType" (setInput)="setInput($event)" [fileData]="fileData"></app-input-document>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table table-head-custom table-vertical-center overflow-hidden">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center" style="width: 5%">STT</th>
+        <th scope="col" style="width: 20%">Tên tập tin</th>
+        <th scope="col" style="width: 20%">Tên học liệu</th>
+        <th scope="col" style="width: 20%">Trạng thái</th>
+        <th scope="col" style="width: 20%">Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let file of this.filesToUpload; let fileIndex = index">
+        <td class="text-center">
+          {{ fileIndex + 1 }}
+        </td>
+        <td>
+          {{ file.fileName }}
+        </td>
+        <td>
+          <ng-container *ngIf="!file.isUpdate">
+            {{ file.name }}
+          </ng-container>
+          <ng-container *ngIf="file.isUpdate">
+            <input
+              type="text"
+              class="form-control"
+              [name]="'document' + fileIndex"
+              [(ngModel)]="file.name"
+              (blur)="onBlurMethod($event, file)"
+              [class]="'document' + fileIndex"
+            />
+          </ng-container>
+        </td>
+        <td *ngIf="file.status !== this.FILE_UPLOAD_STATUS.DOCUMENT_CREATED_ERROR">
+          {{ file.message }}
+        </td>
+        <td class="error" *ngIf="file.status === this.FILE_UPLOAD_STATUS.DOCUMENT_CREATED_ERROR">
+          {{ file.message }}
+        </td>
+        <td>
+          <a href="javascript:;" (click)="onUpdate('document' + fileIndex, file)" *ngIf="file.id"> Sửa tên học liệu</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <app-empty-table [length]="filesToUpload?.length" *ngIf="filesToUpload?.length == 0" [height]="100" text=""></app-empty-table>
+</div>

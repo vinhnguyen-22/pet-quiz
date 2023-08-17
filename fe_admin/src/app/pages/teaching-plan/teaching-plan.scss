@@ -1,0 +1,48 @@
+.text-line-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-height: 1.5em;
+  min-height: 4.5em;
+}
+.text-line-2 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.5em;
+  min-height: 3em;
+}
+.custom_input--teachingplan {
+  border-top: 1px solid #c0c0c0;
+  border-bottom: 1px solid #c0c0c0;
+  padding: 10px 20px;
+  margin: 10px 0;
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  i {
+    height: 100%;
+  }
+  input {
+    border: 0 !important;
+    padding: 0 !important;
+  }
+}
+.radio {
+  & > span {
+    background-color: white;
+    border: 1px solid #c0c0c0;
+  }
+}
+.custom-scoll-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: calc(100vh - 450px);
+}

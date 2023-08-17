@@ -1,0 +1,96 @@
+<div>
+    <div *ngFor="let c of configs; let configIndex=index">
+      <!-- scene info row start -->
+      <div class="d-flex align-items-center">
+        <h6 class="flex-grow-1 mb-0">Màn chơi {{configIndex+1}}</h6>
+        <a href="javascript:;" (click)="removeGameScene(configIndex)">
+          <i class="ki ki-bold-close icon-lg text-danger"></i>
+        </a>
+      </div>
+      <!-- scene info row end -->
+      <div class="classify2-game-scene-wrapper border rounded">
+        <!-- word type row start -->
+        <div class="pt-4 d-flex align-items-center">
+          <div class="col-sm-2 col-3">
+            <label class="mb-0 pl-4">Nhóm từ số 1</label>
+          </div>
+          <div class="col-sm-4 col-3">
+            <input class="form-control" type="text" placeholder="Tên nhóm từ" [(ngModel)]="c.TextLeft"/>
+          </div>
+          <div class="col-sm-2 col-3">
+            <label class="mb-0 pl-4">Nhóm từ số 2</label>
+          </div>
+          <div class="col-sm-4 col-3">
+            <input class="form-control" type="text" placeholder="Tên nhóm từ" [(ngModel)]="c.TextRight" />
+          </div>
+        </div>
+        <!-- word type row end -->
+
+        <!-- number of words row start -->
+        <div class="d-flex align-items-center pt-5 pb-1">
+          <div class="col-sm-2 col-3">
+            <label class="mb-0 pl-4">Số lượng hình</label>
+          </div>
+          <div class="col-sm-10 col-9">
+            <ul class="nav nav-pills card-header-pills ml-0 mr-0" role="tablist">
+              <li class="nav-item pb-2" *ngFor="let number of numberOfPicturesInGameScene;">
+                  <a (click)="setActiveTab(number, configIndex)" 
+                    [ngClass]="getActiveTabCSSClass(number, configIndex)" 
+                    class="nav-link cursor-pointer">
+                    {{zeroPad(number, 2)}} hình
+                  </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- number of words row end -->
+
+        <!-- tab content start -->
+        <div class="card-body tab-content">
+          <div class="tab-pane pb-2" *ngFor="let number of numberOfPicturesInGameScene;" [ngClass]="getActiveTabCSSClass(number, configIndex)">
+            <div class="d-flex align-items-center pt-2 pb-3 border-top" *ngFor="let item of [].constructor(c.DataItem.length); let itemIndex = index;">
+              <!-- <div class="row"> -->
+                <div class="col-sm-2 col-3">
+                  <label class="mb-0 pl-4">Hình {{itemIndex+1}}</label>
+                </div>
+                <div class="col-sm-1 col-5">
+                  <div class="w-100">
+                    <app-input-img
+                    (setValueToChild)="setImageSource(configIndex, itemIndex, $event)"
+                    [currentUrl]="c.DataItem[itemIndex].LinkImg"
+                    type="thumbnail"
+                    [folder]="this.classify2GroupsFolder"
+                    ></app-input-img>    
+                  </div>                                
+                </div>
+                <div class="col-sm-9 col-4">
+                  <select id="{{'wordTypeId-' + configIndex + '-' + itemIndex}}" [(ngModel)]="c.DataItem[itemIndex].Tag" class="form-control" name="{{'wordTypeId-' + configIndex + '-' + itemIndex}}" >
+                    <option [value]="0">
+                      --Chọn nhóm từ--
+                    </option>
+                    <option [value]="c.TextLeft">
+                      {{c.TextLeft ? c.TextLeft : 'Thuộc nhóm từ số 1'}}
+                    </option>
+                    <option [value]="c.TextRight">
+                      {{c.TextRight ? c.TextRight : 'Thuộc nhóm từ số 2'}}
+                    </option>
+                    <option [value]="3">
+                      Không thuộc nhóm từ nào
+                    </option>
+                  </select>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- tab content end -->
+      </div>
+    </div>
+    <button
+      type="button"
+      class="btn btn-outline-secondary mt-2"
+      (click)="addNewGameScene()"
+    >
+      <i class="ki ki-plus icon-sm"></i> Thêm màn chơi
+    </button>
+  </div>
+  

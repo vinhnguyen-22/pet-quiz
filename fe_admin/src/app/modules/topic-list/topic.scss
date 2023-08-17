@@ -1,0 +1,86 @@
+.custom-accordion {
+  ::ng-deep {
+    .card-body {
+      padding: 0 !important;
+    }
+    .card .card-header {
+      background-color: #fff;
+    }
+    .card {
+      border-right: 0 !important;
+      border-left: 0 !important;
+    }
+    .btn-link {
+      text-decoration: none;
+      width: 100%;
+      text-align: start;
+      border-right: 0 !important;
+      border-left: 0 !important;
+      padding: 1rem 1.25rem;
+      margin: 0;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: #6993ff;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      -webkit-transition: all 0.15s ease;
+      transition: all 0.15s ease;
+      position: relative;
+      &::after {
+        position: absolute;
+        font-family: Ki;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        line-height: 1;
+        text-decoration: inherit;
+        text-rendering: optimizeLegibility;
+        text-transform: none;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        font-smoothing: antialiased;
+        right: 1rem;
+        content: '';
+        color: #6993ff;
+        font-size: 0.7rem;
+        -webkit-transition: all 0.15s ease;
+        transition: all 0.15s ease;
+      }
+    }
+    .btn-link.collapsed::after {
+      right: 1rem;
+      color: #7e8299;
+      -webkit-transition: all 0.15s ease;
+      transition: all 0.15s ease;
+      -webkit-transform: rotate(-90deg);
+      transform: rotate(-90deg);
+    }
+    .btn-link.collapsed {
+      color: #3f4254;
+    }
+    .card-body {
+      padding: 0;
+    }
+    table {
+      margin-bottom: 0;
+      th {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      td {
+        padding-left: 30px;
+        padding-right: 30px;
+      }
+    }
+  }
+  table {
+    margin-bottom: 0;
+  }
+}
+.btn-yellow {
+  background-color: #f2ce5f !important;
+  border-color: #f2ce5f !important;
+}

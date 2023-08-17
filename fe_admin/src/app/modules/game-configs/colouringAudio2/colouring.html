@@ -1,0 +1,152 @@
+<div>
+  <div class="mt-3" *ngFor="let c of configs; let a=index">
+    <div class="label-game-config d-flex">
+      <h4 class="font-weight-bold">Màn chơi {{a+1}}</h4>
+    </div>
+
+    <div class="row section-game">
+      <div class="col-md-12 d-flex">
+        <div class="flex-grow-1 row">
+          <div class="col-lg-3 d-flex align-items-center btn-group">
+            <button type="button" class="btn btn-outline-secondary" style="background-color: #fff" [ngClass]="{active: type==1}" (click)="setType(1)">
+              Ảnh đề bài
+            </button>
+            <button type="button" class="btn btn-outline-secondary" style="background-color: #fff" [ngClass]="{active: type==2}" (click)="setType(2)">
+              Danh sách bút màu
+            </button>
+          </div>
+        </div>
+        <a href="javascript:;" *ngIf="a > 0" title="Xóa màn chơi" class="p-3" (click)="removeSection(a)">
+          <i class="ki ki-bold-close icon-lg text-danger"></i>
+        </a>
+      </div>
+      <ng-container *ngIf="type==1">
+        <div class="col-md-12 d-flex mt-4">
+          <div class="flex-grow-1 row">
+            <div class="col-lg-6 d-flex align-items-center">
+              <p class="m-0">Ảnh nền(không bao gồm chi tiết cần tô màu)</p>
+              <button type="button" class="btn btn-secondary ml-3" (click)="uploadRecourse(c,'image')">Upload</button>
+            </div>
+            <div class="col-lg-6 d-flex align-items-center">
+              <p class="m-0">Audio đề bài</p>
+              <button class="btn btn-secondary ml-3" (click)="uploadRecourse(c, 'audio')" type="button">Upload</button>
+              <a *ngIf="c.LinkAudio" target="_blank" [href]="c.LinkAudio" class="ml-3" style="font-size: 14px; text-decoration: underline"
+                >Nghe thử</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 d-flex align-items-center mt-4">
+          <p class="m-0">Số lượng chi tiết ảnh</p>
+          <ng-container *ngFor="let item of items">
+            <button
+              type="button"
+              class="btn mx-3 btn-outline-secondary"
+              style="background-color: #fff"
+              [ngClass]="{active: item.key==c.ListBg.length}"
+              (click)="setCount(a,item.key)"
+            >
+              {{item.value}}
+            </button>
+          </ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12 mt-4">
+          <p class="font-weight-bold">Hướng dẫn:</p>
+          <p>1. Upload ảnh chi tiết cần tô</p>
+          <p>2. Di chuyển chuột đến ví trí cần tô</p>
+          <p>3. Click chuột trái để xác định chi tiết cần tô</p>
+          <p>4. Chọn màu cần tô</p>
+          <div class="row" *ngFor="let po of c.ListBg; let b=index">
+            <div class="d-flex col-lg-3 mt-4 align-items-center">
+              <p class="m-0 cursor-pointer" [ngStyle]="{color: c.currentItem.Id==po.Id?'#f2ce5f':''}">{{'Chi tiết '+(b+1)}}</p>
+            </div>
+            <div class="col-lg-3 mt-4">
+              <app-input-img
+                (setValueToChild)="setLinkPhoto($event,'LinkPhoto', po)"
+                [currentUrl]="po.LinkPhoto"
+                type="thumbnail"
+                [folder]="folderStore"
+              ></app-input-img>
+            </div>
+            <div class="col-lg-3 mt-4">
+              <button type="button" class="btn btn-secondary ml-3" (click)="setCurrentItem(c,po)">Chọn vị trí</button>
+            </div>
+            <div class="col-lg-3 mt-4">
+              <select [(ngModel)]="po.KeyColor" class="form-control" name="{{'wordTypeId-' + a + '-' + b}}">
+                <option value="0">--Chọn màu--</option>
+                <option value="1">Màu 1</option>
+                <option value="2">Màu 2</option>
+                <option value="3">Màu 3</option>
+                <option value="4">Màu 4</option>
+                <option value="5">Màu 5</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col mt-4">
+          <div class="player-doc" [ngStyle]="{width:'100%','padding-top': (c.height/c.width*100)+'%'}">
+            <div class="player">
+              <img
+                [src]="c.LinkBG"
+                onerror="this.src='assets/default.png'"
+                (click)="getTD($event,c)"
+                #image
+                width="100%"
+                height="100%"
+                (mousemove)="onMouseMove($event,a,c)"
+                (mouseout)="onMouseOut(a)"
+              />
+            </div>
+          </div>
+          <div class="cursor" [id]="'cursor'+a" [ngStyle]="{ 'width': c.width*getPT(c)/35+'px' , 'height': c.width*getPT(c)/35+'px'}"></div>
+          <div
+            class="cursor"
+            *ngFor="let po of c.ListBg;let idxPo=index"
+            [ngStyle]="{ 'display': po.Coordinates.length>0?'flex':'none', top: po.top*getPT(c)+'px',left:po.left*getPT(c)+'px','width': c.width*getPT(c)/35+'px' , 'height': c.width*getPT(c)/35+'px' }"
+          >
+            {{idxPo+1}}
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="type==2">
+        <div class="col-md-12 col-sm-12 border-top">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Ảnh bút màu</th>
+                <th scope="col">Mã màu (RGB)</th>
+                <th scope="col">Audio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let pen of c.ListPen; let i=index">
+                <ng-container [ngTemplateOutlet]="docTemplate" [ngTemplateOutletContext]="{ i: i ,pen:pen}"></ng-container>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <button type="button" class="btn btn-outline-secondary mt-4" (click)="addNewSection()"><i class="ki ki-plus icon-sm"></i> Thêm màn chơi</button>
+</div>
+<ng-template #docTemplate let-pen="pen" let-i="i">
+  <td style="width: 10%">Màu {{i+1}}</td>
+  <td style="width: 18%">
+    <app-input-img
+      (setValueToChild)="setLinkPhoto($event,'LinkImg', pen)"
+      [currentUrl]="pen.LinkImg"
+      (setName)="setLinkPhoto($event,'ColorCode', pen)"
+      type="thumbnail"
+      [folder]="folderStore"
+    ></app-input-img>
+  </td>
+  <td style="width: 25%">
+    <input type="text" [name]="'colorCode'+i" [(ngModel)]="pen.ColorCode" class="form-control" placeholder="Nhập mã màu vd: [255, 255, 0]" disabled />
+  </td>
+  <td>
+    <button class="btn btn-secondary" (click)="uploadRecourse(pen, 'audio')" type="button">Upload</button>
+    <a *ngIf="pen.LinkAudio" target="_blank" [href]="pen.LinkAudio" class="ml-3" style="font-size: 14px; text-decoration: underline">Nghe thử</a>
+  </td>
+</ng-template>

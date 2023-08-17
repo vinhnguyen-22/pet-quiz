@@ -1,0 +1,86 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">
+        <ng-container *ngIf="topic">
+          {{ id ? 'Chỉnh sửa' : 'Thêm mới' }}
+        </ng-container>
+      </h3>
+    </div>
+    <div class="card-toolbar">
+      <button type="button" class="btn btn-light" routerLink="/topics"><i class="fa fa-arrow-left"></i>Quay lại</button>
+    </div>
+  </div>
+  <div class="card-body mb-3" *ngIf="formGroup">
+    <div class="row mt-5">
+      <div class="col-lg-2">
+        <app-input-img (setValueToChild)="setSrc($event)" [currentUrl]="topic.image" type="topic" folder="topic"></app-input-img>
+      </div>
+    </div>
+    <div class="mt-5">
+      <form action="#" class="form form-label-right" (ngSubmit)="save()" [formGroup]="formGroup">
+        <div class="form-group row">
+          <div class="col-lg-4">
+            <div class="row">
+              <div class="col-lg-12">
+                <label>Tên chủ đề <span class="text-danger">*</span></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="name"
+                  [class.is-invalid]="isControlInvalid('name')"
+                  [class.is-valid]="isControlValid('name')"
+                  formControlName="name"
+                />
+                <div class="invalid-feedback" *ngIf="controlHasError('required', 'name')">Vui lòng nhập tên chủ đề</div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-lg-12">
+                <label>Level <span class="text-danger">*</span></label>
+                <select
+                  class="form-control"
+                  name="gradeId"
+                  [class.is-invalid]="isControlInvalid('gradeId')"
+                  [class.is-valid]="isControlValid('gradeId')"
+                  formControlName="gradeId"
+                >
+                  <option value="">Chọn level</option>
+                  <option *ngFor="let g of grades" [value]="g.id">
+                    {{ g.name }}
+                  </option>
+                </select>
+                <div class="invalid-feedback" *ngIf="controlHasError('required', 'gradeId')">Vui lòng chọn level</div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-lg-12">
+                <label>Thứ tự <span class="text-danger">*</span></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="orderId"
+                  [class.is-invalid]="isControlInvalid('orderId')"
+                  [class.is-valid]="isControlValid('orderId')"
+                  formControlName="orderId"
+                />
+                <div class="invalid-feedback" *ngIf="controlHasError('required', 'orderId')">Vui lòng nhập thứ tự</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="float-right">
+          <a class="btn btn-default font-weight-bold mr-2" routerLink="/topics">Hủy bỏ</a>
+          <button
+            type="submit"
+            class="btn btn-primary font-weight-bold mr-2 spinner-white spinner-right"
+            [disabled]="formGroup?.invalid || isSubmitted"
+            [ngClass]="{ spinner: isSubmitted }"
+          >
+            Lưu lại
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

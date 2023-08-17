@@ -1,0 +1,115 @@
+<ngb-accordion
+  #acc="ngbAccordion"
+  [activeIds]="panelId"
+  class="accordion-toggle-arrow custom-accordion"
+  [destroyOnHide]="false"
+  (panelChange)="beforeChange($event)"
+>
+  <ngb-panel *ngFor="let topic of topics; index as i" id="ngb-panel-{{ i }}">
+    <ng-template ngbPanelTitle> {{ topic.name }} </ng-template>
+    <ng-template ngbPanelContent>
+      <div class="table-responsive angular-bootstrap-table">
+        <table class="table table-head-custom table-vertical-center overflow-hidden">
+          <tbody>
+            <tr *ngFor="let lesson of topic.lessons; index as i">
+              <td class="btn-lesson">{{ lesson.name }}</td>
+              <td style="text-align: right">
+                <button
+                  *ngIf="lesson.type==1"
+                  (click)="open(Syllabus,lesson)"
+                  class="btn font-weight-bolder font-size-h6 px-2 py-2 my-3 btn-light"
+                  style="color: #388ee9"
+                >
+                  <img [src]="'./assets/sylabus.svg'" class="mr-2" /> Xem giáo án
+                </button>
+                <button
+                  *ngIf="lesson.type==1"
+                  (click)="openLesson(lesson.id)"
+                  class="btn font-weight-bolder font-size-h6 px-2 py-2 my-3 btn-success mx-3"
+                >
+                  <i class="fas fa-play-circle"></i> Mở bài học
+                </button>
+
+                <button
+                  *ngIf="lesson.type==2"
+                  (click)="download('pdf',lesson)"
+                  class="btn font-weight-bolder font-size-h6 px-4 py-2 my-3 btn-light dm-none"
+                >
+                  <img [src]="'./assets/pdf.svg'" class="mr-2" />Tải file PDF
+                </button>
+                <button
+                  *ngIf="lesson.type==2"
+                  (click)="download('word',lesson)"
+                  class="btn font-weight-bolder font-size-h6 px-4 py-2 my-3 btn-light dm-none mx-3"
+                >
+                  <img [src]="'./assets/word.svg'" class="mr-2" />Tải file Word
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+
+<ng-template #Syllabus let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4>Tài liệu giảng dạy</h4>
+    <button type="button" class="btn btn-yellow" (click)="printAssessment()" style="margin-left: auto !important">Tải về</button>
+  </div>
+  <div class="modal-body" id="document-data-wraper">
+    <h4 style="font-weight: 600 !important; margin-bottom: 1rem; font-size: 1.35rem">{{ lesson.name }}</h4>
+    <div>
+      <h6 style="font-weight: 520; font-size: 1.175rem; margin: 0 0 1rem 0">Mục tiêu</h6>
+      <p [innerHTML]="lesson.target"></p>
+      <h6 style="font-weight: 520; font-size: 1.175rem; margin: 0 0 1rem 0">Ngôn ngữ mục tiêu</h6>
+      <p [innerHTML]="lesson.targetLanguage"></p>
+      <h6 style="font-weight: 520; font-size: 1.175rem; margin: 0 0 1rem 0">Ngôn ngữ mở rộng</h6>
+      <p [innerHTML]="lesson.languageExtend"></p>
+      <h6 style="font-weight: 520; font-size: 1.175rem; margin: 0 0 1rem 0">Giáo cụ và học liệu</h6>
+      <p [innerHTML]="lesson.docTool"></p>
+    </div>
+    <div>
+      <h6 style="font-weight: 600 !important; margin-bottom: 1rem; font-size: 1.35rem">Cấu trúc bài học</h6>
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 10%">Phần học</th>
+            <th scope="col">Hoạt động</th>
+            <th scope="col" style="width: 8%">Thời gian (phút)</th>
+            <th scope="col" style="width: 10%">Hình thức tương tác</th>
+            <th scope="col">Giáo cụ và tài liệu</th>
+            <th scope="col">Hoạt động của giáo viên</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let s of sections">
+            <tr>
+              <th [attr.rowspan]="s.activities.length>0?s.activities.length:1" scope="row">{{ s.name }}</th>
+              <td scope="row">{{ s.activities[0]?.name }}</td>
+              <td scope="row">{{ s.activities[0]?.timeActivity ? s.activities[0]?.timeActivity+' phút':''}}</td>
+              <td scope="row">{{ s.activities[0]?.interactiveForm }}</td>
+              <td scope="row">{{ s.activities[0]?.documentTeaching }}</td>
+              <td scope="row">
+                <span [innerHTML]="s.activities[0]?._teacherActivity"></span>
+              </td>
+            </tr>
+            <ng-container *ngFor="let a of s.activities; let i = index">
+              <tr *ngIf="i != 0">
+                <td>{{ a.name }}</td>
+                <td>{{ a.timeActivity }} phút</td>
+                <td>{{ a.interactiveForm }}</td>
+                <td>{{ a.documentTeaching }}</td>
+                <td [innerHTML]="a._teacherActivity"></td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Đóng</button>
+  </div>
+</ng-template>

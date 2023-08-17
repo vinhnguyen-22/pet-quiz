@@ -1,0 +1,87 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="d-flex align-items-center">
+      <div class="card-title">
+        <h3 class="card-label">Danh sách chương trình</h3>
+      </div>
+      <button type="button" class="btn btn-outline-secondary" routerLink="add" *ngIf="canEditProgram">
+        <i class="ki ki-plus"></i> Thêm chương trình
+      </button>
+    </div>
+    <div class="card-toolbar">
+      <div class="form form-label-right">
+        <div class="form-group row mb-0">
+          <div class="col-lg-12">
+            <div class="input-icon-custom">
+              <input
+                type="search"
+                class="form-control"
+                name="searchText"
+                placeholder="Tìm kiếm chương trình"
+                [(ngModel)]="filter.name"
+                (change)="changeFilter()"
+              />
+              <span><i class="flaticon2-search-1 icon-md"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body mt-3">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <tr>
+            <th style="width: 5%">Stt</th>
+            <th *ngFor="let header of objectDataTable.headers; let i = index" [style.textAlign]="header.position">
+              {{ header.value }}
+            </th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let program of objectDataTable.datas; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td *ngFor="let header of objectDataTable.headers" [style.textAlign]="header.position">
+              <ng-container *ngIf="header.key == 'createdDate'">
+                {{ program[header.key] ? (program[header.key] * 1000 | date: this.sharedService.getDateFormat()) : '' }}
+              </ng-container>
+              <ng-container *ngIf="header.key != 'createdDate'">
+                {{ program[header.key] }}
+              </ng-container>
+            </td>
+            <td>
+              <a title="Edit program" [routerLink]="'edit/' + program.id" *ngIf="canEditProgram">
+                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true" class="svg-icon svg-icon-md svg-icon-primary">
+                </span>
+                Chỉnh sửa thông tin
+              </a>
+              <a title="Edit program" [routerLink]="program.id">
+                <span
+                  [inlineSVG]="'./assets/media/svg/icons/Media/DVD.svg'"
+                  cacheSVG="true"
+                  class="svg-icon svg-icon-md svg-icon-warning svg-icon-2x"
+                >
+                </span>
+                Xem chương trình
+              </a>
+
+              <!-- <a href="javascript:;" (click)="remove(program.id)">
+                <span
+                  [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'"
+                  cacheSVG="true"
+                  class="svg-icon svg-icon-md svg-icon-danger svg-icon-2x"
+                >
+                </span>
+                Xóa chương trình
+              </a> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-empty-table [length]="objectDataTable.datas?.length" [height]="100" text="Không có chương trình học."></app-empty-table>
+    </div>
+  </div>
+</div>
+<common-modal #confirmationModal (newConfirmationEvent)="getConfirmationValue($event)"> </common-modal>

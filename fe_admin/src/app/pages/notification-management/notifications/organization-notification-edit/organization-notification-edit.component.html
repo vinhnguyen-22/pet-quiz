@@ -1,0 +1,108 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">
+        <ng-container *ngIf="notification">
+          {{ id ? 'Thông tin chi tiết' : 'Thêm mới thông báo' }}
+        </ng-container>
+      </h3>
+    </div>
+    <div class="card-toolbar">
+      <button type="button" class="btn btn-light" routerLink="/notifications"><i class="fa fa-arrow-left"></i>Quay lại</button>
+    </div>
+  </div>
+
+  <div class="card-body pb-3">
+    <div class="mt-5" *ngIf="notification">
+      <form action="#" class="form form-label-right" (ngSubmit)="save()">
+        <div class="form-group row">
+          <div class="col-lg-6">
+            <label>Tiêu đề <span class="text-danger">*</span></label>
+            <input type="text" [(ngModel)]="notification.title" class="form-control" name="title" [disabled]="shouldDisableDropdown()" />
+          </div>
+        </div>
+        <div *ngIf="isManagingSystem()" class="form-group row">
+          <div class="col-lg-3">
+            <label>Đối tượng nhận<span class="text-danger">*</span></label>
+            <select
+              class="form-control"
+              [(ngModel)]="notification.toOrganType"
+              name="toOrganType"
+              (change)="changeDestinationSubject($event)"
+              [disabled]="shouldDisableDropdown()"
+            >
+              <option value="0">Tất cả</option>
+              <option value="2">Trường học</option>
+              <option value="1">Trung tâm tiếng Anh</option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <label>Trường/Trung tâm tiếng Anh<span class="text-danger">*</span></label>
+            <select class="form-control" [(ngModel)]="notification.toOrganId" name="toOrganId" [disabled]="shouldDisableDropdown()">
+              <option value="0">Tất cả</option>
+              <option *ngFor="let organization of managedOrganizations" [value]="organization.id">
+                {{ organization.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div *ngIf="isEnglishCenter()" class="form-group row">
+          <div class="col-lg-3">
+            <label>Trường<span class="text-danger">*</span></label>
+            <select
+              class="form-control"
+              [(ngModel)]="notification.toOrganId"
+              name="toOrganId"
+              (change)="organizationChanged($event)"
+              [disabled]="shouldDisableDropdown()"
+            >
+              <option value="0">Tất cả trường</option>
+              <option *ngFor="let school of managedSchools" [value]="school.id">
+                {{ school.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <label>Lớp<span class="text-danger">*</span></label>
+            <select class="form-control" [(ngModel)]="notification.toClassId" name="toClassId" [disabled]="shouldDisableDropdown()">
+              <option value="0">Tất cả lớp</option>
+              <option *ngFor="let cls of managedClasses" [value]="cls.id">
+                {{ cls.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div *ngIf="isSchoolAdmin()" class="form-group row">
+          <div class="col-lg-6">
+            <label>Lớp<span class="text-danger">*</span></label>
+            <select class="form-control" [(ngModel)]="notification.toClassId" name="toClassId" [disabled]="shouldDisableDropdown()">
+              <option value="0">Tất cả lớp</option>
+              <option *ngFor="let cls of classes" [value]="cls.id">
+                {{ cls.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-lg-6">
+            <label>Nội dung thông báo <span class="text-danger">*</span></label>
+            <ckeditor [editor]="Editor" name="content" [disabled]="shouldDisableDropdown()" [(ngModel)]="notification.content"></ckeditor>
+          </div>
+        </div>
+        <div class="float-right">
+          <a *ngIf="!shouldDisableDropdown()" class="btn btn-default font-weight-bold mr-2" routerLink="/notifications">Hủy bỏ</a>
+          <button
+            *ngIf="!shouldDisableDropdown()"
+            type="submit"
+            class="btn btn-primary font-weight-bold mr-2"
+            [disabled]="!notification.title || !notification.content"
+          >
+            Lưu lại
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

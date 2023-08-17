@@ -1,0 +1,122 @@
+<div>
+  <div class="mt-3" *ngFor="let c of configs; let a=index">
+    <div class="label-game-config d-flex">
+      <h6>Màn chơi {{a+1}}</h6>
+    </div>
+    <div class="row section-game">
+      <div class="col-md-12 col-sm-12 d-flex">
+        <div class="flex-grow-1 row">
+          <div class="col-lg-3 d-flex align-items-center">
+            <p class="m-0">Ảnh 1</p>
+            <button type="button" class="btn btn-secondary ml-3" (click)="uploadRecourse(c,'image',1)">Upload</button>
+          </div>
+          <div class="col-lg-3 d-flex align-items-center">
+            <p class="m-0">Ảnh 2</p>
+            <button type="button" class="btn btn-secondary ml-3" (click)="uploadRecourse(c,'image',2)">Upload</button>
+          </div>
+        </div>
+        <a href="javascript:;" *ngIf="a > 0" title="Xóa màn chơi" class="p-3" (click)="removeSection(a)">
+          <i class="ki ki-bold-close icon-lg text-danger"></i>
+        </a>
+      </div>
+    </div>
+    <div class="row section-game">
+      <div class="col-md-12 col-sm-12 d-flex align-items-center">
+        <p class="m-0">Số lượng chi tiết ảnh</p>
+        <ng-container *ngFor="let item of items">
+          <button
+            type="button"
+            class="btn mx-3 btn-outline-secondary"
+            style="background-color: #fff"
+            [ngClass]="{active: item.key==c.DataPosition.length}"
+            (click)="setCount(a,item.key)"
+          >
+            {{item.value}}
+          </button>
+        </ng-container>
+      </div>
+    </div>
+    <div class="row section-game">
+      <div class="col-md-4 col-sm-12">
+        <p class="font-weight-bold">Hướng dẫn:</p>
+        <p class="font-weight-bold">1. Chọn kích thước của điểm khác biệt(nhỏ/vừa/lớn)</p>
+        <p class="font-weight-bold">2. Di chuyển chuột đến vị trí điểm khác biệt trên ảnh 1</p>
+        <p class="font-weight-bold">3. Click chuột trái để chọn chi tiết</p>
+        <p class="font-weight-bold">4. Lặp lại 3 bước trên để chọn điểm khác biệt khác`</p>
+      </div>
+    </div>
+    <div class="row section-game">
+      <div class="col-lg-6 d-flex justify-content-center" style="flex-direction: column">
+        <div class="player-doc" [ngStyle]="{width:'100%','padding-top': (c.height/c.width*100)+'%'}">
+          <div class="player">
+            <img
+              [src]="c.LinkBGLeft"
+              onerror="this.src='assets/default.png'"
+              (click)="getTD($event,c)"
+              #image
+              width="100%"
+              height="100%"
+              (mousemove)="onMouseMove($event,c,a)"
+              (mouseout)="onMouseOut(a)"
+            />
+          </div>
+        </div>
+        <div
+          class="cursor"
+          [id]="'cursor'+a"
+          [ngStyle]="{ 'width': c.currentItem.Scale*c.width*getPT(c)/3+'px' , 'height': c.currentItem.Scale*c.width*getPT(c)/3+'px'}"
+        ></div>
+        <div
+          class="cursor"
+          *ngFor="let po of c.DataPosition;let idxPo=index"
+          [ngStyle]="{ 'display': po.pos.length>0?'flex':'none', top: po.top*getPT(c)+'px',left:po.left*getPT(c)+'px','width': po.Scale*c.width*getPT(c)/3+'px' , 'height': po.Scale*c.width*getPT(c)/3+'px' }"
+        >
+          {{idxPo+1}}
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+          <p>Ảnh 1</p>
+        </div>
+      </div>
+      <div class="col-lg-6 d-flex justify-content-center" style="flex-direction: column">
+        <div class="player-doc" [ngStyle]="{width:'100%','padding-top': (c.height/c.width*100)+'%'}">
+          <div class="player">
+            <img [src]="c.LinkBGRight" onerror="this.src='assets/default.png'" width="100%" height="100%" />
+          </div>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+          <p>Ảnh 2</p>
+        </div>
+        <div
+          class="cursor"
+          *ngFor="let po of c.DataPosition;let idxPo=index"
+          [ngStyle]="{ 'display': po.pos.length>0?'flex':'none', top: po.top*getPT(c)+'px',left:po.left*getPT(c)+'px','width': po.Scale*c.width*getPT(c)/3+'px' , 'height': po.Scale*c.width*getPT(c)/3+'px' }"
+        >
+          {{idxPo+1}}
+        </div>
+      </div>
+    </div>
+    <div class="row section-game">
+      <div class="col-sm-12">
+        <div class="row">
+          <div *ngFor="let po of c.DataPosition; let i=index" class="d-flex col-lg-12 mt-2 align-items-center">
+            <p class="m-0 cursor-pointer" (click)="setCurrentItem(c,po)" [ngStyle]="{color: c.currentItem.Id==po.Id?'#f2ce5f':''}">
+              {{'Chi tiết '+(i+1)}}
+            </p>
+            <ng-container *ngFor="let size of sizes">
+              <button
+                type="button"
+                class="btn mx-3 btn-outline-secondary"
+                style="background-color: #fff"
+                [ngClass]="{active: size.key==po.Scale}"
+                (click)="setPos(c,po,size.key)"
+              >
+                {{size.value}}
+              </button>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-outline-secondary mt-2" (click)="addNewSection()"><i class="ki ki-plus icon-sm"></i> Thêm màn chơi</button>
+</div>

@@ -1,0 +1,65 @@
+<div>
+  <div class="mt-3" *ngFor="let c of configs; let i=index">
+    <div class="label-game-config d-flex">
+      <h6>Màn chơi {{i+1}}</h6>
+    </div>
+    <div class="row section-game">
+      <div class="col-md-12 d-flex">
+        <div class="flex-grow-1">
+          <div class="form-group d-flex">
+            <label class="mt-3">Số lượng hình ảnh</label>
+            <button
+              (click)="choiceImageNumber(2, c)"
+              type="button"
+              class="btn btn-custom-default ml-2"
+              [ngClass]="{'btn-active': c.DataItem.length == 2}"
+            >
+              2 thẻ
+            </button>
+            <button
+              (click)="choiceImageNumber(3, c)"
+              type="button"
+              class="btn btn-custom-default ml-2"
+              [ngClass]="{'btn-active': c.DataItem.length == 3}"
+            >
+              3 thẻ
+            </button>
+            <button
+              (click)="choiceImageNumber(4, c)"
+              type="button"
+              class="btn btn-custom-default ml-2"
+              [ngClass]="{'btn-active': c.DataItem.length == 4}"
+            >
+              4 thẻ
+            </button>
+          </div>
+          <table class="table table-bordered">
+            <tr>
+              <td class="w-25">Từ mới</td>
+              <td>Ảnh minh họa</td>
+              <td>Audio</td>
+            </tr>
+            <tr *ngFor="let ds of c.DataItem;let j=index">
+              <td>
+                <input class="form-control" [(ngModel)]="ds.Text" [name]="'vocabulary'+i+j" />
+              </td>
+              <td class="w-25">
+                <app-input-img (setValueToChild)="setSrc($event, ds)" [currentUrl]="ds.LinkImg" type="game" [folder]="folderStore"></app-input-img>
+              </td>
+              <td>
+                <button type="button" class="btn btn-secondary" (click)="uploadRecourse(ds, 'audio')">Upload</button>
+                <a *ngIf="ds.LinkAudio" target="_blank" [href]="ds.LinkAudio" class="ml-3" style="font-size: 14px; text-decoration: underline"
+                  >Nghe thử</a
+                >
+              </td>
+            </tr>
+          </table>
+        </div>
+        <a href="javascript:;" *ngIf="i > 0" title="Xóa màn chơi" class="p-3" (click)="removeSection(i)">
+          <i class="ki ki-bold-close icon-lg text-danger"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-outline-secondary mt-2" (click)="addNewSection()"><i class="ki ki-plus icon-sm"></i> Thêm màn chơi</button>
+</div>

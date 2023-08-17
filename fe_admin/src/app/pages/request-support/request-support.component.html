@@ -1,0 +1,138 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">Danh sách yêu cầu hỗ trợ</h3>
+    </div>
+    <div class="w-75 mt-2 mb-2">
+      <div class="form form-label-right">
+        <div class="form-group row mb-0">
+          <div class="col-lg-4 mt-2">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Tổ chức</span>
+              </div>
+              <select name="organId" class="form-control" [(ngModel)]="filter.organId" (change)="changeFilter()">
+                <option [value]="0">Tất cả</option>
+                <option *ngFor="let ca of organizations" [value]="ca.id">
+                  {{ ca.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4 mt-2">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Vai trò</span>
+              </div>
+              <select class="form-control" name="condition" name="roleId" [(ngModel)]="filter.roleId" (change)="changeFilter()">
+                <option [value]="0">Tất cả</option>
+                <option *ngFor="let role of roles" [value]="role.id">
+                  {{ role.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4 mt-2">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Danh mục</span>
+              </div>
+              <select name="category" class="form-control" [(ngModel)]="filter.category" (change)="changeFilter()">
+                <option value="">Tất cả</option>
+                <option *ngFor="let ca of categories" [value]="ca">
+                  {{ ca }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body mt-3">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-head-custom table-vertical-center overflow-hidden">
+        <thead>
+          <th *ngFor="let header of objectDataTable.headers">
+            {{ header.value }}
+          </th>
+          <th>Hành động</th>
+        </thead>
+        <tbody *ngIf="objectDataTable.datas?.length > 0">
+          <tr *ngFor="let request of objectDataTable.datas; let i = index">
+            <td *ngFor="let header of objectDataTable.headers; let j = index">
+              <ng-container *ngIf="header.key != 'createdDate' && header.key != 'status'">
+                {{ request[header.key] }}
+              </ng-container>
+              <ng-container *ngIf="header.key == 'createdDate'">
+                {{ request[header.key] ? (request[header.key] * 1000 | date: this.sharedService.getDateFormat()) : '' }}
+              </ng-container>
+              <ng-container *ngIf="header.key == 'status'">
+                <span class="badge" [ngClass]="request[header.key] == 1 ? 'badge-warning' : 'badge-success'">{{
+                  request[header.key] === 1 ? 'Chờ xử lý' : 'Đã xử lý'
+                }}</span>
+              </ng-container>
+            </td>
+            <td>
+              <a title="Show program" href="javascript:;" (click)="openModal(request)"> Xem chi tiết </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <app-empty-table [length]="objectDataTable.datas?.length" [height]="100" text="Không có yêu cầu hỗ trợ."></app-empty-table>
+    </div>
+  </div>
+</div>
+<ng-template #RequestSupport let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="font-size-h4 font-weight-bolder" style="flex: 1">Chi tiết yêu cầu hỗ trợ</h4>
+    <span class="badge mr-4" [ngClass]="ticketrs.status == 1 ? 'badge-warning' : 'badge-success'">{{
+      ticketrs.status === 1 ? 'Chờ xử lý' : 'Đã xử lý'
+    }}</span>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="c('Cross click')">
+      <i aria-hidden="true" class="ki ki-close"></i>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="table-responsive angular-bootstrap-table">
+      <table class="table table-vertical-center overflow-hidden">
+        <thead>
+          <tr>
+            <td style="width: 16%">Người gửi</td>
+            <td style="font-weight: 500">{{ ticketrs.senderName }}</td>
+          </tr>
+          <tr>
+            <td>Số điện thoại</td>
+            <td style="font-weight: 500">{{ ticketrs.phoneNumber }}</td>
+          </tr>
+          <tr>
+            <td>Tổ chức</td>
+            <td style="font-weight: 500">{{ ticketrs.organName }}</td>
+          </tr>
+          <tr>
+            <td>Vai trò</td>
+            <td style="font-weight: 500">{{ ticketrs.roleName }}</td>
+          </tr>
+          <tr>
+            <td>Danh mục</td>
+            <td style="font-weight: 500">{{ ticketrs.category }}</td>
+          </tr>
+          <tr>
+            <td>Thời gian</td>
+            <td style="font-weight: 500">
+              {{ ticketrs.createdDate * 1000 | date: this.sharedService.getDateFormat() }}
+            </td>
+          </tr>
+          <tr>
+            <td>Nôi dung</td>
+            <td style="font-weight: 500">{{ ticketrs.content }}</td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="mr-1 btn btn-yellow" (click)="updateStatus()" *ngIf="ticketrs.status == 1">Đánh dấu đã xử lý</button>
+  </div>
+</ng-template>

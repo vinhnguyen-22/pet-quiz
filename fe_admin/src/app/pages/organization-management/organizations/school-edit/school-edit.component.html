@@ -1,0 +1,359 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label">
+        <ng-container>
+          {{ ENABLE_EDITING ? (id ? 'Chỉnh sửa' : 'Thêm mới') : 'Thông tin trường học' }}
+        </ng-container>
+      </h3>
+    </div>
+    <div class="card-toolbar">
+      <button type="button" class="btn btn-light" routerLink="/schools"><i class="fa fa-arrow-left"></i>Quay lại</button>
+    </div>
+  </div>
+  <div class="card-body mb-5">
+    <div #wizard class="wizard wizard-2" id="kt_wizard_v2" data-wizard-state="step-first">
+      <div class="wizard-nav border-right py-8 px-8 py-lg-5">
+        <div class="wizard-steps">
+          <a class="wizard-step" href="javascript:;" data-wizard-type="step" data-wizard-state="current">
+            <div class="wizard-wrapper">
+              <div class="wizard-icon">
+                <span class="svg-icon svg-icon-3x" [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'"></span>
+              </div>
+              <div class="wizard-label">
+                <div class="wizard-title">Thông tin</div>
+                <div class="wizard-desc">Nhập thông tin trường học</div>
+              </div>
+            </div>
+          </a>
+          <a class="wizard-step" href="javascript:;" data-wizard-type="step">
+            <div class="wizard-wrapper">
+              <div class="wizard-icon">
+                <span class="svg-icon svg-icon-3x" [inlineSVG]="'./assets/media/svg/icons/General/User.svg'"></span>
+              </div>
+              <div class="wizard-label">
+                <div class="wizard-title">Người đại diện</div>
+                <div class="wizard-desc">Nhập thông tin người đại diện</div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="wizard-body py-8 px-8 py-lg-10 px-lg-10">
+        <div class="row">
+          <div class="col-xxl-12">
+            <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
+              <h4 class="mb-10 font-weight-bold text-dark">Thông tin chung</h4>
+              <div class="kt-form__section kt-form__section--first">
+                <div class="kt-wizard-v2__form">
+                  <form class="form" id="kt_form" [formGroup]="organForm" *ngIf="organForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                      <div class="col-xl-6">
+                        <div class="form-group">
+                          <label>Tên trường học <span class="text-danger">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="organizationName"
+                            [class.is-invalid]="isControlInvalid('organ', 'name')"
+                            [class.is-valid]="isControlValid('organ', 'name')"
+                            formControlName="name"
+                          />
+                          <div class="invalid-feedback" *ngIf="controlHasError('organ', 'required', 'name')">Vui lòng nhập tên trường học</div>
+                        </div>
+                      </div>
+                      <div class="col-xl-6">
+                        <div class="form-group">
+                          <label>Mã trường học</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="code"
+                            [class.is-valid]="isControlValid('organ', 'code')"
+                            formControlName="code"
+                            disabled
+                          />
+                        </div>
+                      </div>
+                      <div class="col-xl-6">
+                        <div class="form-group">
+                          <label>Điện thoại </label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="phoneNumber"
+                            [class.is-invalid]="isControlInvalid('organ', 'phoneNumber')"
+                            maxlength="11"
+                            minlength="10"
+                            [class.is-valid]="isControlValid('organ', 'phoneNumber')"
+                            formControlName="phoneNumber"
+                          />
+                          <div class="invalid-feedback" *ngIf="controlHasError('organ', 'pattern', 'phoneNumber')">Số điện thoại định dạng sai</div>
+                        </div>
+                      </div>
+                      <div class="col-xl-6">
+                        <div class="form-group">
+                          <label>Email </label>
+                          <input
+                            type="email"
+                            class="form-control"
+                            name="email"
+                            [class.is-invalid]="isControlInvalid('organ', 'email')"
+                            [class.is-valid]="isControlValid('organ', 'email')"
+                            formControlName="email"
+                          />
+                          <div class="invalid-feedback" *ngIf="controlHasError('organ', 'email', 'email')">Vui lòng nhập đúng định dạng email</div>
+                        </div>
+                      </div>
+
+                      <div class="col-xl-6">
+                        <div class="form-group">
+                          <label>Tỉnh/ Thành phố <span class="text-danger">*</span></label>
+                          <select
+                            class="form-control"
+                            name="provinceCode"
+                            [class.is-valid]="isControlValid('organ', 'provinceCode')"
+                            formControlName="provinceCode"
+                            [class.is-invalid]="isControlInvalid('organ', 'provinceCode')"
+                            (change)="handleFilterSchool($event)"
+                          >
+                            <option [value]="p.code" *ngFor="let p of provinces">
+                              {{ p.name }}
+                            </option>
+                          </select>
+                          <div class="invalid-feedback" *ngIf="controlHasError('organ', 'required', 'provinceCode')">
+                            Vui lòng chọn tỉnh/thành phố
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xl-6">
+                        <div class="form-group">
+                          <label>Quận/Huyện <span class="text-danger">*</span></label>
+                          <select
+                            class="form-control"
+                            name="districtCode"
+                            [class.is-valid]="isControlValid('organ', 'districtCode')"
+                            formControlName="districtCode"
+                            [class.is-invalid]="isControlInvalid('organ', 'districtCode')"
+                            (change)="handleFilterSchool($event)"
+                          >
+                            <option [value]="d.code" *ngFor="let d of districts">
+                              {{ d.name }}
+                            </option>
+                          </select>
+                          <div class="invalid-feedback" *ngIf="controlHasError('organ', 'required', 'districtCode')">Vui lòng chọn quận huyện</div>
+                        </div>
+                      </div>
+                      <div class="col-xl-4">
+                        <div class="form-group">
+                          <label>Số tiết học tối đa<span class="text-danger">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="maximumLessonQuantity"
+                            [class.is-invalid]="isControlInvalid('organ', 'maximumLessonQuantity')"
+                            [class.is-valid]="isControlValid('organ', 'maximumLessonQuantity')"
+                            formControlName="maximumLessonQuantity"
+                          />
+                          <div class="invalid-feedback" *ngIf="controlHasError('organ', 'required', 'maximumLessonQuantity')">
+                            Vui lòng nhập số tiết học tối đa
+                          </div>
+                          <div class="invalid-feedback" *ngIf="controlHasError('organ', 'pattern', 'maximumLessonQuantity')">
+                            Số tiết học tối đa phải là số, lớn hơn 0.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xl-4">
+                        <div class="form-group">
+                          <label>Gói package<span class="text-danger">*</span></label>
+                          <select
+                            class="form-control"
+                            [class.is-invalid]="isControlInvalid('organ', 'packageId')"
+                            [class.is-valid]="isControlValid('organ', 'packageId')"
+                            formControlName="packageId"
+                          >
+                            <option [value]="d.id" *ngFor="let d of packages">
+                              {{ d.name }}
+                            </option>
+                          </select>
+                          <div class="invalid-feedback" *ngIf="controlHasError('organ', 'required', 'packageId')">Vui lòng chọn gói package</div>
+                        </div>
+                      </div>
+                      <div class="col-xl-4">
+                        <div class="form-group">
+                          <label>Kiểu trung tâm<span class="text-danger">*</span></label>
+                          <select
+                            class="form-control"
+                            name="centerTypeId"
+                            [class.is-invalid]="isControlInvalid('organ', 'centerTypeId')"
+                            [class.is-valid]="isControlValid('organ', 'centerTypeId')"
+                            formControlName="centerTypeId"
+                          >
+                            <option [value]="d.id" *ngFor="let d of accountTypes">
+                              {{ d.name }}
+                            </option>
+                          </select>
+                          <div class="invalid-feedback" *ngIf="controlHasError('organ', 'required', 'centerTypeId')">
+                            Vui lòng chọn kiểu trung tâm
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xl-6">
+                        <div class="form-group">
+                          <label>Số lượng giáo viên tối đa<span class="text-danger">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="maximumTeacherQuantity"
+                            [class.is-invalid]="isControlInvalid('organ', 'maximumTeacherQuantity')"
+                            [class.is-valid]="isControlValid('organ', 'maximumTeacherQuantity')"
+                            formControlName="maximumTeacherQuantity"
+                          />
+                          <div class="invalid-feedback" *ngIf="controlHasError('organ', 'required', 'maximumTeacherQuantity')">
+                            Vui lòng nhập số lượng giáo viên tối đa
+                          </div>
+                          <div class="invalid-feedback" *ngIf="controlHasError('organ', 'pattern', 'maximumTeacherQuantity')">
+                            Số lượng giáo viên tối đa phải là số, lớn hơn 0.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xl-6">
+                        <div class="form-group">
+                          <label>Số lượng học sinh tối đa<span class="text-danger">*</span></label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            name="maximumStudentQuantity"
+                            [class.is-invalid]="isControlInvalid('organ', 'maximumStudentQuantity')"
+                            [class.is-valid]="isControlValid('organ', 'maximumStudentQuantity')"
+                            formControlName="maximumStudentQuantity"
+                          />
+                          <div class="invalid-feedback" *ngIf="controlHasError('organ', 'required', 'maximumStudentQuantity')">
+                            Vui lòng nhập số lượng học sinh tối đa
+                          </div>
+                          <div class="invalid-feedback" *ngIf="controlHasError('organ', 'pattern', 'maximumStudentQuantity')">
+                            Số lượng học sinh tối đa phải là số, lớn hơn 0.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xl-6">
+                        <div class="form-group">
+                          <label>Trụ sở chính/ Địa chỉ</label>
+                          <textarea
+                            type="text"
+                            class="form-control"
+                            name="address"
+                            style="min-height: 120px"
+                            placeholder="VD: Số 345 đường Nguyễn Trãi"
+                            [class.is-valid]="isControlValid('organ', 'address')"
+                            formControlName="address"
+                          ></textarea>
+                        </div>
+                      </div>
+                      <div class="col-xl-6">
+                        <div class="form-group">
+                          <label>Giới thiệu</label>
+                          <textarea
+                            type="text"
+                            style="min-height: 120px"
+                            class="form-control"
+                            name="description"
+                            [class.is-valid]="isControlValid('organ', 'description')"
+                            formControlName="description"
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="pb-5" data-wizard-type="step-content">
+              <h4 class="mb-10 font-weight-bold text-dark">Thông tin người đại diện</h4>
+              <form class="form" id="kt_form" [formGroup]="representForm" *ngIf="representForm">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label>Họ và tên <span class="text-danger">*</span></label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="representName"
+                        [class.is-invalid]="isControlInvalid('represent', 'name')"
+                        [class.is-valid]="isControlValid('represent', 'name')"
+                        formControlName="name"
+                      />
+                      <div class="invalid-feedback" *ngIf="controlHasError('represent', 'required', 'name')">Vui lòng nhập tên người đại diện</div>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Điện thoại </label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="phoneNumber"
+                        [class.is-invalid]="isControlInvalid('represent', 'phoneNumber')"
+                        maxlength="11"
+                        minlength="10"
+                        [class.is-valid]="isControlValid('represent', 'phoneNumber')"
+                        formControlName="phoneNumber"
+                      />
+                      <div class="invalid-feedback" *ngIf="controlHasError('represent', 'required', 'phoneNumber')">Vui lòng nhập số điện thoại</div>
+                    </div>
+                    <div class="form-group">
+                      <label>Địa chỉ email <span class="text-danger">*</span></label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        name="email"
+                        [class.is-invalid]="isControlInvalid('represent', 'email')"
+                        [class.is-valid]="isControlValid('represent', 'email')"
+                        formControlName="email"
+                      />
+                      <div class="invalid-feedback" *ngIf="controlHasError('represent', 'required', 'email')">Vui lòng nhập email</div>
+                      <div class="invalid-feedback" *ngIf="controlHasError('represent', 'email', 'email')">Vui lòng nhập đúng định dạng email</div>
+                      <span class="form-text text-muted">Email này được sử dụng để đăng nhập vào hệ thống CMS.</span>
+                    </div>
+                    <div class="form-group">
+                      <label>Chức vụ</label>
+                      <input
+                        type="email"
+                        class="form-control"
+                        name="position"
+                        [class.is-valid]="isControlValid('represent', 'position')"
+                        formControlName="position"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="d-flex justify-content-between border-top pt-10">
+              <div class="mr-2">
+                <div class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-prev">Quay lại</div>
+              </div>
+              <div>
+                <button
+                  (click)="onSubmit()"
+                  class="btn btn-success font-weight-bold text-uppercase px-9 py-4 spinner-white spinner-right"
+                  data-wizard-type="action-submit"
+                  [disabled]="organForm?.invalid || representForm?.invalid || isSubmitted"
+                  [ngClass]="{ spinner: isSubmitted }"
+                >
+                  Lưu lại
+                </button>
+                <button
+                  class="btn btn-primary font-weight-bold text-uppercase px-9 py-4"
+                  data-wizard-type="action-next"
+                  [disabled]="organForm?.invalid"
+                >
+                  Tiếp tục
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

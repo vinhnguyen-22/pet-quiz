@@ -1,0 +1,82 @@
+<div>
+  <div class="mt-3" *ngFor="let c of configs; let i=index">
+    <div class="label-game-config d-flex">
+      <h6>Màn chơi {{i+1}}</h6>
+    </div>
+
+    <div class="row section-game">
+      <div class="col-md-12 col-sm-12 d-flex">
+        <div class="flex-grow-1">
+          <div class="col-md-12 mt-3">
+            <label>Đề bài (audio)</label>
+            <button class="btn btn-secondary mx-5" (click)="uploadRecourse(c, 'audio')" type="button">Upload</button>
+            <a *ngIf="c.LinkAudio" target="_blank" [href]="c.LinkAudio" style="font-size: 14px; text-decoration: underline">Nghe thử</a>
+          </div>
+          <div class="col-md-12 mt-3">
+            <label>Số lượng hình ảnh</label>
+            <button
+              (click)="choiceAnswerType(3, c)"
+              type="button"
+              class="btn btn-custom-default ml-5"
+              [ngClass]="{'btn-active': c.ListImg.length == 3}"
+            >
+              3 ảnh
+            </button>
+            <button
+              (click)="choiceAnswerType(4, c)"
+              type="button"
+              class="btn btn-custom-default ml-2"
+              [ngClass]="{'btn-active': c.ListImg.length == 4}"
+            >
+              4 ảnh
+            </button>
+            <button
+              (click)="choiceAnswerType(5, c)"
+              type="button"
+              class="btn btn-custom-default ml-2"
+              [ngClass]="{'btn-active': c.ListImg.length == 5}"
+            >
+              5 ảnh
+            </button>
+            <button
+              (click)="choiceAnswerType(6, c)"
+              type="button"
+              class="btn btn-custom-default ml-2"
+              [ngClass]="{'btn-active': c.ListImg.length == 6}"
+            >
+              6 ảnh
+            </button>
+            <button
+              (click)="choiceAnswerType(7, c)"
+              type="button"
+              class="btn btn-custom-default ml-2"
+              [ngClass]="{'btn-active': c.ListImg.length == 7}"
+            >
+              7 ảnh
+            </button>
+            <button
+              (click)="choiceAnswerType(8, c)"
+              type="button"
+              class="btn btn-custom-default ml-2"
+              [ngClass]="{'btn-active': c.ListImg.length == 8}"
+            >
+              8 ảnh
+            </button>
+          </div>
+          <table class="table mt-3">
+            <tr>
+              <td class="align-middle" style="width: 10%">Hình ảnh</td>
+              <td style="width: 11.25%" *ngFor="let li of c.ListImg;let j=index">
+                <app-input-img (setValueToChild)="setSrc($event, li)" [currentUrl]="li.Link" type="game" [folder]="folderStore"></app-input-img>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <a href="javascript:;" *ngIf="i > 0" title="Xóa màn chơi" class="p-3" (click)="removeSection(i)">
+          <i class="ki ki-bold-close icon-lg text-danger"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-outline-secondary mt-2" (click)="addNewSection()"><i class="ki ki-plus icon-sm"></i> Thêm màn chơi</button>
+</div>

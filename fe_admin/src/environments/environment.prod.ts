@@ -1,8 +1,10 @@
 export const environment = {
   production: true,
-  appVersion: 'v717demo1',
+  appVersion: 'V3',
   USERDATA_KEY: 'authf649fc9a5f55',
   isMockEnabled: true,
-  apiUrl: 'api'
-  // apiUrl: 'mysite.com/api'
+  apiUrl: 'https://api.kidsenglish.vn/api/',
+  domain: 'https://api.kidsenglish.vn/',
+  domainStatic: "https://cdn.kidsenglish.vn/static/",
+  urlActiveStudent: "https://lms.kidsenglish.vn/active"
 };

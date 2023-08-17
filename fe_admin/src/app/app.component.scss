@@ -1,4 +1,29 @@
-:host {
-	height: 100%;
-	margin: 0;
+:host ::ng-deep {
+  .close {
+    padding: 5px !important;
+    background: #231f20;
+    .ki {
+      color: #fff !important;
+    }
+    border-radius: 50%;
+  }
+  .form-select2 {
+    .select2-selection__rendered {
+      border: 1px solid #aaa !important;
+      border-radius: 4px !important;
+    }
+  }
+  .custom-select2 {
+    flex: 1 1 auto;
+    width: 1%;
+    .ng-select-container {
+      height: calc(1.5em + 1.3rem + 2px) !important;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    .ng-input {
+      top: 0.65rem !important;
+      line-height: 1.5 !important;
+    }
+  }
 }

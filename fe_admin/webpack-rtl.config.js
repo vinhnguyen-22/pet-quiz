@@ -9,54 +9,58 @@ const WebpackMessages = require("webpack-messages");
 const del = require("del");
 
 // theme name
-const themeName = "metronic";
+const themeName = "kidsenglish";
 // global variables
 const rootPath = path.resolve(__dirname);
 const distPath = rootPath + "/src/assets";
 
 const entries = {
-	"sass/style.angular": "./src/assets/sass/style.angular.scss"
+  "sass/style.angular": "./src/assets/sass/style.angular.scss",
 };
 
-const mainConfig = function() {
+const mainConfig = function () {
   return {
     mode: "development",
     stats: "errors-only",
     performance: {
-      hints: false
+      hints: false,
     },
     entry: entries,
     output: {
       // main output path in assets folder
       path: distPath,
       // output path based on the entries' filename
-      filename: "[name].js"
+      filename: "[name].js",
     },
     resolve: { extensions: [".scss"] },
     plugins: [
       // webpack log message
       new WebpackMessages({
         name: themeName,
-        logger: str => console.log(`>> ${str}`)
+        logger: (str) => console.log(`>> ${str}`),
       }),
       // create css file
       new MiniCssExtractPlugin({
-        filename: "[name].css"
+        filename: "[name].css",
       }),
       new WebpackRTLPlugin({
-        filename: "[name].rtl.css"
+        filename: "[name].rtl.css",
       }),
       {
-        apply: compiler => {
+        apply: (compiler) => {
           // hook name
           compiler.hooks.afterEmit.tap("AfterEmitPlugin", () => {
             (async () => {
-              await del.sync(distPath + "/sass/style.angular.js", { force: true });
-              await del.sync(distPath + "/sass/style.angular.css", { force: true });
+              await del.sync(distPath + "/sass/style.angular.js", {
+                force: true,
+              });
+              await del.sync(distPath + "/sass/style.angular.css", {
+                force: true,
+              });
             })();
           });
-        }
-      }
+        },
+      },
     ],
     module: {
       rules: [
@@ -68,16 +72,16 @@ const mainConfig = function() {
             {
               loader: "sass-loader",
               options: {
-                sourceMap: true
-              }
-            }
-          ]
-        }
-      ]
-    }
+                sourceMap: true,
+              },
+            },
+          ],
+        },
+      ],
+    },
   };
 };
 
-module.exports = function() {
+module.exports = function () {
   return [mainConfig()];
 };

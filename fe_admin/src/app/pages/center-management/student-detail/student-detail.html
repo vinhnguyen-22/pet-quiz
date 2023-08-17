@@ -1,0 +1,104 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 class="card-label font-weight-bolder text-dark mr-10">{{'Thông tin học sinh: '+studentDetail.student?.name }}</h3>
+    </div>
+    <div class="card-toolbar">
+      <button type="button" class="btn btn-light" (click)="returnClass()"><i class="fa fa-arrow-left"></i>Quay lại</button>
+    </div>
+  </div>
+  <div class="card-body pt-2">
+    <div class="row">
+      <div class="col-lg-1">
+        <div class="box-img avatar">
+          <div class="img">
+            <img [src]="studentDetail.student?.avatar" onerror="this.src='assets/avatars/default-avatar.png'" alt="Avatar" />
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-11">
+        <div class="row">
+          <div class="col-lg-6">
+            <h4 class="mt-5 mb-5 custom-title">Thông tin chung</h4>
+
+            <table class="table table-head-custom table-vertical-center overflow-hidden table-borderless">
+              <thead>
+                <th class="p-0" [style.width]="'200px'"></th>
+                <th class="p-0"></th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border-top-0">Mã học sinh</td>
+                  <td class="border-top-0">{{ studentDetail.student?.code }}</td>
+                </tr>
+                <tr>
+                  <td>Họ tên</td>
+                  <td>{{ studentDetail.student?.name }}</td>
+                </tr>
+                <tr>
+                  <td>Năm sinh</td>
+                  <td>{{ studentDetail.student?.dob | date: "dd/MM/yyyy" }}</td>
+                </tr>
+                <tr>
+                  <td>Giới tính</td>
+                  <td>{{ studentDetail.student?.gender ? "Nam" : "Nữ" }}</td>
+                </tr>
+                <tr>
+                  <td>Địa chỉ hiện tại</td>
+                  <td>{{ studentDetail.student?.address }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-lg-6">
+            <h4 class="mt-5 mb-5 custom-title">Thông tin lớp học</h4>
+
+            <table class="table table-head-custom table-vertical-center overflow-hidden table-borderless">
+              <thead>
+                <th class="p-0" [style.width]="'200px'"></th>
+                <th class="p-0"></th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border-top-0">Ngày vào lớp</td>
+                  <td class="border-top-0">{{ studentDetail.classInfo?.dateOfEnter | date: "dd/MM/yyyy" }}</td>
+                </tr>
+                <tr>
+                  <td>Năm học</td>
+                  <td>{{ studentDetail.classInfo?.yearName }}</td>
+                </tr>
+                <tr>
+                  <td>Level</td>
+                  <td>{{ studentDetail.classInfo?.gradeName }}</td>
+                </tr>
+                <tr>
+                  <td>Lớp học</td>
+                  <td>{{ studentDetail.classInfo?.className }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-lg-6">
+            <h4 class="mt-5 mb-5 custom-title">Thông tin phụ huynh</h4>
+            <table class="table table-head-custom table-vertical-center overflow-hidden table-borderless">
+              <thead>
+                <th class="p-0" [style.width]="'200px'"></th>
+                <th class="p-0"></th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="border-top-0">Họ tên cha/mẹ</td>
+                  <td class="border-top-0">{{ studentDetail.parentInfo?.name }}</td>
+                </tr>
+                <tr>
+                  <td>Điện thoại</td>
+                  <td>{{ studentDetail.parentInfo?.phoneNumber }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
