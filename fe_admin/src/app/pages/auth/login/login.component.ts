@@ -67,7 +67,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
       (err) => {
         this.messageError = err.error.message || err.error;
-      });
+      }
+    );
     this.unsubscribe.push(loginSubscr);
   }
 
