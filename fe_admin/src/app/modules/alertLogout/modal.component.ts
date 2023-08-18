@@ -1,5 +1,5 @@
 import { Component, Injectable, Input, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { AuthService } from 'src/services/auth/auth.service';
 @Component({
   selector: 'app-alert',
   templateUrl: './modal.component.html',

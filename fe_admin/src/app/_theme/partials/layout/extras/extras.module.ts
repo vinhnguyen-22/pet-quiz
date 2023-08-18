@@ -9,7 +9,7 @@ import { QuickPanelOffcanvasComponent } from './offcanvas/quick-panel-offcanvas/
 import { UserOffcanvasComponent } from './offcanvas/user-offcanvas/user-offcanvas.component';
 import { CoreModule } from '../../../core';
 import { ScrollTopComponent } from './scroll-top/scroll-top.component';
-import { PipesModule } from '../../../../pipes/pipes.module';
+import { PipesModule } from '../../../../../pipes/pipes.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,

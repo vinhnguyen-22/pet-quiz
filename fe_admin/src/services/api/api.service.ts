@@ -1,9 +1,10 @@
-import { CURRENT_USER_CMS, STATUS_CODE } from '../../constants/index';
+ 
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { LocalStorageService } from '../storage/local-storage.service';
 import { catchError, map } from 'rxjs/operators';
+import { CURRENT_USER_CMS, STATUS_CODE } from 'src/constants';
 
 @Injectable({
   providedIn: 'root',

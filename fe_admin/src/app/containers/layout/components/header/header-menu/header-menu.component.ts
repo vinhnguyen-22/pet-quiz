@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { LayoutService } from '../../../../../_theme/core';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { Component, OnInit } from "@angular/core";
+import { Location } from "@angular/common";
+import { LayoutService } from "../../../../../_theme/core";
+import { AuthService } from "src/services/auth/auth.service";
 
 function getCurrentURL(location) {
   return location.split(/[?#]/)[0];
 }
 
 @Component({
-  selector: 'app-header-menu',
-  templateUrl: './header-menu.component.html',
+  selector: "app-header-menu",
+  templateUrl: "./header-menu.component.html",
 })
 export class HeaderMenuComponent implements OnInit {
   ulCSSClasses: string;
@@ -19,22 +19,30 @@ export class HeaderMenuComponent implements OnInit {
   location: Location;
   headerMenuDesktopToggle: string;
 
-  constructor(private layout: LayoutService, private loc: Location, private auth: AuthService) {
+  constructor(
+    private layout: LayoutService,
+    private loc: Location,
+    private auth: AuthService
+  ) {
     this.location = this.loc;
     this.auth.currentUserSubject.asObservable().subscribe((res) => {
       this.currentUser = res;
-      this.organName = this.currentUser?.organization?.name ? ' - ' + this.currentUser?.organization?.name : '';
+      this.organName = this.currentUser?.organization?.name
+        ? " - " + this.currentUser?.organization?.name
+        : "";
     });
   }
 
   ngOnInit(): void {
-    this.ulCSSClasses = this.layout.getStringCSSClasses('header_menu_nav');
-    this.rootArrowEnabled = this.layout.getProp('header.menu.self.rootArrow');
-    this.headerMenuDesktopToggle = this.layout.getProp('header.menu.desktop.toggle');
+    this.ulCSSClasses = this.layout.getStringCSSClasses("header_menu_nav");
+    this.rootArrowEnabled = this.layout.getProp("header.menu.self.rootArrow");
+    this.headerMenuDesktopToggle = this.layout.getProp(
+      "header.menu.desktop.toggle"
+    );
   }
 
   getMenuItemActive(url) {
-    return this.checkIsActive(url) ? 'menu-item-active' : '';
+    return this.checkIsActive(url) ? "menu-item-active" : "";
   }
 
   checkIsActive(url) {

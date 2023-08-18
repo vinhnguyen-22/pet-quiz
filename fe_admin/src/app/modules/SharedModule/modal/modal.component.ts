@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Injectable, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { MODAL_BUTTON_STYLE, MODAL_STYLE, MODAL_TYPE } from 'src/app/constants';
+import { MODAL_BUTTON_STYLE, MODAL_STYLE, MODAL_TYPE } from 'src/constants';
 
 @Component({
   selector: 'common-modal',

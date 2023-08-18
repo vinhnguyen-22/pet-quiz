@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { LocalStorageService } from "../../../storage/local-storage.service";
-import { CURRENT_USER_CMS } from "src/app/constants";
+import { CURRENT_USER_CMS } from "src/constants";
 
 const API_USERS_URL = `${environment.apiUrl}auth/login`;
 

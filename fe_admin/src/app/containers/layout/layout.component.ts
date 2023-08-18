@@ -1,33 +1,36 @@
-import { CURRENT_USER_CMS } from '../../constants/index';
-import { NavigationEnd, Router } from '@angular/router';
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { LayoutService, LayoutInitService } from '../../_theme/core';
-import KTLayoutContent from '../../../assets/js/layout/base/content';
-import { ShareService } from 'src/app/services/share/share.service';
-import { OptionStore } from 'src/app/store/option/optionStore';
-import { OptionQuery } from 'src/app/store/option/optionQuery';
- 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LocalStorageService } from 'src/app/services/storage/local-storage.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { CustomModalService } from 'src/app/services/modal.service';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from "@angular/core";
+import { LayoutService, LayoutInitService } from "../../_theme/core";
+import KTLayoutContent from "../../../assets/js/layout/base/content";
+import { ShareService } from "src/services/share/share.service";
+import { OptionStore } from "src/store/option/optionStore";
+import { OptionQuery } from "src/store/option/optionQuery";
+
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { AuthService } from "src/services/auth/auth.service";
+import { CustomModalService } from "src/services/modal.service";
 
 @Component({
-  selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss'],
+  selector: "app-layout",
+  templateUrl: "./layout.component.html",
+  styleUrls: ["./layout.component.scss"],
 })
 export class LayoutComponent implements OnInit, AfterViewInit {
-  selfLayout = 'default';
+  selfLayout = "default";
   asideSelfDisplay: true;
   asideMenuStatic: true;
-  contentClasses = '';
-  contentContainerClasses = '';
+  contentClasses = "";
+  contentContainerClasses = "";
   subheaderDisplay = true;
   contentExtended: false;
   asideCSSClasses: string;
   asideHTMLAttributes: any = {};
-  headerMobileClasses = '';
+  headerMobileClasses = "";
   headerMobileAttributes = {};
   footerDisplay: boolean;
   footerCSSClasses: string;
@@ -41,9 +44,9 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   extrasQuickPanelDisplay = false;
   extrasScrollTopDisplay = false;
   token: any;
-  @ViewChild('ktAside', { static: true }) ktAside: ElementRef;
-  @ViewChild('ktHeaderMobile', { static: true }) ktHeaderMobile: ElementRef;
-  @ViewChild('ktHeader', { static: true }) ktHeader: ElementRef;
+  @ViewChild("ktAside", { static: true }) ktAside: ElementRef;
+  @ViewChild("ktHeaderMobile", { static: true }) ktHeaderMobile: ElementRef;
+  @ViewChild("ktHeader", { static: true }) ktHeader: ElementRef;
 
   constructor(
     private initService: LayoutInitService,
@@ -53,7 +56,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     public modal: CustomModalService,
     private optionStore: OptionStore,
     public authService: AuthService,
-    private modalService: NgbModal, 
+    private modalService: NgbModal
   ) {
     this.initService.init();
 
@@ -66,45 +69,56 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.selfLayout = this.layout.getProp('self.layout');
-    this.asideSelfDisplay = this.layout.getProp('aside.self.display');
-    this.asideMenuStatic = this.layout.getProp('aside.menu.static');
-    this.subheaderDisplay = this.layout.getProp('subheader.display');
-    this.contentClasses = this.layout.getStringCSSClasses('content');
-    this.contentContainerClasses = this.layout.getStringCSSClasses('content_container');
-    this.contentExtended = this.layout.getProp('content.extended');
-    this.asideHTMLAttributes = this.layout.getHTMLAttributes('aside');
-    this.asideCSSClasses = this.layout.getStringCSSClasses('aside');
-    this.headerMobileClasses = this.layout.getStringCSSClasses('header_mobile');
-    this.headerMobileAttributes = this.layout.getHTMLAttributes('header_mobile');
-    this.footerDisplay = this.layout.getProp('footer.display');
-    this.footerCSSClasses = this.layout.getStringCSSClasses('footer');
-    this.headerCSSClasses = this.layout.getStringCSSClasses('header');
-    this.headerHTMLAttributes = this.layout.getHTMLAttributes('header');
+    this.selfLayout = this.layout.getProp("self.layout");
+    this.asideSelfDisplay = this.layout.getProp("aside.self.display");
+    this.asideMenuStatic = this.layout.getProp("aside.menu.static");
+    this.subheaderDisplay = this.layout.getProp("subheader.display");
+    this.contentClasses = this.layout.getStringCSSClasses("content");
+    this.contentContainerClasses =
+      this.layout.getStringCSSClasses("content_container");
+    this.contentExtended = this.layout.getProp("content.extended");
+    this.asideHTMLAttributes = this.layout.getHTMLAttributes("aside");
+    this.asideCSSClasses = this.layout.getStringCSSClasses("aside");
+    this.headerMobileClasses = this.layout.getStringCSSClasses("header_mobile");
+    this.headerMobileAttributes =
+      this.layout.getHTMLAttributes("header_mobile");
+    this.footerDisplay = this.layout.getProp("footer.display");
+    this.footerCSSClasses = this.layout.getStringCSSClasses("footer");
+    this.headerCSSClasses = this.layout.getStringCSSClasses("header");
+    this.headerHTMLAttributes = this.layout.getHTMLAttributes("header");
 
-    if (this.layout.getProp('extras.search.display')) {
-      this.extrasSearchOffcanvasDisplay = this.layout.getProp('extras.search.layout') === 'offcanvas';
+    if (this.layout.getProp("extras.search.display")) {
+      this.extrasSearchOffcanvasDisplay =
+        this.layout.getProp("extras.search.layout") === "offcanvas";
     }
 
-    if (this.layout.getProp('extras.notifications.display')) {
-      this.extrasNotificationsOffcanvasDisplay = this.layout.getProp('extras.notifications.layout') === 'offcanvas';
+    if (this.layout.getProp("extras.notifications.display")) {
+      this.extrasNotificationsOffcanvasDisplay =
+        this.layout.getProp("extras.notifications.layout") === "offcanvas";
     }
 
-    if (this.layout.getProp('extras.quickActions.display')) {
-      this.extrasQuickActionsOffcanvasDisplay = this.layout.getProp('extras.quickActions.layout') === 'offcanvas';
+    if (this.layout.getProp("extras.quickActions.display")) {
+      this.extrasQuickActionsOffcanvasDisplay =
+        this.layout.getProp("extras.quickActions.layout") === "offcanvas";
     }
 
-    if (this.layout.getProp('extras.cart.display')) {
-      this.extrasCartOffcanvasDisplay = this.layout.getProp('extras.cart.layout') === 'offcanvas';
+    if (this.layout.getProp("extras.cart.display")) {
+      this.extrasCartOffcanvasDisplay =
+        this.layout.getProp("extras.cart.layout") === "offcanvas";
     }
 
-    if (this.layout.getProp('extras.user.display')) {
-      this.extrasUserOffcanvasDisplay = this.layout.getProp('extras.user.layout') === 'offcanvas';
+    if (this.layout.getProp("extras.user.display")) {
+      this.extrasUserOffcanvasDisplay =
+        this.layout.getProp("extras.user.layout") === "offcanvas";
     }
 
-    this.extrasQuickPanelDisplay = this.layout.getProp('extras.quickPanel.display');
+    this.extrasQuickPanelDisplay = this.layout.getProp(
+      "extras.quickPanel.display"
+    );
 
-    this.extrasScrollTopDisplay = this.layout.getProp('extras.scrolltop.display');
+    this.extrasScrollTopDisplay = this.layout.getProp(
+      "extras.scrolltop.display"
+    );
   }
   ngOnDestroy(): void {
     this.modalService.dismissAll();
@@ -113,7 +127,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     if (this.ktAside) {
       for (const key in this.asideHTMLAttributes) {
         if (this.asideHTMLAttributes.hasOwnProperty(key)) {
-          this.ktAside.nativeElement.attributes[key] = this.asideHTMLAttributes[key];
+          this.ktAside.nativeElement.attributes[key] =
+            this.asideHTMLAttributes[key];
         }
       }
     }
@@ -121,7 +136,8 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     if (this.ktHeaderMobile) {
       for (const key in this.headerMobileAttributes) {
         if (this.headerMobileAttributes.hasOwnProperty(key)) {
-          this.ktHeaderMobile.nativeElement.attributes[key] = this.headerMobileAttributes[key];
+          this.ktHeaderMobile.nativeElement.attributes[key] =
+            this.headerMobileAttributes[key];
         }
       }
     }
@@ -129,12 +145,13 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     if (this.ktHeader) {
       for (const key in this.headerHTMLAttributes) {
         if (this.headerHTMLAttributes.hasOwnProperty(key)) {
-          this.ktHeader.nativeElement.attributes[key] = this.headerHTMLAttributes[key];
+          this.ktHeader.nativeElement.attributes[key] =
+            this.headerHTMLAttributes[key];
         }
       }
     }
     // Init Content
-    KTLayoutContent.init('kt_content');
+    KTLayoutContent.init("kt_content");
   }
 
   getOptions = () => {
@@ -148,6 +165,6 @@ export class LayoutComponent implements OnInit, AfterViewInit {
       });
   };
   closeModal = () => {
-    this.modal.Dialog('changePassword', false, {});
+    this.modal.Dialog("changePassword", false, {});
   };
 }

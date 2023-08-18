@@ -1,7 +1,7 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ROLE } from '../../../../../../constants/index';
+import { ROLE } from '../../../../../../../constants/index';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { AuthService } from 'src/services/auth/auth.service';
 import { LayoutService } from '../../../../../core';
 
 @Component({

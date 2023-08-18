@@ -1,4 +1,4 @@
-import { CURRENT_USER_CMS, ROLE } from 'src/app/constants';
+import { CURRENT_USER_CMS, ROLE } from 'src/constants';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
