@@ -33,4 +33,11 @@ yarn-error.log*
 .env
 
 # vercel
+<<<<<<< HEAD
 .vercel
+=======
+.vercel
+
+.package-lock.json
+.yarn.lock
+>>>>>>> develop

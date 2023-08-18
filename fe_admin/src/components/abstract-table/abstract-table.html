@@ -1,0 +1,16 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th *ngFor="let header of headers; let i = index">{{header.value}}</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of datas; let i = index">
+      <td *ngFor="let header of headers; let j = index">
+        {{data[header.key]}}
+      </td>
+      <td>Action</td>
+    </tr>
+  </tbody>
+</table>

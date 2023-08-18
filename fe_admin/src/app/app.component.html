@@ -1,2 +1,8 @@
 <app-splash-screen></app-splash-screen>
 <router-outlet></router-outlet>
+<div *ngIf="modal.show.asObservable() | async; let _show">
+  <app-modal-new [isOpen]="_show.isNew" (close)="closeModal('new')" [new]="_show.data"></app-modal-new>
+</div>
+<div *ngIf="auth.isTokenInValid.asObservable() | async; let _token">
+  <app-alert [isOpen]="_token"></app-alert>
+</div>

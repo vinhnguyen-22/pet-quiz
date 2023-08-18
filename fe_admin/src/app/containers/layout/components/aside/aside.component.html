@@ -1,0 +1,384 @@
+<div class="brand flex-column-auto" id="kt_brand" style="background-color: #f2ce5f !important" [ngClass]="brandClasses">
+  <a routerLink="/" class="brand-logo">
+    <img alt="Logo" src="./assets/logo.svg" />
+  </a>
+
+  <ng-container *ngIf="asideSelfMinimizeToggle">
+    <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
+      <span [inlineSVG]="'./assets/media/svg/icons/Navigation/Angle-double-left.svg'" cacheSVG="true" class="svg-icon svg-icon-xl"></span>
+    </button>
+  </ng-container>
+</div>
+<div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
+  <ng-container *ngIf="disableAsideSelfDisplay">
+    <a routerLink="/">
+      <img alt="Logo" src="./assets/logo.svg" />
+    </a>
+  </ng-container>
+  <div
+    id="kt_aside_menu"
+    class="aside-menu"
+    [ngClass]="asideMenuCSSClasses"
+    data-menu-vertical="1"
+    [attr.data-menu-scroll]="asideMenuScroll"
+    [attr.data-menu-dropdown]="asideMenuDropdown"
+    data-menu-dropdown-timeout="500"
+  >
+    <ul class="menu-nav" [ngClass]="ulCSSClasses">
+      <div *ngIf="auth.isAdmin(); then menuForAdmin"></div>
+      <div *ngIf="currentUser?.roleId == ROLE.STAFF; then menuForSchool"></div>
+    </ul>
+  </div>
+</div>
+
+<ng-template #menuForAdmin>
+  <ng-container *ngTemplateOutlet="statisticalMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="programMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="documentLibraryMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="gameStudioMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="organizationMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="studentStoreMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="userManagementMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="notificationManagementMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="newsManagementMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="feedbackListMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="supportTicketListMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="roleMenu"></ng-container>
+</ng-template>
+
+<ng-template #menuForSchool>
+  <ng-container *ngTemplateOutlet="statisticalMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="schoolManagementMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="studentManagementMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="teachingPlanManagementMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="learningProgramMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="notificationManagementMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="newsManagementMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="newsListMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="sendingFeedbackMenu"></ng-container>
+  <ng-container *ngTemplateOutlet="sendingSupportTicketMenu"></ng-container>
+</ng-template>
+
+<ng-template #programMenu>
+  <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover" routerLinkActive="menu-item-open">
+    <a class="menu-link menu-toggle" routerLinkActive="active" href="javascript:;">
+      <span [inlineSVG]="'./assets/media/svg/icons/Home/Library.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Chương trình học</span>
+      <i class="menu-arrow"></i>
+    </a>
+    <div class="menu-submenu">
+      <i class="menu-arrow"></i>
+      <ul class="menu-subnav">
+        <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
+          <a class="menu-link" routerLink="/lessons" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Quản lý bài học</span>
+          </a>
+        </li>
+
+        <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
+          <a class="menu-link" routerLink="/programs" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Quản lý chương trình</span>
+          </a>
+        </li>
+
+        <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
+          <a class="menu-link" routerLink="/topics" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Quản lý chủ đề</span>
+          </a>
+        </li>
+
+        <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
+          <a class="menu-link" routerLink="/structures" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Cấu trúc phần học</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ng-template>
+
+<ng-template #documentLibraryMenu>
+  <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+    <a class="menu-link" routerLink="/document-library/lesson" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Home/Book.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Thư viện học liệu</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #statisticalMenu>
+  <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+    <a class="menu-link" routerLink="/statistical" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Layout/Layout-4-blocks.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Thống kê, báo cáo</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #gameStudioMenu>
+  <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+    <a class="menu-link" routerLink="/games" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Devices/Gamepad2.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Game Studio</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #studentStoreMenu>
+  <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+    <a class="menu-link" routerLink="/students" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Devices/Gamepad2.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Danh sách học sinh</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #organizationMenu>
+  <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover" routerLinkActive="menu-item-open">
+    <a class="menu-link menu-toggle" href="javascript:;" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Home/Building.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Quản lý tổ chức</span>
+      <i class="menu-arrow"></i>
+    </a>
+    <div class="menu-submenu">
+      <i class="menu-arrow"></i>
+      <ul class="menu-subnav">
+        <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
+          <a class="menu-link" routerLink="/schools" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Trường học</span>
+          </a>
+        </li>
+        <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
+          <a class="menu-link" routerLink="/centers" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Trung tâm Tiếng Anh</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ng-template>
+
+<ng-template #schoolManagementMenu>
+  <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover" routerLinkActive="menu-item-open">
+    <a class="menu-link menu-toggle" href="javascript:;" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Home/Building.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Quản lý trung tâm</span>
+      <i class="menu-arrow"></i>
+    </a>
+    <div class="menu-submenu">
+      <i class="menu-arrow"></i>
+      <ul class="menu-subnav">
+        <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
+          <a class="menu-link" routerLink="/center-management/schools" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Trường học</span>
+          </a>
+        </li>
+        <li class="menu-item" aria-haspopup="true" data-menu-toggle="hover" routerLinkActive="menu-item-active">
+          <a class="menu-link" routerLink="/center-management/teachers" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Giáo viên</span>
+          </a>
+        </li>
+        <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
+          <a class="menu-link" routerLink="/center-management/classes" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Lớp học</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ng-template>
+
+<ng-template #studentManagementMenu>
+  <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover" routerLinkActive="menu-item-open">
+    <a class="menu-link menu-toggle" routerLinkActive="active" href="javascript:;">
+      <span [inlineSVG]="'./assets/media/svg/icons/Communication/Group.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Quản lý học sinh</span>
+      <i class="menu-arrow"></i>
+    </a>
+    <div class="menu-submenu">
+      <i class="menu-arrow"></i>
+      <ul class="menu-subnav">
+        <li class="menu-item" aria-haspopup="true" data-menu-toggle="hover" routerLinkActive="menu-item-active">
+          <a class="menu-link" routerLink="/student-management/students" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Danh sách học sinh</span>
+          </a>
+        </li>
+        <li class="menu-item" aria-haspopup="true" data-menu-toggle="hover" routerLinkActive="menu-item-active">
+          <a class="menu-link" routerLink="/student-management/parents" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Danh sách Phụ huynh</span>
+          </a>
+        </li>
+        <li class="menu-item" aria-haspopup="true" data-menu-toggle="hover" routerLinkActive="menu-item-active">
+          <a class="menu-link" routerLink="/student-management/student-store" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Kho mã học sinh</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ng-template>
+
+<ng-template #teachingPlanManagementMenu>
+  <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+    <a class="menu-link" routerLink="/teaching-plan" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Home/Book.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Phân công giảng dạy</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #userManagementMenu>
+  <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+    <a class="menu-link" routerLink="/users" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Communication/Group.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Quản lý nhân viên</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #learningProgramMenu>
+  <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+    <a class="menu-link" routerLink="/programs" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Home/Library.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Chương trình học</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #notificationManagementMenu>
+  <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+    <a class="menu-link" routerLink="/notifications" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/General/Notifications1.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Quản lý thông báo</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #newsManagementMenu>
+  <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+    <a class="menu-link" routerLink="/new-management" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Wallet3.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Quản lý tin tức</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #feedbackListMenu>
+  <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+    <a class="menu-link" routerLink="/feedbacks" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Communication/Mail-box.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Danh sách góp ý</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #newsListMenu>
+  <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+    <a class="menu-link" routerLink="/news" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Design/Image.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Tin tức</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #sendingFeedbackMenu>
+  <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+    <a class="menu-link" routerLink="/send-feedback" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Communication/Chat2.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Gửi ý kiến đóng góp</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #sendingSupportTicketMenu>
+  <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+    <a class="menu-link" routerLink="/request-support" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Tools/Tools.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Gửi yêu cầu hỗ trợ</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #supportTicketListMenu>
+  <li class="menu-item" aria-haspopup="true" routerLinkActive="menu-item-active">
+    <a class="menu-link" routerLink="/request-support-list" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/Tools/Pantone.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Danh sách yêu cầu hỗ trợ</span>
+    </a>
+  </li>
+</ng-template>
+
+<ng-template #roleMenu>
+  <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover" routerLinkActive="menu-item-open">
+    <a class="menu-link menu-toggle" href="javascript:;" routerLinkActive="active">
+      <span [inlineSVG]="'./assets/media/svg/icons/General/Settings-2.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
+      <span class="menu-text">Cài đặt</span>
+      <i class="menu-arrow"></i>
+    </a>
+    <div class="menu-submenu">
+      <i class="menu-arrow"></i>
+      <ul class="menu-subnav">
+        <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
+          <a class="menu-link" routerLink="/contacts" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Hotline hỗ trợ khách hàng</span>
+          </a>
+        </li>
+        <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
+          <a class="menu-link" routerLink="/roles" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Phân quyền cho các vai trò</span>
+          </a>
+        </li>
+        <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
+          <a class="menu-link" routerLink="/permissions" routerLinkActive="active">
+            <i class="menu-bullet menu-bullet-dot">
+              <span></span>
+            </i>
+            <span class="menu-text">Danh sách chức năng</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ng-template>

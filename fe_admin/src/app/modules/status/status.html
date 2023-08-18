@@ -1,0 +1,6 @@
+<span
+  class="badge fw-bolder"
+  [ngClass]="{ 'badge-success': status === 1, 'badge-light': status === 2 }"
+>
+  {{ status == 1 ? "Đang hoạt động" : "Tạm dừng" }}
+</span>

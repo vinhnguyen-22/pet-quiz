@@ -1,0 +1,113 @@
+<div id="kt_quick_panel" class="offcanvas pt-5 pb-10" [ngClass]="extrasQuickPanelOffcanvasDirectionCSSClass">
+  <div class="offcanvas-header offcanvas-header-navs d-flex align-items-center justify-content-between mb-5" #headerNoti>
+    <ul class="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-primary flex-grow-1 px-10" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link cursor-pointer" data-toggle="tab" [ngClass]="getActiveCSSClasses('tickets')" (click)="setActiveTabId('tickets')">
+          Yêu cầu hỗ trợ
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link cursor-pointer" data-toggle="tab"> Thông báo </a>
+      </li>
+    </ul>
+    <div class="offcanvas-close mt-n1 pr-5">
+      <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_panel_close">
+        <i class="ki ki-close icon-xs text-muted"></i>
+      </a>
+    </div>
+  </div>
+  <div class="offcanvas-content px-10" style="overflow: auto" [ngStyle]="{ height: 'calc(100vh - ' + 100 + 'px)' }">
+    <div class="tab-content">
+      <div class="tab-pane fade pt-3 pr-5 mr-n5" id="tickets" [ngClass]="getActiveCSSClasses('tickets')" role="tabpanel">
+        <div class="navi navi-icon-circle navi-spacer-x-0">
+          <a href="javascript:;" class="navi-item">
+            <div class="navi-link rounded">
+              <div class="navi-text">
+                <div class="font-weight-bolder font-size-lg"></div>
+                <div class="font-size-lg d-inline-block text-truncate" style="max-width: 200px"></div>
+                <div class="text-muted"></div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="tab-pane fade pt-2 pr-5 mr-n5" id="notifications" role="tabpanel">
+        <div class="navi navi-icon-circle navi-spacer-x-0">
+          <a href="javascript:;" class="navi-item">
+            <div class="navi-link rounded">
+              <div class="navi-text">
+                <div class="font-weight-bold font-size-lg"></div>
+                <div class="text-muted"></div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="tab-pane fade pt-3 pr-5 mr-n5" id="feedbacks" [ngClass]="getActiveCSSClasses('feedbacks')" role="tabpanel">
+        <div class="navi navi-icon-circle navi-spacer-x-0">
+          <a href="javascript:;" class="navi-item">
+            <div class="navi-link rounded">
+              <div class="navi-text">
+                <div class="font-weight-bolder font-size-lg"></div>
+                <div class="font-size-lg d-inline-block text-truncate" style="max-width: 200px"></div>
+                <div class="text-muted"></div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="tab-pane fade pt-3 pr-5 mr-n5" id="news" [ngClass]="getActiveCSSClasses('news')" role="tabpanel">
+        <div class="navi navi-icon-circle navi-spacer-x-0">
+          <a href="javascript:;" class="navi-item">
+            <div class="navi-link rounded">
+              <div class="navi-text">
+                <div class="font-weight-bolder font-size-lg"></div>
+                <div class="font-size-lg"></div>
+                <div class="text-muted"></div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #NOTIFY_DETAIL let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="text-dark-75 font-weight-bolder">Yêu cầu hỗ trợ</h4>
+    <h4 class="text-dark-75 font-weight-bolder">Thông báo</h4>
+    <h4 class="text-dark-75 font-weight-bolder">Góp ý</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row" *ngIf="notifyType == 'TICKET' || notifyType == 'FEED_BACK' || notifyType == 'NEWS'">
+      <div class="col-md-12 d-flex">
+        <div class="flex-grow-1">
+          <h2>{{ notify.title }}</h2>
+        </div>
+        <p class="text-muted">{{ notify.createdDate | timeAgo }}</p>
+      </div>
+      <div class="col-md-12 d-flex">
+        <div class="flex-grow-1">
+          <h6>{{ notify.category }}</h6>
+        </div>
+      </div>
+      <div class="col-md-12" [innerHTML]="notify.content"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 d-flex">
+        <div class="flex-grow-1">
+          <h4>{{ notify.title }}</h4>
+        </div>
+        <p class="text-muted">{{ notify.createdDate | timeAgo }}</p>
+      </div>
+      <div class="col-md-12" [innerHTML]="notify.content"></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Đóng</button>
+  </div>
+</ng-template>

@@ -9,6 +9,7 @@
 
 # dependencies
 /node_modules
+.angular
 
 # profiling files
 chrome-profiler-events*.json
@@ -46,10 +47,12 @@ testem.log
 /e2e/*.js
 /e2e/*.map
 
-# # assets
-/src/assets
-src/assets
-
 # System Files
 .DS_Store
 Thumbs.db
+
+environment.ts
+
+.env
+.package-lock.json
+.yarn.lock
