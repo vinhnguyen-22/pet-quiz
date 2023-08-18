@@ -54,3 +54,5 @@ Thumbs.db
 environment.ts
 
 .env
+.package-lock.json
+.yarn.lock

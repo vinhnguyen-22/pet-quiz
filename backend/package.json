@@ -6,7 +6,6 @@
     "scripts": {
         "dev": "nodemon",
         "build": "tsc",
-        "revert": "ts-node ./node_modules/typeorm/cli.js migration:revert",
         "generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -n migration -p",
         "migrate": "ts-node ./node_modules/typeorm/cli.js migration:run",
         "sync-all-router": "node dist/database/seed/sync_all_router.js",
