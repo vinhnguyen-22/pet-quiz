@@ -1,4 +1,4 @@
-import { ROLE } from '../constants/index';
+import { ROLE } from '../../constants/index';
 
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
@@ -148,36 +148,10 @@ export class RoleGuard implements CanActivate {
     switch (currentUser?.roleId) {
       case ROLE.ADMIN:
         return this.adminCanActivate(state.url);
-      case ROLE.CMS_ADMIN:
+      case ROLE.STAFF:
         return this.adminCanActivate(state.url);
-      case ROLE.ADMIN_SCHOOL:
-        return this.schoolAdminCanActivate(state.url);
-      case ROLE.CENTER:
-        return this.centerCanActivate(state.url);
-      case ROLE.CONTENT_ADMIN:
-        return this.contentAdminCanActivate(state.url);
-      case ROLE.CUSTOMER_CARE:
-        return this.customerCareCanActivate(state.url);
     }
     this.router.navigate(['/error']);
     return false;
-  }
-
-  customerCareCanActivate(page) {
-    const pages = ['/schools', '/centers', '/notifications', '/new-management', '/feedbacks', '/request-support-list'];
-
-    let isActivate = pages.includes(page);
-
-    let arr = page.split('/');
-    if (arr[1] == 'document-library') {
-      if (!isActivate) {
-        this.router.navigate(['/' + arr[1] + '/' + arr[2]]);
-      }
-    } else {
-      if (!isActivate) {
-        this.router.navigate(['/' + arr[1]]);
-      }
-    }
-    return isActivate;
   }
 }

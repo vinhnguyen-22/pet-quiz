@@ -1,4 +1,4 @@
-import { CURRENT_USER_CMS } from './../constants/index';
+import { CURRENT_USER_CMS } from '../../constants/index';
 import { NavigationEnd, Router } from '@angular/router';
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { LayoutService, LayoutInitService } from '../../_theme/core';

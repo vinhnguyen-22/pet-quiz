@@ -1,5 +1,4 @@
- 
-import { CURRENT_USER_CMS, ROLE } from 'src/app/containers/constants';
+import { CURRENT_USER_CMS, ROLE } from 'src/app/constants';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
@@ -76,7 +75,7 @@ export class AuthService implements OnDestroy {
         }
       );
     });
-  }
+  };
 
   checkToken = (token): Promise<Object> => {
     return new Promise((resolve, reject) => {
@@ -146,25 +145,6 @@ export class AuthService implements OnDestroy {
   }
 
   isAdmin() {
-    return this.currentUserValue?.roleId == ROLE.ADMIN || this.currentUserValue?.roleId == ROLE.CMS_ADMIN;
-  }
-
-  isCenterAdmin() {
-    return this.currentUserValue?.roleId == ROLE.CENTER || this.currentUserValue?.roleId == ROLE.ADMIN || this.currentUserValue?.roleId == ROLE.CMS_ADMIN;
-  }
-  isSuperAdmin() {
     return this.currentUserValue?.roleId == ROLE.ADMIN;
-  }
-
-  isSaler() {
-    return this.currentUserValue?.roleId == ROLE.CUSTOMER_CARE || this.currentUserValue?.roleId == ROLE.ADMIN;
-  }
-
-  canManageSystem() {
-    return (
-      this.currentUserValue?.roleId == ROLE.ADMIN ||
-      this.currentUserValue?.roleId == ROLE.CMS_ADMIN ||
-      this.currentUserValue?.roleId == ROLE.CUSTOMER_CARE
-    );
   }
 }

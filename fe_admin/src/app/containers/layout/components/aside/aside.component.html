@@ -26,10 +26,7 @@
   >
     <ul class="menu-nav" [ngClass]="ulCSSClasses">
       <div *ngIf="auth.isAdmin(); then menuForAdmin"></div>
-      <div *ngIf="currentUser?.roleId == ROLE.ADMIN_SCHOOL; then menuForSchool"></div>
-      <div *ngIf="currentUser?.roleId == ROLE.CENTER; then menuForEnglishCenter"></div>
-      <div *ngIf="currentUser?.roleId == ROLE.CUSTOMER_CARE; then menuForCustomerCare"></div>
-      <div *ngIf="currentUser?.roleId == ROLE.CONTENT_ADMIN; then menuForContentAdmin"></div>
+      <div *ngIf="currentUser?.roleId == ROLE.STAFF; then menuForSchool"></div>
     </ul>
   </div>
 </div>
@@ -60,33 +57,6 @@
   <ng-container *ngTemplateOutlet="newsListMenu"></ng-container>
   <ng-container *ngTemplateOutlet="sendingFeedbackMenu"></ng-container>
   <ng-container *ngTemplateOutlet="sendingSupportTicketMenu"></ng-container>
-</ng-template>
-
-<ng-template #menuForEnglishCenter>
-  <ng-container *ngTemplateOutlet="statisticalMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="schoolManagementMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="studentManagementMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="teachingPlanManagementMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="learningProgramMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="notificationManagementMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="newsManagementMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="newsListMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="sendingFeedbackMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="sendingSupportTicketMenu"></ng-container>
-</ng-template>
-
-<ng-template #menuForContentAdmin>
-  <ng-container *ngTemplateOutlet="programMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="documentLibraryMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="gameStudioMenu"></ng-container>
-</ng-template>
-
-<ng-template #menuForCustomerCare>
-  <ng-container *ngTemplateOutlet="organizationMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="notificationManagementMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="newsManagementMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="feedbackListMenu"></ng-container>
-  <ng-container *ngTemplateOutlet="supportTicketListMenu"></ng-container>
 </ng-template>
 
 <ng-template #programMenu>
@@ -208,12 +178,7 @@
 
 <ng-template #schoolManagementMenu>
   <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover" routerLinkActive="menu-item-open">
-    <a
-      class="menu-link menu-toggle"
-      href="javascript:;"
-      routerLinkActive="active"
-      *ngIf="currentUser?.roleId == ROLE.CENTER || currentUser?.roleId == ROLE.ADMIN_SCHOOL"
-    >
+    <a class="menu-link menu-toggle" href="javascript:;" routerLinkActive="active">
       <span [inlineSVG]="'./assets/media/svg/icons/Home/Building.svg'" cacheSVG="true" class="svg-icon menu-icon"></span>
       <span class="menu-text">Quản lý trung tâm</span>
       <i class="menu-arrow"></i>
@@ -221,13 +186,7 @@
     <div class="menu-submenu">
       <i class="menu-arrow"></i>
       <ul class="menu-subnav">
-        <li
-          class="menu-item"
-          routerLinkActive="menu-item-active"
-          aria-haspopup="true"
-          data-menu-toggle="hover"
-          *ngIf="currentUser?.roleId == ROLE.CENTER"
-        >
+        <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
           <a class="menu-link" routerLink="/center-management/schools" routerLinkActive="active">
             <i class="menu-bullet menu-bullet-dot">
               <span></span>
@@ -243,13 +202,7 @@
             <span class="menu-text">Giáo viên</span>
           </a>
         </li>
-        <li
-          class="menu-item"
-          routerLinkActive="menu-item-active"
-          aria-haspopup="true"
-          data-menu-toggle="hover"
-          *ngIf="currentUser?.roleId == ROLE.CENTER || currentUser?.roleId == ROLE.ADMIN_SCHOOL"
-        >
+        <li class="menu-item" routerLinkActive="menu-item-active" aria-haspopup="true" data-menu-toggle="hover">
           <a class="menu-link" routerLink="/center-management/classes" routerLinkActive="active">
             <i class="menu-bullet menu-bullet-dot">
               <span></span>

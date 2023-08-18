@@ -1,4 +1,4 @@
-import { ROLE } from './../../../constants/index';
+import { ROLE } from '../../../../constants/index';
 import { environment } from './../../../../../environments/environment';
 import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { LayoutService } from '../../../../_theme/core';

@@ -1,5 +1,5 @@
 {
-  "name": "Kidsenglish",
+  "name": "Base core",
   "version": "7.1.7",
   "scripts": {
     "ng": "ng",

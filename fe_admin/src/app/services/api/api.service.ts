@@ -1,4 +1,4 @@
-import { CURRENT_USER_CMS, STATUS_CODE } from '../../containers/constants/index';
+import { CURRENT_USER_CMS, STATUS_CODE } from '../../constants/index';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';

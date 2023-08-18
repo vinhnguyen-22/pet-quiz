@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ROLE } from 'src/app/containers/constants';
+import { ROLE } from 'src/app/constants';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { LayoutService } from '../../../../_theme/core';
 
@@ -25,9 +25,6 @@ export class AsideComponent implements OnInit {
   currentUser: any;
   ROLE = ROLE;
   ROLE_ADMIN = ROLE.ADMIN;
-  ROLE_CENTER = ROLE.CENTER;
-  CONTENT_ADMIN = ROLE.CONTENT_ADMIN;
-  CUSTOMER_CARE = ROLE.CUSTOMER_CARE;
 
   constructor(private layout: LayoutService, private loc: Location, public auth: AuthService) {
     this.auth.currentUserSubject.asObservable().subscribe((res) => (this.currentUser = res));

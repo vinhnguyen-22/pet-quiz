@@ -1,5 +1,5 @@
 import { environment } from 'src/environments/environment';
-import { CURRENT_USER_CMS, DATE_FORMAT, DEFAULT_DATE_FORMAT } from 'src/app/containers/constants';
+import { CURRENT_USER_CMS, DATE_FORMAT, DEFAULT_DATE_FORMAT } from 'src/app/constants';
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';

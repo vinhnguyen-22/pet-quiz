@@ -1,22 +1,14 @@
 <div id="kt_quick_panel" class="offcanvas pt-5 pb-10" [ngClass]="extrasQuickPanelOffcanvasDirectionCSSClass">
   <div class="offcanvas-header offcanvas-header-navs d-flex align-items-center justify-content-between mb-5" #headerNoti>
     <ul class="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-primary flex-grow-1 px-10" role="tablist">
-      <li class="nav-item" *ngIf="auth.canManageSystem()">
+      <li class="nav-item">
         <a class="nav-link cursor-pointer" data-toggle="tab" [ngClass]="getActiveCSSClasses('tickets')" (click)="setActiveTabId('tickets')">
           Yêu cầu hỗ trợ
         </a>
       </li>
-      <li class="nav-item" *ngIf="auth.canManageSystem()">
-        <a class="nav-link cursor-pointer" [ngClass]="getActiveCSSClasses('feedbacks')" (click)="setActiveTabId('feedbacks')" data-toggle="tab">
-          Góp ý
-        </a>
-      </li>
 
-      <li class="nav-item" *ngIf="!auth.canManageSystem()">
+      <li class="nav-item">
         <a class="nav-link cursor-pointer" data-toggle="tab"> Thông báo </a>
-      </li>
-      <li class="nav-item" *ngIf="!auth.canManageSystem()">
-        <a class="nav-link cursor-pointer" data-toggle="tab" [ngClass]="getActiveCSSClasses('news')" (click)="setActiveTabId('news')"> Tin tức </a>
       </li>
     </ul>
     <div class="offcanvas-close mt-n1 pr-5">
