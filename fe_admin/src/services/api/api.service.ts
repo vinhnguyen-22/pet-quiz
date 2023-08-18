@@ -1,17 +1,19 @@
- 
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { LocalStorageService } from '../storage/local-storage.service';
-import { catchError, map } from 'rxjs/operators';
-import { CURRENT_USER_CMS, STATUS_CODE } from 'src/constants';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { BehaviorSubject, Observable, throwError } from "rxjs";
+import { LocalStorageService } from "../storage/local-storage.service";
+import { catchError, map } from "rxjs/operators";
+import { CURRENT_USER_CMS, STATUS_CODE } from "src/business/rule";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ApiService {
   isCallCheckToken: BehaviorSubject<any>;
-  constructor(public httpClient: HttpClient, public storageService: LocalStorageService) {
+  constructor(
+    public httpClient: HttpClient,
+    public storageService: LocalStorageService
+  ) {
     this.isCallCheckToken = new BehaviorSubject<boolean>(false);
   }
 
@@ -27,37 +29,39 @@ export class ApiService {
     let headers = this.getHeaders();
     return this.httpClient.post(url, data, {
       reportProgress: true,
-      observe: 'events',
+      observe: "events",
       headers,
     });
   };
 
   getHeaders = () => {
     let user = this.storageService.get(CURRENT_USER_CMS);
-    let token = user ? user['token'] : null;
+    let token = user ? user["token"] : null;
     let headers = new HttpHeaders();
-    headers = headers.set('Authorization', `Bearer ${token}`);
+    headers = headers.set("Authorization", `Bearer ${token}`);
     return headers;
   };
 
   postWithToken = (url: string, data: any): Observable<any> => {
     let headers = this.getHeaders();
-    return this.httpClient.post(url, data, { observe: 'response', headers }).pipe(
-      map((res: any) => {
-        return res.body;
-      }),
-      catchError((err) => {
-        if (err.status == STATUS_CODE.UNAUTHORIZED) {
-          this.isCallCheckToken.next(true);
-        }
-        return err;
-      })
-    );
+    return this.httpClient
+      .post(url, data, { observe: "response", headers })
+      .pipe(
+        map((res: any) => {
+          return res.body;
+        }),
+        catchError((err) => {
+          if (err.status == STATUS_CODE.UNAUTHORIZED) {
+            this.isCallCheckToken.next(true);
+          }
+          return err;
+        })
+      );
   };
 
   getWithToken = (url: string): Observable<any> => {
     let headers = this.getHeaders();
-    return this.httpClient.get(url, { observe: 'response', headers }).pipe(
+    return this.httpClient.get(url, { observe: "response", headers }).pipe(
       map((res: any) => {
         return res.body;
       }),
@@ -71,21 +75,23 @@ export class ApiService {
   };
   putWithToken = (url: string, data: any): Observable<any> => {
     let headers = this.getHeaders();
-    return this.httpClient.put(url, data, { observe: 'response', headers }).pipe(
-      map((res: any) => {
-        return res.body;
-      }),
-      catchError((err) => {
-        if (err.status == STATUS_CODE.UNAUTHORIZED) {
-          this.isCallCheckToken.next(true);
-        }
-        return throwError(err);
-      })
-    );
+    return this.httpClient
+      .put(url, data, { observe: "response", headers })
+      .pipe(
+        map((res: any) => {
+          return res.body;
+        }),
+        catchError((err) => {
+          if (err.status == STATUS_CODE.UNAUTHORIZED) {
+            this.isCallCheckToken.next(true);
+          }
+          return throwError(err);
+        })
+      );
   };
   deleteWithToken = (url: string): Observable<any> => {
     let headers = this.getHeaders();
-    return this.httpClient.delete(url, { observe: 'response', headers }).pipe(
+    return this.httpClient.delete(url, { observe: "response", headers }).pipe(
       map((res: any) => {
         return res.body;
       }),
@@ -101,7 +107,7 @@ export class ApiService {
   uploadFileWithToken = (url: string, file: any): Observable<any> => {
     let headers = this.getHeaders();
     let form = new FormData();
-    form.append('file', file);
+    form.append("file", file);
     return this.httpClient.post(url, form, { headers });
   };
 }

@@ -1,15 +1,15 @@
-import { CURRENT_USER_CMS, ROLE } from 'src/constants';
-import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, BehaviorSubject, of, Subscription } from 'rxjs';
-import { map, catchError, switchMap } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { AuthHTTPService } from './_services/auth-http';
-import { LocalStorageService } from '../storage/local-storage.service';
-import { ApiService } from '../api/api.service';
-import { environment } from 'src/environments/environment';
+import { Injectable, OnDestroy } from "@angular/core";
+import { Observable, BehaviorSubject, of, Subscription } from "rxjs";
+import { map, catchError, switchMap } from "rxjs/operators";
+import { Router } from "@angular/router";
+import { AuthHTTPService } from "./_services/auth-http";
+import { LocalStorageService } from "../storage/local-storage.service";
+import { ApiService } from "../api/api.service";
+import { environment } from "src/environments/environment";
+import { CURRENT_USER_CMS, ROLE } from "src/business/rule";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AuthService implements OnDestroy {
   private unsubscribe: Subscription[] = [];
@@ -34,7 +34,7 @@ export class AuthService implements OnDestroy {
   ) {
     this.currentUserSubject = new BehaviorSubject<boolean>(undefined);
     this.isTokenInValid = new BehaviorSubject<boolean>(false);
-    this.message = new BehaviorSubject<string>('');
+    this.message = new BehaviorSubject<string>("");
     this.currentUser$ = this.currentUserSubject.asObservable();
     const subscr = this.getUserByToken().subscribe();
     this.unsubscribe.push(subscr);
@@ -66,12 +66,12 @@ export class AuthService implements OnDestroy {
         (res: any) => {
           this.localStorageService.delete(CURRENT_USER_CMS);
           this.currentUserSubject.next(undefined);
-          this.router.navigate(['auth/login']);
+          this.router.navigate(["auth/login"]);
         },
         (err) => {
           this.localStorageService.delete(CURRENT_USER_CMS);
           this.currentUserSubject.next(undefined);
-          this.router.navigate(['auth/login']);
+          this.router.navigate(["auth/login"]);
         }
       );
     });
@@ -101,10 +101,10 @@ export class AuthService implements OnDestroy {
     this.isTokenInValid.next(true);
     this.currentUserSubject.next(undefined);
     this.localStorageService.delete(CURRENT_USER_CMS);
-    this.router.navigate(['auth/login']);
+    this.router.navigate(["auth/login"]);
   }
   public dialogCheckToken() {
-    this.message.next('');
+    this.message.next("");
     this.isTokenInValid.next(false);
   }
   getUserByToken(): Observable<any> {

@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { LocalStorageService } from "../../../storage/local-storage.service";
-import { CURRENT_USER_CMS } from "src/constants";
+import { CURRENT_USER_CMS } from "src/business/rule";
 
 const API_USERS_URL = `${environment.apiUrl}auth/login`;
 
@@ -11,7 +11,10 @@ const API_USERS_URL = `${environment.apiUrl}auth/login`;
   providedIn: "root",
 })
 export class AuthHTTPService {
-  constructor(private http: HttpClient, public storageService: LocalStorageService) { }
+  constructor(
+    private http: HttpClient,
+    public storageService: LocalStorageService
+  ) {}
 
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(API_USERS_URL, {
@@ -22,12 +25,11 @@ export class AuthHTTPService {
   }
   getHeaders = () => {
     let user = this.storageService.get(CURRENT_USER_CMS);
-    let token = user ? user['token'] : null;
+    let token = user ? user["token"] : null;
     let headers = new HttpHeaders();
-    headers = headers.set('Authorization', `Bearer ${token}`);
+    headers = headers.set("Authorization", `Bearer ${token}`);
     return headers;
   };
-
 
   createUser(user: any): Observable<any> {
     return this.http.post<any>(API_USERS_URL, user);
@@ -42,7 +44,7 @@ export class AuthHTTPService {
   getUserByToken(token): Observable<any> {
     const httpHeaders = new HttpHeaders({
       Authorization: `${token}`,
-      Domain: "CMS"
+      Domain: "CMS",
     });
     return this.http.get(`${API_USERS_URL}`, {
       headers: httpHeaders,
